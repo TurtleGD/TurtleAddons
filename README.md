@@ -1,21 +1,21 @@
 ### <u>TurtleAddons:</u>
-ChatTriggers Module for Hypixel SkyBlock
+ChatTriggers Module for Hypixel SkyBlock.
+<br>
+<br>
 
-
-
-### <u>Kuudra</u>
+### <u>Kuudra Features</u>
 - **Stunnning**
     - Highlight Stun Block (Nether Brick Stun)
     - Highlight Etherwarp Block
-### <u>Slayers</u>
+### <u>Slayer Features</u>
 - **Boss Drops**
-    - Send Rare Drops
+    - Send Rare Drops to Cbat
     - Rare Drop Title
-### <u>Slayers</u>
+### <u>Dungeon Features</u>
 - **Terminals**
-    - Show Terminal Number
-    - Callout Terminal
+    - Show Terminal Number on Terminal
+    - Callout Terminal in Chat
 - **Wither King**
     - P5 Ragnarock Axe Timer
-    - Relic Waypoint
+    - Relic Placement Waypoint
     - Dragon Skip Notification
