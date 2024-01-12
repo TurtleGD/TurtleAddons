@@ -66,7 +66,7 @@ register("renderOverlay", () => {
 })
 
 register("chat", (relicPicker, relicColor) => {
-    // Detect picked up Corrupted Relic
+    // Detect picked Corrupted Relic
     let name = Player.getName()
     if (name == relicPicker) holdingRelic = relicColor
 }).setCriteria("${relicPicker} picked the Corrupted ${relicColor} Relic!")
