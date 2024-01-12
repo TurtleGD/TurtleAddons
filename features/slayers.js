@@ -27,7 +27,7 @@ register("chat", (message) => {
     const regex = /\((.*?)\)/;
     const match = message.match(regex);
     let dropTitle;
-    let rune = '◆';
+    const rune = '◆';
 
 
     if (match) {
