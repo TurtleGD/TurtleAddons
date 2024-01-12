@@ -1,9 +1,10 @@
 import {
-    @SwitchProperty,
     @Vigilant,
-    @SelectorProperty
+    @SwitchProperty,
+    @SelectorProperty,
+    @CheckboxProperty
 } from '../Vigilance/index';
-import { BOLD, AQUA } from "./exports"
+import { BOLD, AQUA } from "./exports";
 
 @Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons`, {
     getCategoryComparator: () => (a, b) => {
@@ -15,22 +16,33 @@ import { BOLD, AQUA } from "./exports"
 class settings {
     constructor() {
         this.initialize(this);
+
+        this.addDependency("Highlight Stun Block", "Nether Brick Stun Helper");
+        this.addDependency("Highlight Etherwarp Block", "Nether Brick Stun Helper");
     }
 
     // Kuudra
     @SwitchProperty({
-        name: 'Highlight Stun Block',
-        description: `Highlights the nether brick stun block.\n(Requires at least 1500 mining speed).`,
+        name: 'Nether Brick Stun Helper',
+        description: `Highlights the blocks used for nether brick stunning.\n(Requires at least 1500 mining speed).`,
         category: 'Kuudra',
-        subcategory: 'Stunning'
+        subcategory: 'Kuudra'
+    })
+    stunHelper = false;
+
+    @CheckboxProperty({
+        name: 'Highlight Stun Block',
+        description: `Highlights the nether brick block to break.`,
+        category: 'Kuudra',
+        subcategory: 'Kuudra'
     })
     stunBlock = false;
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: 'Highlight Etherwarp Block',
         description: `Highlights the block to etherwarp to.`,
         category: 'Kuudra',
-        subcategory: 'Stunning'
+        subcategory: 'Kuudra'
     })
     etherwarpBlock = false;
 
