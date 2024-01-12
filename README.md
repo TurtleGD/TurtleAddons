@@ -6,7 +6,7 @@ ChatTriggers Module for Hypixel SkyBlock.
 ### <u>Kuudra Features</u>
 - **Stunnning**
     - Highlight Stun Block (Nether Brick Stun)
-    - Highlight Etherwarp Block
+    - Highlight Etherwarp Block (Nether Brick Stun)
 ### <u>Slayer Features</u>
 - **Boss Drops**
     - Send Rare Drops to Cbat
