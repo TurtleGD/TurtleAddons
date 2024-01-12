@@ -1,6 +1,5 @@
 ﻿import settings from "../settings"
 import { createWaypoint } from "../exports"
-// import { createWaypoint, AQUA, GREEN, RED, DARK_RED, OBFUSCATED, RESET } from "../exports
 
 let witherKingMessageSent = false
 let witherKingMessageTime
@@ -14,34 +13,6 @@ register('worldLoad', () => {
     holdingRelic = undefined
     goldorPhase = 0
 });
-
-/*
-// Testing
-register("command", (arg) => {
-    ChatLib.simulateChat(`${AQUA + arg} ${GREEN}activated a terminal! (${RED}7${GREEN}/7)`)
-}).setName('term')
-
-register("command", () => {
-    ChatLib.simulateChat(`${DARK_RED}[BOSS] Storm${RED}: I should have known that I stood no chance.`)
-}).setName('storm')
-
-register("command", () => {
-    ChatLib.simulateChat(`${DARK_RED}[BOSS] ${OBFUSCATED}Wither King${RESET + RED}: Your skills have faded humans.`)
-}).setName('noskip')
-
-register("command", () => {
-    ChatLib.simulateChat(`${DARK_RED}[BOSS] ${OBFUSCATED}Wither King${RESET + RED}: Oh, this one hurts!`)
-}).setName('skip')
-
-register("command", () => {
-    ChatLib.simulateChat(`${DARK_RED}[BOSS] ${OBFUSCATED}Wither King${RESET + RED}: You.. again?`)
-}).setName('witherking')
-
-register("command", (...args) => {
-    ChatLib.simulateChat(`${AQUA + args[0]} ${GREEN}picked the ${RED}Corrupted ${args[1]} Relic${GREEN}!`)
-}).setName('relic')
-*/
-
 
 register("chat", (message) => {
     if (message.substring(0, 6) == '[BOSS]') {
