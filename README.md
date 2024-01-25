@@ -19,3 +19,7 @@ ChatTriggers Module for Hypixel SkyBlock.
     - P5 Ragnarock Axe Timer
     - Relic Placement Waypoint
     - Dragon Skip Notification
+- **Discord Webhook**
+    - Send Custom Messages (if a match is found)
+    - Can be the actual chat message
+    - Send Coordinates Option
