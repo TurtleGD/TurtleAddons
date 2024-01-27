@@ -29,25 +29,3 @@ register("chat", (message) => {
         else sendWebhook(message);
     }
 }).setCriteria("${message}");
-
-
-function trole(arg) {
-    request({
-        url: settings.webhookLink,
-        method: "POST",
-        headers: {
-            "Content-type": "application/json",
-            "User-Agent": "Mozilla/5.0"
-        },
-        body: {
-            "username": settings.webhookName,
-            "avatar_url": settings.webhookPfp,
-            "content": arg
-        }
-    });
-}
-
-register("command", (...arg) => {
-    message = arg.join(" ");
-    trole(message);
-}).setName('sendwebhook');
