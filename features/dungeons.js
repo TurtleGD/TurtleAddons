@@ -38,7 +38,7 @@ register("chat", (message) => {
 
         // P1 starts
         if (settings.earlyP2) {
-            if (message.includes("[BOSS] Maxor: WELL WELL WELL LOOK WHO'S HERE!")) {
+            if (message.includes("[BOSS] Maxor:")) {
                 inMaxor = true
             };
         };
