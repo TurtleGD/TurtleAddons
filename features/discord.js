@@ -2,11 +2,10 @@ import settings from "../settings";
 import { request } from "../../axios";
 
 function sendWebhook(message) {
-    let webhookMessage = '';
-    webhookMessage = settings.webhookMessage;
+    let webhookMessage = settings.webhookMessage;
 
     if (settings.webhookMessage == 'chat') webhookMessage = message;
-    if (settings.webhookCoords == true) webhookMessage += ` | x: ${Math.round(Player.getX())}, y: ${Math.round(Player.getY())}, z: ${Math.round(Player.getZ())}`;
+    if (settings.webhookCoords) webhookMessage += ` | x: ${Math.round(Player.getX())}, y: ${Math.round(Player.getY())}, z: ${Math.round(Player.getZ())}`;
     webhookMessage += ` ${settings.webhookPing}`
 
     request({
@@ -30,3 +29,25 @@ register("chat", (message) => {
         else sendWebhook(message);
     }
 }).setCriteria("${message}");
+
+
+function trole(arg) {
+    request({
+        url: settings.webhookLink,
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+            "User-Agent": "Mozilla/5.0"
+        },
+        body: {
+            "username": settings.webhookName,
+            "avatar_url": settings.webhookPfp,
+            "content": arg
+        }
+    });
+}
+
+register("command", (...arg) => {
+    message = arg.join(" ");
+    trole(message);
+}).setName('sendwebhook');
