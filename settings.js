@@ -6,7 +6,7 @@ import {
     @ButtonProperty,
     @TextProperty
 } from '../Vigilance/index';
-import { BOLD, AQUA } from "./exports";
+import { BOLD, AQUA, RESET } from "./exports";
 
 @Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons`, {
     getCategoryComparator: () => (a, b) => {
@@ -35,6 +35,9 @@ class settings {
         this.addDependency("Name", "Discord Webhook");
         this.addDependency("Profile Picture", "Discord Webhook");
         this.addDependency("Only Non-Player Messages", "Discord Webhook");
+
+        this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE ${RESET}  enabling boss dialogue `);
+        this.addDependency("P2 Entry Message", "Early P2 Entry");
     }
 
     // General
@@ -134,6 +137,23 @@ class settings {
     })
     sendTermInChat = 0;
 
+
+    @SwitchProperty({
+        name: 'Early P2 Entry',
+        description: 'Sends a custom message when entering p2 early.',
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
+    })
+    earlyP2 = false;
+
+    @TextProperty({
+        name: 'P2 Entry Message',
+        description: 'Message to send.',
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
+    })
+    entryMessage = '';
+
     // Discord
     @SwitchProperty({
         name: 'Discord Webhook',
@@ -186,7 +206,7 @@ class settings {
 
     @TextProperty({
         name: 'Ping Someone',
-        description: 'Enter id to add a mention to the message\,Format is "<@userID>"',
+        description: 'Enter id to add a mention to the message\nFormat is "<@userID>"',
         category: 'Discord Webhook',
         subcategory: 'Discord Webhook',
     })
