@@ -12,6 +12,8 @@ ChatTriggers Module for Hypixel SkyBlock.
     - Send Rare Drops to Cbat
     - Rare Drop Title
 ### <u>Dungeon Features</u>
+- **Miscellaneous**
+    - Early P2 Entry Message
 - **Terminals**
     - Show Terminal Number on Terminal
     - Callout Terminal in Chat
