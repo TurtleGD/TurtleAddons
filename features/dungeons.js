@@ -1,16 +1,20 @@
 import settings from "../settings";
 import { createWaypoint} from "../exports";
 
-let witherKingMessageSent = false;
-let witherKingMessageTime;
+var witherKingMessageSent = false;
+var witherKingMessageTime;
 
-let holdingRelic
-let goldorPhase = 0;
+var holdingRelic
+var goldorPhase = 0;
+var inMaxor = false;
+var earlyP2MessageSent = false;
 
 register('worldLoad', () => {
     witherKingMessageSent = false;
     holdingRelic = undefined;
     goldorPhase = 0;
+    inMaxor = false;
+    earlyP2MessageSent = false;
 });
 
 register("chat", (message) => {
@@ -24,7 +28,7 @@ register("chat", (message) => {
         };
 
         // Wither King spawns
-        if (settings.p5RagTimer == true) {
+        if (settings.p5RagTimer) {
             if (message.includes('[BOSS] Wither King: You.. again?')) {
                 witherKingMessageTime = new Date().getTime();
                 witherKingMessageSent = true;
@@ -32,8 +36,22 @@ register("chat", (message) => {
             };
         };
 
+        // P1 starts
+        if (settings.earlyP2) {
+            if (message.includes("[BOSS] Maxor: WELL WELL WELL LOOK WHO'S HERE!")) {
+                inMaxor = true
+            };
+        };
+
+        // P2 starts
+        if (settings.earlyP2) {
+            if (message.includes('[BOSS] Storm: Pathetic Maxor, just like expected.')) {
+                inMaxor = false
+            };
+        };
+
         // Checks for dragon skip
-        if (settings.dragSkipTitle == true) {
+        if (settings.dragSkipTitle) {
             switch (message) {
                 case "[BOSS] Wither King: Your skills have faded humans.":
                 case "[BOSS] Wither King: I am not impressed.":
@@ -55,9 +73,16 @@ register("chat", (message) => {
     if (goldorPhase == 5) goldorPhase = 0;
 }).setCriteria("${message}");
 
+register('tick', () => {
+    if (!earlyP2MessageSent && settings.earlyP2 && Player.getY() < 205 && inMaxor) {
+        ChatLib.command(`pc ${settings.entryMessage}`);
+        earlyP2MessageSent = true
+    }
+});
+
 register("renderOverlay", () => {
-    // Ragnarock Axe timer, from NwjnAddons reaper timer
-    if (witherKingMessageSent == true) {
+    // Ragnarock Axe timer, code from NwjnAddons reaper timer
+    if (witherKingMessageSent) {
       let timeLeft = new Date().getTime();
       timeLeft = 5 - (timeLeft - witherKingMessageTime) / 1000;
       if (timeLeft >= 0) Renderer.drawString(`Use Rag in: ${timeLeft.toFixed(3)}`, Renderer.screen.getWidth() / 2 - 40, Renderer.screen.getHeight() / 2 + 6);
@@ -69,30 +94,6 @@ register("chat", (relicPicker, relicColor) => {
     let name = Player.getName();
     if (name == relicPicker) holdingRelic = relicColor;
 }).setCriteria("${relicPicker} picked the Corrupted ${relicColor} Relic!");
-
-register('renderWorld', () => {
-    if (settings.relicHelper == false) return;
-
-    switch (holdingRelic) {
-        // Cauldron Waypoints
-        case "Red":
-            createWaypoint(51, 7, 42, 255, 0, 0, 0.25, 1, false);
-            break;
-        case "Orange":
-            createWaypoint(57, 7, 42, 255, 1, 0, 0.125, 0.5, false);
-            createWaypoint(57, 7, 42, 255, 0, 0, 0.125, 0.5, true);
-            break;
-        case "Blue":
-            createWaypoint(59, 7, 44, 0, 0, 255, 0.25, 1, false);
-            break;
-        case "Purple":
-            createWaypoint(54, 7, 41, 255, 0, 255, 0.25, 1, false);
-            break;
-        case "Green":
-            createWaypoint(49, 7, 44, 0, 255, 0, 0.25, 1, false);
-            break;
-    };
-});
 
 register('renderWorld', () => {
     switch (goldorPhase) {
@@ -131,5 +132,27 @@ register('renderWorld', () => {
             if (settings.showTerm == 4 || settings.showTerm == 6) Tessellator.drawString('4', 72.5, 115.5, 48.5, Renderer.WHITE, true, 1.5, true);
             if (settings.showTerm == 5 || settings.showTerm == 6) Tessellator.drawString('Device', 63.5, 128.5, 35.5, Renderer.WHITE, true, 1.5, true);
         break;
+    };
+
+    if (!settings.relicHelper) return;
+
+    switch (holdingRelic) {
+        // Cauldron Waypoints
+        case "Red":
+            createWaypoint(51, 7, 42, 255, 0, 0, 0.25, 1, false);
+            break;
+        case "Orange":
+            createWaypoint(57, 7, 42, 255, 1, 0, 0.125, 0.5, false);
+            createWaypoint(57, 7, 42, 255, 0, 0, 0.125, 0.5, true);
+            break;
+        case "Blue":
+            createWaypoint(59, 7, 44, 0, 0, 255, 0.25, 1, false);
+            break;
+        case "Purple":
+            createWaypoint(54, 7, 41, 255, 0, 255, 0.25, 1, false);
+            break;
+        case "Green":
+            createWaypoint(49, 7, 44, 0, 255, 0, 0.25, 1, false);
+            break;
     };
 });
