@@ -1,7 +1,6 @@
 import renderBeaconBeam from "../BeaconBeam";
 import RenderLib from "../RenderLib";
 
-// Checks world name
 export function isPlayerAt (location) {
     return TabList.getNames().some((l) => 
         {
@@ -10,14 +9,19 @@ export function isPlayerAt (location) {
     );
 };
 
-// Creates a waypoint and Esp Box at coordinates
-export function createWaypoint(x, y, z, r, g, b, innerA, outerA, noBeacon) {
-    RenderLib.drawInnerEspBox(x + 0.5, y, z + 0.5, 1, 1, r, g, b, innerA, true);
-    RenderLib.drawEspBox(x + 0.5, y, z + 0.5, 1, 1, r, g, b, outerA, true);
+export function createWaypoint(x, y, z, r, g, b, innerAlpha, outerAlpha, noBeacon) {
+    RenderLib.drawInnerEspBox(x + 0.5, y, z + 0.5, 1, 1, r, g, b, innerAlpha, true);
+    RenderLib.drawEspBox(x + 0.5, y, z + 0.5, 1, 1, r, g, b, outerAlpha, true);
 
-    if (noBeacon == true) return;
+    if (noBeacon) return;
     renderBeaconBeam(x, y + 1, z, 1, 1, 1, 1, false);
 };
+
+export function nearCoords(x, y, z, radius) {
+    return Math.hypot(Player.getX() - x, Player.getY() - y, Player.getZ() - z) < radius;
+}
+
+export const rune = '◆';
 
 // From VolcAddons
 export const BLACK = '§0';
