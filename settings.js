@@ -36,8 +36,7 @@ class settings {
         this.addDependency("Profile Picture", "Discord Webhook");
         this.addDependency("Only Non-Player Messages", "Discord Webhook");
 
-        this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE ${RESET}  enabling boss dialogue `);
-        this.addDependency("P2 Entry Message", "Early P2 Entry");
+        this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE ${RESET}enabling boss dialogue`);
     }
 
     // General
@@ -76,6 +75,14 @@ class settings {
         subcategory: 'Kuudra'
     })
     etherwarpBlock = false;
+
+    @SwitchProperty({
+        name: 'Party True DPS Message (T5 Only)',
+        description: `Sends party dps in chat.\nStarts counting when down there and not at 25k hp.`,
+        category: 'Kuudra',
+        subcategory: 'Kuudra'
+    })
+    partyDps = false;
 
     // Slayers
     @SwitchProperty({
@@ -138,17 +145,9 @@ class settings {
     sendTermInChat = 0;
 
 
-    @SwitchProperty({
-        name: 'Early P2 Entry',
-        description: 'Sends a custom message when entering p2 early.',
-        category: 'Dungeons',
-        subcategory: 'Dungeons',
-    })
-    earlyP2 = false;
-
     @TextProperty({
-        name: 'P2 Entry Message',
-        description: 'Message to send.',
+        name: 'Early P2 Entry Message',
+        description: 'Message to send when entering p2 early.',
         category: 'Dungeons',
         subcategory: 'Dungeons',
     })
