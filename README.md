@@ -12,7 +12,7 @@ ChatTriggers Module for Hypixel SkyBlock.
         - Starts counting dps when you are down in the last area, not at 25% Kuudra HP
 ### <u>Slayer Features</u>
 - **Boss Drops**
-    - Send Rare Drops to Cbat
+    - Send Rare Drops to Chat
     - Rare Drop Title
 ### <u>Dungeon Features</u>
 - **Misc**
