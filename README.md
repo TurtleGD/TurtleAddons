@@ -15,8 +15,6 @@ ChatTriggers Module for Hypixel SkyBlock.
     - Send Rare Drops to Chat
     - Rare Drop Title
 ### <u>Dungeon Features</u>
-- **Misc**
-    - Early P2 Entry Message
 - **Terminals**
     - Show Terminal Number on Terminal
     - Callout Terminal in Chat
@@ -24,6 +22,8 @@ ChatTriggers Module for Hypixel SkyBlock.
     - P5 Ragnarock Axe Timer
     - Relic Placement Waypoint
     - Dragon Skip Notification
+-  **Misc**
+    - Early P2 Entry Message
 ### <u>Discord Features</u>
 - **Discord Webhook**
     - Send Custom Messages (if a match is found)
