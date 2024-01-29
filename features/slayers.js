@@ -1,5 +1,5 @@
 import settings from "../settings";
-import { LIGHT_PURPLE } from "../exports";
+import { LIGHT_PURPLE, rune } from "../exports";
 
 register("chat", (message) => {
     if (message.includes(':') || !message.includes('DROP!')) return;
@@ -27,23 +27,17 @@ register("chat", (message) => {
     const regex = /\((.*?)\)/;
     const match = message.match(regex);
     let dropTitle;
-    const rune = '◆';
-
 
     if (match) {
         if (!rareDrops.includes(match[1])) return;
 
         dropTitle = match[1].toUpperCase();
-        if (dropTitle.includes(rune)) {
-            dropTitle = dropTitle.slice(2, -2);
+        if (dropTitle.includes(rune)) dropTitle = dropTitle.slice(2, -2);
 
-        };
+        if (settings.sendSlayerDrops) ChatLib.command(`pc ${message}`);
 
-        if (settings.sendSlayerDrops == true) ChatLib.command(`pc ${message}`);
-
-        if (settings.slayerDropTitle == true) {
+        if (settings.slayerDropTitle) {
             Client.showTitle(`${LIGHT_PURPLE + dropTitle}`, '', 0, 40, 20);
-
             for (let i = 0; i < 3 ;i++) {
                 (function (index) {
                     setTimeout(() => {
