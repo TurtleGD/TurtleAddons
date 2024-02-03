@@ -1,6 +1,7 @@
 import renderBeaconBeam from "../BeaconBeam";
 import RenderLib from "../RenderLib";
 
+// Gets location from tab, returns true or false
 export function isPlayerAt (location) {
     return TabList.getNames().some((l) => 
         {
@@ -21,6 +22,12 @@ export function nearCoords(x, y, z, radius) {
     return Math.hypot(Player.getX() - x, Player.getY() - y, Player.getZ() - z) < radius;
 }
 
+// Infernal Kuudra
+export function inTrueLair() {
+    return (Player.getY() < 30) && isPlayerAt('Kuudra')
+}
+
+// Stupid rune symbol fuck you
 export const rune = '◆';
 
 // From VolcAddons
