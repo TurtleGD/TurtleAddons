@@ -8,8 +8,8 @@ ChatTriggers Module for Hypixel SkyBlock.
     - Highlight Stun Block (Nether Brick Stun)
     - Highlight Etherwarp Block (Nether Brick Stun)
 - **Misc**
-    - Party True DPS (Only T5)
-        - Starts counting dps when you are down in the last area, not at 25% Kuudra HP
+    - Party DPS (T5 Only)
+    - Energized Chunk Alert (T5 Only)
 ### <u>Slayer Features</u>
 - **Boss Drops**
     - Send Rare Drops to Chat
