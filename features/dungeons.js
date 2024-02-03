@@ -17,50 +17,51 @@ register('worldLoad', () => {
     earlyP2MessageSent = false;
 });
 
-register('command', () => {
-    ChatLib.chat(inMaxor);
-}).setName('inmaxor');
-
 register("chat", (message) => {
-    if (message.substring(0, 6) == '[BOSS]') {
-        if (message == ('[BOSS] Storm: I should have known that I stood no chance.')) {
-            goldorPhase = 1;
+    // Terminal number in chat
+    if (message == ('[BOSS] Storm: I should have known that I stood no chance.')) {
+        goldorPhase = 1;
 
-            if (settings.sendTermInChat != 0 && settings.sendTermInChat != 5) ChatLib.command(`pc ${parseInt(settings.sendTermInChat)}`);
-            if (settings.sendTermInChat == 5) ChatLib.command('pc Device');
-        };
+        if (settings.sendTermInChat != 0 && settings.sendTermInChat != 5) ChatLib.command(`pc Doing ${parseInt(settings.sendTermInChat)}`);
+        if (settings.sendTermInChat == 5) ChatLib.command('pc Device');
+    };
 
-        if (settings.p5RagTimer) {
-            if (message == ('[BOSS] Wither King: You.. again?')) {
-                witherKingMessageTime = new Date().getTime();
-                witherKingMessageSent = true;
-                holdingRelic = undefined;
-            };
-        };
-
-        if (settings.entryMessage.length != 0 && message.includes("I'VE BEEN TOLD I COULD HAVE A BIT OF FUN WITH YOU")) inMaxor = true;
-        if (settings.entryMessage.length != 0 && message.includes("I'M TOO YOUNG TO DIE AGAIN")) inMaxor = false; 
-
-        if (settings.dragSkipTitle) {
-            switch (message) {
-                case "[BOSS] Wither King: Your skills have faded humans.":
-                case "[BOSS] Wither King: I am not impressed.":
-                case "[BOSS] Wither King: Futile.":
-                case "[BOSS] Wither King: You just made a terrible mistake!":
-                    Client.showTitle(' ', `NO SKIP`, 0, 20, 0);
-                    break;
-                case "[BOSS] Wither King: Oh, this one hurts!":
-                case "[BOSS] Wither King: My soul is disposable.":
-                case "[BOSS] Wither King: I have more of those.":
-                    Client.showTitle(' ', `SKIPPED`, 0, 20, 0);
-                    break;
-            }
-        }
-    }
+    // Checks for next goldor phase for showing terminal text waypoint thing
     if ((message.includes('(7/7)') || message.includes('(8/8)')) && !message.includes(':')) goldorPhase += 1;
     if (goldorPhase == 5) goldorPhase = 0;
+
+    // Starts rag timer
+    if (settings.p5RagTimer) {
+        if (message == ('[BOSS] Wither King: You.. again?')) {
+            witherKingMessageTime = new Date().getTime();
+            witherKingMessageSent = true;
+            holdingRelic = undefined;
+        };
+    };
+
+    // Checks if in maxor or not so entering p2 on time won't send message
+    if (settings.entryMessage.length != 0 && message.includes("I'VE BEEN TOLD I COULD HAVE A BIT OF FUN WITH YOU")) inMaxor = true;
+    if (settings.entryMessage.length != 0 && message.includes("I'M TOO YOUNG TO DIE AGAIN")) inMaxor = false; 
+
+    // Create title on dragon death based on chat
+    if (settings.dragSkipTitle) {
+        switch (message) {
+            case "[BOSS] Wither King: Your skills have faded humans.":
+            case "[BOSS] Wither King: I am not impressed.":
+            case "[BOSS] Wither King: Futile.":
+            case "[BOSS] Wither King: You just made a terrible mistake!":
+                Client.showTitle(' ', `NO SKIP`, 0, 20, 0);
+                break;
+            case "[BOSS] Wither King: Oh, this one hurts!":
+            case "[BOSS] Wither King: My soul is disposable.":
+            case "[BOSS] Wither King: I have more of those.":
+                Client.showTitle(' ', `SKIPPED`, 0, 20, 0);
+                break;
+        }
+    }
 }).setCriteria("${message}");
 
+// Early P2 entry message
 register('tick', () => {
     if (!earlyP2MessageSent && settings.entryMessage.length != 0 && Player.getY() < 205 && inMaxor) {
         ChatLib.command(`pc ${settings.entryMessage}`);
@@ -68,8 +69,8 @@ register('tick', () => {
     }
 });
 
+// Rag axe timer, mostly from NwjnAddons reaper timer
 register("renderOverlay", () => {
-    // Mostly from NwjnAddons reaper timer
     if (witherKingMessageSent) {
       let timeLeft = new Date().getTime();
       timeLeft = 5 - (timeLeft - witherKingMessageTime) / 1000;
@@ -77,12 +78,15 @@ register("renderOverlay", () => {
     };
 });
 
+// Gets relic color from message
 register("chat", (relicPicker, relicColor) => {
-    let name = Player.getName();
-    if (name == relicPicker) holdingRelic = relicColor;
+    if (Player.getName() == relicPicker) holdingRelic = relicColor;
 }).setCriteria("${relicPicker} picked the Corrupted ${relicColor} Relic!");
 
 register('renderWorld', () => {
+    if (settings.showTerm == 0) return;
+
+    // Terminal text waypoint thing
     switch (goldorPhase) {
         case 1:
             if (settings.showTerm == 1 || settings.showTerm == 6) Tessellator.drawString('1', 111.5, 113.5, 73.5, Renderer.WHITE, true, 1.5, true);
@@ -117,6 +121,7 @@ register('renderWorld', () => {
         break;
     };
 
+    // Waypoints for relic cauldrons
     if (!settings.relicHelper) return;
 
     switch (holdingRelic) {
