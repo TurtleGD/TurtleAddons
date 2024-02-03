@@ -6,7 +6,7 @@ import {
     @ButtonProperty,
     @TextProperty
 } from '../Vigilance/index';
-import { BOLD, AQUA, RESET } from "./exports";
+import { BOLD, AQUA, RESET, DARK_GRAY } from "./exports";
 
 @Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons`, {
     getCategoryComparator: () => (a, b) => {
@@ -78,11 +78,19 @@ class settings {
 
     @SwitchProperty({
         name: 'Party True DPS Message (T5 Only)',
-        description: `Sends party dps in chat.\nStarts counting when down there and not at 25k hp.`,
+        description: `Sends party dps in chat after Kuudra is dead.`,
         category: 'Kuudra',
         subcategory: 'Kuudra'
     })
     partyDps = false;
+
+    @SwitchProperty({
+        name: 'Energized Chunk Alert (T5 Only)',
+        description: `Alerts and pings you if a chunk is within 8 blocks of you.\n${DARK_GRAY}(idk the actual explosion range cba testing)`,
+        category: 'Kuudra',
+        subcategory: 'Kuudra'
+    })
+    chunkAlert = false;
 
     // Slayers
     @SwitchProperty({
