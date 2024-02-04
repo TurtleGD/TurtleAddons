@@ -83,7 +83,3 @@ register("soundPlay", () => {
 register("soundPlay", () => {
     rendArrows = 0;
 }).setCriteria("mob.zombie.woodbreak")
-
-register("command", () => {
-    ChatLib.chat(rendArrows)
-}).setName('rendarrows')
