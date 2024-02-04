@@ -7,9 +7,10 @@ ChatTriggers Module for Hypixel SkyBlock.
 - **Stunnning**
     - Highlight Stun Block (Nether Brick Stun)
     - Highlight Etherwarp Block (Nether Brick Stun)
-- **Misc**
-    - Party DPS (T5 Only)
-    - Energized Chunk Alert (T5 Only)
+- **Infernal**
+    - Party DPS
+    - Energized Chunk Alert
+    - Rend Arrow Notification
 ### <u>Slayer Features</u>
 - **Boss Drops**
     - Send Rare Drops to Chat
