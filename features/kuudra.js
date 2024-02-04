@@ -18,7 +18,7 @@ register('worldLoad', () => {
 });
 
 register('renderWorld', () => {
-    if (!getArea().contains('Kuudra')) return;
+    if (!settings.stunHelper) return;
 
     // Etherwarp Block
     if (settings.etherwarpBlock && nearCoords(-154, 29, -172, 40)) createWaypoint(-154, 29, -172, 0, 0, 255, 0.25, 1, true);
