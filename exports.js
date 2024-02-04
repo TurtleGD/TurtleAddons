@@ -1,14 +1,10 @@
 import renderBeaconBeam from "../BeaconBeam";
 import RenderLib from "../RenderLib";
+import { getMatchFromLines, getScoreboard, removeUnicode } from "../BloomCore/utils/Utils";
 
-// Gets location from tab, returns true or false
-export function isPlayerAt (location) {
-    return TabList.getNames().some((l) => 
-        {
-            return l.removeFormatting().toLowerCase().includes(location.toLowerCase());
-        }
-    );
-};
+export function getArea() {
+    return (removeUnicode(getMatchFromLines(/ ⏣ (.+)/, getScoreboard(false))))
+}
 
 export function createWaypoint(x, y, z, r, g, b, innerAlpha, outerAlpha, noBeacon) {
     RenderLib.drawInnerEspBox(x + 0.5, y, z + 0.5, 1, 1, r, g, b, innerAlpha, true);
@@ -20,12 +16,13 @@ export function createWaypoint(x, y, z, r, g, b, innerAlpha, outerAlpha, noBeaco
 
 export function nearCoords(x, y, z, radius) {
     return Math.hypot(Player.getX() - x, Player.getY() - y, Player.getZ() - z) < radius;
-}
+};
 
-// Infernal Kuudra
 export function inTrueLair() {
-    return (Player.getY() < 30) && isPlayerAt('Kuudra')
-}
+    return (Player.getX() > -116 && Player.getX() < -88) &&
+       (Player.getY() > 3 && Player.getY() < 13) &&
+       (Player.getZ() > -120 && Player.getZ() < -92);
+};
 
 // Stupid rune symbol fuck you
 export const rune = '◆';
