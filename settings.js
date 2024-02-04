@@ -4,9 +4,10 @@ import {
     @SelectorProperty,
     @CheckboxProperty,
     @ButtonProperty,
+    @SliderProperty,
     @TextProperty
 } from '../Vigilance/index';
-import { BOLD, AQUA, RESET, DARK_GRAY } from "./exports";
+import { BOLD, AQUA, RESET } from "./exports";
 
 @Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons`, {
     getCategoryComparator: () => (a, b) => {
@@ -35,6 +36,8 @@ class settings {
         this.addDependency("Name", "Discord Webhook");
         this.addDependency("Profile Picture", "Discord Webhook");
         this.addDependency("Only Non-Player Messages", "Discord Webhook");
+
+        this.addDependency("Alert Radius", "Energized Chunk Alert");
 
         this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE ${RESET}enabling boss dialogue`);
     }
@@ -77,20 +80,38 @@ class settings {
     etherwarpBlock = false;
 
     @SwitchProperty({
-        name: 'Party True DPS Message (T5 Only)',
+        name: 'Party True DPS Message',
         description: `Sends party dps in chat after Kuudra is dead.`,
         category: 'Kuudra',
-        subcategory: 'Kuudra'
+        subcategory: 'Infernal Kuudra'
     })
     partyDps = false;
 
     @SwitchProperty({
-        name: 'Energized Chunk Alert (T5 Only)',
-        description: `Alerts and pings you if a chunk is within 8 blocks of you.\n${DARK_GRAY}(idk the actual explosion range cba testing)`,
+        name: 'Energized Chunk Alert',
+        description: `Alerts and pings you if a chunk is near you.\n(No idea the actual explosion range is cba testing)`,
         category: 'Kuudra',
-        subcategory: 'Kuudra'
+        subcategory: 'Infernal Kuudra'
     })
     chunkAlert = false;
+
+    @SliderProperty({
+        name: 'Alert Radius',
+        description: 'Select the distance to chunk to alert',
+        category: 'Kuudra',
+        subcategory: 'Infernal Kuudra',
+        min: 5.0,
+        max: 10.0
+    })
+    chunkRadius = 7.0;
+
+    @SwitchProperty({
+        name: 'Rend Arrow Alert',
+        description: `Alerts and pings you when you have hit 5 arrows with a rend bow. Requires terror and max stacks.\n(A little buggy)`,
+        category: 'Kuudra',
+        subcategory: 'Infernal Kuudra'
+    })
+    rendArrows = false;
 
     // Slayers
     @SwitchProperty({
