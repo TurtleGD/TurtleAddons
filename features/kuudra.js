@@ -1,11 +1,12 @@
 import settings from "../settings";
-import { getArea, createWaypoint, nearCoords, inTrueLair, RED, BOLD } from "../exports";
+import { getArea, createWaypoint, nearCoords, inTrueLair, RED, BOLD, EntityArmorStand, isDead } from "../exports";
 
 var startTime;
 var endTime;
 var timeToKill;
 var counting = false;
 var inInfernal = false;
+var dead = false
 var rendArrows = 0;
 
 register('worldLoad', () => {
@@ -14,7 +15,12 @@ register('worldLoad', () => {
     endTime = undefined;
     timeToKill = undefined;
     inInfernal = false;
+    dead = false
     rendArrows = 0;
+
+    setTimeout(function() {
+        if (getArea() === "Kuudra's Hollow (T5)") inInfernal = true;
+    }, 5000); 
 });
 
 register('renderWorld', () => {
@@ -49,22 +55,23 @@ register('tick', () => {
 
 
 // Energized Chunk Alert
-register("step", () => {
-    if (inInfernal || !settings.chunkAlert) return;
-
-    if (getArea() == "Kuudra's Hollow (T5)") inInfernal = true
-}).setDelay(1);
-
 register("tick", () => {
     if (!settings.chunkAlert) return;
 
-    World.getAllEntitiesOfType(Java.type('net.minecraft.entity.item.EntityArmorStand').class).forEach(stand => {
-        if (inInfernal && inTrueLair() && stand.getName().removeFormatting().toLowerCase().includes('energized chunk') && nearCoords(stand.getX(), stand.getY(), stand.getZ(), settings.chunkRadius)) {
+    World.getAllEntitiesOfType(EntityArmorStand).forEach(stand => {
+        if (!dead && inInfernal && inTrueLair() && stand.getName().removeFormatting().toLowerCase().includes('energized chunk') && nearCoords(stand.getX(), stand.getY(), stand.getZ(), settings.chunkRadius)) {
             World.playSound('note.pling', 0.1, 2);
             Client.showTitle(`${RED + BOLD}CHUNK!`, '', 0, 2, 0);
         };
     });
 });
+
+// Checking every tick probably isn't a good idea
+register('step', () => {
+    if (!settings.chunkAlert) return;
+
+    dead = isDead()
+}).setDelay(1)
 
 
 // Rend arrows
