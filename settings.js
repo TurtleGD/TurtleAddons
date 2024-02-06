@@ -7,18 +7,13 @@ import {
     @SliderProperty,
     @TextProperty
 } from '../Vigilance/index';
-import { BOLD, AQUA, RESET } from "./exports";
+import { BOLD, AQUA, RESET, DARK_GRAY } from "./exports";
 
 @Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons`, {
     getCategoryComparator: () => (a, b) => {
         const categories = ['General', 'Kuudra', 'Slayers', 'Dungeons', 'Discord Webhook'];
 
         return categories.indexOf(a.name) - categories.indexOf(b.name);
-    },
-    getPropertyComparator: () => (a, b) => {
-        const names = ['Webhook Link', 'Message to Match', 'Message to Send', 'Send Coordinates', 'Ping Someone', 'Name', 'Profile Picture', 'Only Non-Player Messages'];
-
-        return names.indexOf(a.attributesExt.name) - names.indexOf(b.attributesExt.name);
     }
 })
 class settings {
@@ -173,7 +168,6 @@ class settings {
     })
     sendTermInChat = 0;
 
-
     @TextProperty({
         name: 'Early P2 Entry Message',
         description: 'Message to send when entering p2 early.',
@@ -181,6 +175,7 @@ class settings {
         subcategory: 'Dungeons',
     })
     entryMessage = '';
+    
 
     // Discord
     @SwitchProperty({
@@ -201,22 +196,6 @@ class settings {
     webhookLink = '';
 
     @TextProperty({
-        name: 'Profile Picture',
-        description: 'Paste link to use as the profile picture',
-        category: 'Discord Webhook',
-        subcategory: 'Discord Webhook',
-    })
-    webhookPfp = '';
-
-    @TextProperty({
-        name: 'Name',
-        description: 'Paste name to use',
-        category: 'Discord Webhook',
-        subcategory: 'Discord Webhook',
-    })
-    webhookName = '';
-
-    @TextProperty({
         name: 'Message to Match',
         description: 'Sends a custom message if it contains the message in the text box',
         category: 'Discord Webhook',
@@ -232,6 +211,14 @@ class settings {
     })
     webhookMessage = '';
 
+    @CheckboxProperty({
+        name: 'Send Coordinates',
+        description: 'Adds coords to the message',
+        category: 'Discord Webhook',
+        subcategory: 'Discord Webhook',
+    })
+    webhookCoords = false;
+
     @TextProperty({
         name: 'Ping Someone',
         description: 'Enter id to add a mention to the message\nFormat is "<@userID>"',
@@ -240,13 +227,21 @@ class settings {
     })
     webhookPing = '';
 
-    @CheckboxProperty({
-        name: 'Send Coordinates',
-        description: 'Adds coords to the message',
+    @TextProperty({
+        name: 'Name',
+        description: 'Paste name to use',
         category: 'Discord Webhook',
         subcategory: 'Discord Webhook',
     })
-    webhookCoords = false;
+    webhookName = '';
+
+    @TextProperty({
+        name: 'Profile Picture',
+        description: 'Paste link to use as the profile picture',
+        category: 'Discord Webhook',
+        subcategory: 'Discord Webhook',
+    })
+    webhookPfp = '';
 
     @CheckboxProperty({
         name: 'Only Non-Player Messages',
