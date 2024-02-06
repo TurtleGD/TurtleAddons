@@ -2,7 +2,7 @@
     "name": "TurtleAddons",
     "creator": "8joh",
     "description": "Miscellaneous Stuff",
-    "version": "1.0.7",
+    "version": "1.0.72",
     "entry": "index.js",
     "requires": [
         "Vigilance",
