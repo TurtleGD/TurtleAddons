@@ -1,10 +1,11 @@
 import settings from "../settings";
-import { createWaypoint } from "../exports";
+import { createWaypoint, EntityArmorStand } from "../exports";
+import { getEntitySkullTexture } from "../../BloomCore/utils/Utils";
 
 var witherKingMessageSent = false;
 var witherKingMessageTime;
 
-var holdingRelic
+var holdingRelic;
 var goldorPhase = 0;
 var inMaxor = false;
 var earlyP2MessageSent = false;
@@ -83,10 +84,11 @@ register("chat", (relicPicker, relicColor) => {
     if (Player.getName() == relicPicker) holdingRelic = relicColor;
 }).setCriteria("${relicPicker} picked the Corrupted ${relicColor} Relic!");
 
+
+// Terminal text waypoint thing
 register('renderWorld', () => {
     if (settings.showTerm == 0) return;
 
-    // Terminal text waypoint thing
     switch (goldorPhase) {
         case 1:
             if (settings.showTerm == 1 || settings.showTerm == 6) Tessellator.drawString('1', 111.5, 113.5, 73.5, Renderer.WHITE, true, 1.5, true);
@@ -120,8 +122,10 @@ register('renderWorld', () => {
             if (settings.showTerm == 5 || settings.showTerm == 6) Tessellator.drawString('Device', 63.5, 128.5, 35.5, Renderer.WHITE, true, 1.5, true);
         break;
     };
+});
 
-    // Waypoints for relic cauldrons
+// Waypoints for relic cauldrons
+register('renderWorld', () => {
     if (!settings.relicHelper) return;
 
     switch (holdingRelic) {
