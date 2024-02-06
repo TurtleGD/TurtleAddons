@@ -24,6 +24,14 @@ export function inTrueLair() {
        (Player.getZ() > -120 && Player.getZ() < -92);
 };
 
+export function isDead() {
+    return Player.getInventory().getItems().some(item => {
+        return item?.getNBT()?.getCompoundTag("tag")?.getCompoundTag("ExtraAttributes")?.getString('id') == 'HAUNT_ABILITY';
+    });
+}
+
+export const EntityArmorStand = Java.type('net.minecraft.entity.item.EntityArmorStand').class;
+
 // Stupid rune symbol fuck you
 export const rune = '◆';
 
