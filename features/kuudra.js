@@ -70,7 +70,7 @@ register("tick", () => {
 register('step', () => {
     if (!settings.chunkAlert) return;
 
-    dead = isDead()
+    dead = isDead();
 }).setDelay(1)
 
 
