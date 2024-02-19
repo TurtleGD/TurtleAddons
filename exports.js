@@ -25,7 +25,7 @@ export function inTrueLair() {
 };
 
 export function isDead() {
-    return Player.getInventory().getItems().some(item => {
+    return Player.getInventory()?.getItems()?.some(item => {
         return item?.getNBT()?.getCompoundTag("tag")?.getCompoundTag("ExtraAttributes")?.getString('id') == 'HAUNT_ABILITY';
     });
 }
@@ -34,6 +34,9 @@ export const EntityArmorStand = Java.type('net.minecraft.entity.item.EntityArmor
 
 // Stupid rune symbol fuck you
 export const rune = '◆';
+
+export const level = new Sound({source: '../modules/TurtleAddons/assets/level.ogg'});
+export const pling = new Sound({source: '../modules/TurtleAddons/assets/pling.ogg'});
 
 // From VolcAddons
 export const BLACK = '§0';
