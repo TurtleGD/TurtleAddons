@@ -1,14 +1,20 @@
 import settings from "../settings";
-import { createWaypoint, EntityArmorStand } from "../exports";
-import { getEntitySkullTexture } from "../../BloomCore/utils/Utils";
+import { createWaypoint } from "../exports";
 
-var witherKingMessageSent = false;
-var witherKingMessageTime;
+let witherKingMessageSent = false;
+let witherKingMessageTime;
 
-var holdingRelic;
-var goldorPhase = 0;
-var inMaxor = false;
-var earlyP2MessageSent = false;
+let holdingRelic;
+let goldorPhase = 0;
+let inMaxor = false;
+let earlyP2MessageSent = false;
+
+let bonzoTime;
+let bonzoInvinicibility = false;
+let spiritTime;
+let spiritInvinicibility = false;
+let phoenixTime;
+let phoenixInvinicibility = false;
 
 register('worldLoad', () => {
     witherKingMessageSent = false;
@@ -16,49 +22,94 @@ register('worldLoad', () => {
     goldorPhase = 0;
     inMaxor = false;
     earlyP2MessageSent = false;
+    bonzoInvinicibility = false;
+    spiritInvinicibility = false;
+    phoenixInvinicibility = false;
 });
 
+// Term stuff
 register("chat", (message) => {
-    // Terminal number in chat
-    if (message == ('[BOSS] Storm: I should have known that I stood no chance.')) {
-        goldorPhase = 1;
+    if (settings.sendTermInChat == 0 && settings.showTerm == 0) return;
 
+    if (message == '[BOSS] Storm: I should have known that I stood no chance.') {
+        goldorPhase = 1;
         if (settings.sendTermInChat != 0 && settings.sendTermInChat != 5) ChatLib.command(`pc Doing ${parseInt(settings.sendTermInChat)}`);
         if (settings.sendTermInChat == 5) ChatLib.command('pc Device');
     };
 
-    // Checks for next goldor phase for showing terminal text waypoint thing
     if ((message.includes('(7/7)') || message.includes('(8/8)')) && !message.includes(':')) goldorPhase += 1;
     if (goldorPhase == 5) goldorPhase = 0;
+}).setCriteria("${message}");
 
-    // Starts rag timer
-    if (settings.p5RagTimer) {
-        if (message == ('[BOSS] Wither King: You.. again?')) {
-            witherKingMessageTime = new Date().getTime();
-            witherKingMessageSent = true;
-            holdingRelic = undefined;
-        };
+// P5 rag timer start
+register("chat", (message) => {
+    if (!settings.p5RagTimer) return;
+
+    if (message == '[BOSS] Wither King: You.. again?') {
+        witherKingMessageTime = new Date().getTime();
+        witherKingMessageSent = true;
+        holdingRelic = undefined;
     };
+}).setCriteria("${message}");
 
-    // Checks if in maxor or not so entering p2 on time won't send message
-    if (settings.entryMessage.length != 0 && message.includes("I'VE BEEN TOLD I COULD HAVE A BIT OF FUN WITH YOU")) inMaxor = true;
-    if (settings.entryMessage.length != 0 && message.includes("I'M TOO YOUNG TO DIE AGAIN")) inMaxor = false; 
+// P2 early entry maxor check
+register("chat", (message) => {
+    if (settings.entryMessage.length == 0) return;
 
-    // Create title on dragon death based on chat
-    if (settings.dragSkipTitle) {
-        switch (message) {
-            case "[BOSS] Wither King: Your skills have faded humans.":
-            case "[BOSS] Wither King: I am not impressed.":
-            case "[BOSS] Wither King: Futile.":
-            case "[BOSS] Wither King: You just made a terrible mistake!":
-                Client.showTitle(' ', `NO SKIP`, 0, 20, 0);
-                break;
-            case "[BOSS] Wither King: Oh, this one hurts!":
-            case "[BOSS] Wither King: My soul is disposable.":
-            case "[BOSS] Wither King: I have more of those.":
-                Client.showTitle(' ', `SKIPPED`, 0, 20, 0);
-                break;
-        }
+    if (message.includes("I'VE BEEN TOLD I COULD HAVE A BIT OF FUN WITH YOU")) inMaxor = true;
+    if (message.includes("I'M TOO YOUNG TO DIE AGAIN")) inMaxor = false; 
+}).setCriteria("${message}");
+
+// Drag skip title
+register("chat", (message) => {
+    if (!settings.dragSkipTitle) return;
+
+    switch (message) {
+        case "[BOSS] Wither King: Your skills have faded humans.":
+        case "[BOSS] Wither King: I am not impressed.":
+        case "[BOSS] Wither King: Futile.":
+        case "[BOSS] Wither King: You just made a terrible mistake!":
+            Client.showTitle(' ', `NO SKIP`, 0, 20, 0);
+            break;
+        case "[BOSS] Wither King: Oh, this one hurts!":
+        case "[BOSS] Wither King: My soul is disposable.":
+        case "[BOSS] Wither King: I have more of those.":
+            Client.showTitle(' ', `SKIPPED`, 0, 20, 0);
+            break;
+    }
+}).setCriteria("${message}");
+
+// Invincibility timers
+register("chat", (message) => {
+    if (!settings.bonzoInvinicibility) return;
+
+    if (message == "Your Bonzo's Mask saved your life!" || message == "Your ⚚ Bonzo's Mask saved your life!") {
+        bonzoTime = new Date().getTime();
+        bonzoInvinicibility = true
+        spiritInvinicibility = false
+        phoenixInvinicibility = false
+    }
+}).setCriteria("${message}");
+
+register("chat", (message) => {
+    if (!settings.spiritInvinicibility) return;
+
+    if (message == "Second Wind Activated! Your Spirit Mask saved your life!") {
+        spiritTime = new Date().getTime();
+        bonzoInvinicibility = false
+        spiritInvinicibility = true
+        phoenixInvinicibility = false
+    }
+}).setCriteria("${message}");
+
+register("chat", (message) => {
+    if (!settings.phoenixInvinicibility) return;
+
+    if (message == 'Your Phoenix Pet saved you from certain death!') {
+        phoenixTime = new Date().getTime();
+        bonzoInvinicibility = false
+        spiritInvinicibility = false
+        phoenixInvinicibility = true
     }
 }).setCriteria("${message}");
 
@@ -70,20 +121,58 @@ register('tick', () => {
     }
 });
 
-// Rag axe timer, mostly from NwjnAddons reaper timer
+// Rag/bonzo/phoenix timer
 register("renderOverlay", () => {
     if (witherKingMessageSent) {
-      let timeLeft = new Date().getTime();
-      timeLeft = 5 - (timeLeft - witherKingMessageTime) / 1000;
-      if (timeLeft >= 0) Renderer.drawString(`Use Rag in: ${timeLeft.toFixed(3)}`, Renderer.screen.getWidth() / 2 - 40, Renderer.screen.getHeight() / 2 + 6);
+        let timeLeftRag = new Date().getTime();
+        timeLeftRag = 5 - (timeLeftRag - witherKingMessageTime) / 1000;
+        if (timeLeftRag >= 0) Renderer.drawString(`Use Rag in: ${timeLeftRag.toFixed(3)}`, Renderer.screen.getWidth() / 2 - 40, Renderer.screen.getHeight() / 2 + 6);
     };
+
+    if (bonzoInvinicibility) {
+        let timeLeftBonzo = new Date().getTime();
+        timeLeftBonzo = 3 - (timeLeftBonzo - bonzoTime) / 1000;
+        if (timeLeftBonzo >= 0) Renderer.drawString(`${timeLeftBonzo.toFixed(3)}`, Renderer.screen.getWidth() / 2 - 12, Renderer.screen.getHeight() / 2 + 6);
+        if (timeLeftBonzo < 0) {
+            bonzoInvinicibility = false;
+        }
+    };
+
+    if (spiritInvinicibility) {
+        let timeLeftSpirit = new Date().getTime();
+        timeLeftSpirit = 3 - (timeLeftSpirit - spiritTime) / 1000;
+        if (timeLeftSpirit >= 0) Renderer.drawString(`${timeLeftSpirit.toFixed(3)}`, Renderer.screen.getWidth() / 2 - 12, Renderer.screen.getHeight() / 2 + 6);
+        if (timeLeftSpirit < 0) {
+            spiritInvinicibility = false;
+        }
+    };
+
+    if (phoenixInvinicibility) {
+        let timeLeftPhoenix = new Date().getTime();
+        timeLeftPhoenix = (2 + (settings.phoenixLevel * 0.02)) - (timeLeftPhoenix - phoenixTime) / 1000;
+        if (timeLeftPhoenix >= 0) Renderer.drawString(`${timeLeftPhoenix.toFixed(3)}`, Renderer.screen.getWidth() / 2 - 12, Renderer.screen.getHeight() / 2 + 6);
+        if (timeLeftPhoenix < 0) {
+            phoenixInvinicibility = false;
+        }
+    };
+});
+
+// Early P2 entry message
+register('tick', () => {
+    if (!earlyP2MessageSent && settings.entryMessage.length != 0 && Player.getY() < 205 && inMaxor) {
+        let regex = new RegExp(`${Player.getName()}(?:\\s[^\\s]+\\s)?\\((.*?)\\)`);
+        let match = TabList.getNames().map(a => a.removeFormatting()).join(", ").match(regex);
+        if (match[1].includes('Mage')) {
+            ChatLib.command(`pc ${settings.entryMessage}`);
+            earlyP2MessageSent = true
+        }
+    }
 });
 
 // Gets relic color from message
 register("chat", (relicPicker, relicColor) => {
     if (Player.getName() == relicPicker) holdingRelic = relicColor;
 }).setCriteria("${relicPicker} picked the Corrupted ${relicColor} Relic!");
-
 
 // Terminal text waypoint thing
 register('renderWorld', () => {
