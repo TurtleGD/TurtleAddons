@@ -22,7 +22,7 @@ class settings {
 
         this.addDependency("Highlight Stun Block", "Nether Brick Stun Helper");
         this.addDependency("Highlight Etherwarp Block", "Nether Brick Stun Helper");
-
+        this.addDependency("Don't Send To Party", "Party True DPS Message");
         this.addDependency("Webhook Link", "Discord Webhook");
         this.addDependency("Message to Match", "Discord Webhook");
         this.addDependency("Message to Send", "Discord Webhook");
@@ -31,13 +31,10 @@ class settings {
         this.addDependency("Name", "Discord Webhook");
         this.addDependency("Profile Picture", "Discord Webhook");
         this.addDependency("Only Non-Player Messages", "Discord Webhook");
-
         this.addDependency("Alert Radius", "Energized Chunk Alert");
-
         this.addDependency("Phoenix Level", "Phoenix Invinicibility Timer");
-
         this.addDependency("Time Before Warning", "Smoldering Polarization Warning");
-
+        
         this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE ${RESET}enabling boss dialogue`);
     }
 
@@ -102,6 +99,14 @@ class settings {
         subcategory: 'Infernal Kuudra'
     })
     partyDps = false;
+
+    @SwitchProperty({
+        name: "Don't Send To Party",
+        description: `Sends the message to yourself.`,
+        category: 'Kuudra',
+        subcategory: 'Infernal Kuudra'
+    })
+    partyDpsNoSend = false;
 
     @SwitchProperty({
         name: 'Energized Chunk Alert',
