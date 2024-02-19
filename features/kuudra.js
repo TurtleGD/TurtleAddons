@@ -40,8 +40,10 @@ register("chat", (message) => {
     if (message.includes("KUUDRA DOWN!") && !message.includes(':') && inInfernal && Player.getY() < 30) {
         endTime = new Date().getTime();
         timeToKill = (endTime - startTime) / 1000;
-        if (!settings.partyDpsNoSend) ChatLib.command(`pc Party DPS: ${(300/timeToKill).toFixed(2)}m`);
-        else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Party DPS: ${(300/timeToKill).toFixed(2)}m`);
+        setTimeout(() => {
+            if (!settings.partyDpsNoSend) ChatLib.command(`pc Party DPS: ${(300/timeToKill).toFixed(2)}m`);
+            else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Party DPS: ${(300/timeToKill).toFixed(2)}m`);
+        }, 100);
     };
 }).setCriteria("${message}");
 
