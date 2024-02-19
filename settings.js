@@ -11,7 +11,7 @@ import { BOLD, AQUA, RESET, DARK_GRAY } from "./exports";
 
 @Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons`, {
     getCategoryComparator: () => (a, b) => {
-        const categories = ['General', 'Kuudra', 'Slayers', 'Dungeons', 'Discord Webhook'];
+        const categories = ['GitHub', 'General', 'Kuudra', 'Slayers', 'Dungeons', 'Discord Webhook'];
 
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
@@ -34,20 +34,41 @@ class settings {
 
         this.addDependency("Alert Radius", "Energized Chunk Alert");
 
+        this.addDependency("Phoenix Level", "Phoenix Invinicibility Timer");
+
+        this.addDependency("Time Before Warning", "Smoldering Polarization Warning");
+
         this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE ${RESET}enabling boss dialogue`);
     }
 
-    // General
+    // GitHub
     @ButtonProperty({
         name: "GitHub",
         description: `Link to GitHub`,
-        category: "General",
-        subcategory: "General",
+        category: "GitHub",
+        subcategory: "GitHub",
         placeholder: "Visit GitHub"
     })
     gitHubLink() {
         java.awt.Desktop.getDesktop().browse(new java.net.URI("https://github.com/TurtleGD/TurtleAddons"));
     }
+
+    // General
+    @SwitchProperty({
+        name: 'Level Up Sound Effect',
+        description: `Disfigure - Blank.`,
+        category: 'General',
+        subcategory: 'General'
+    })
+    levelSound = false;
+
+    @SwitchProperty({
+        name: 'Kicked Timer',
+        description: `Timer under crosshair when you get kicked to lobby.`,
+        category: 'General',
+        subcategory: 'General'
+    })
+    kickedTimer = false;
 
     // Kuudra
     @SwitchProperty({
@@ -92,13 +113,13 @@ class settings {
 
     @SliderProperty({
         name: 'Alert Radius',
-        description: 'Select the distance to chunk to alert',
+        description: 'Select the distance to chunk to alert.',
         category: 'Kuudra',
         subcategory: 'Infernal Kuudra',
-        min: 5.0,
-        max: 10.0
+        min: 5,
+        max: 10
     })
-    chunkRadius = 7.0;
+    chunkRadius = 7;
 
     @SwitchProperty({
         name: 'Rend Arrow Alert',
@@ -124,6 +145,32 @@ class settings {
         subcategory: 'Boss Drops',
     })
     slayerDropTitle = false;
+
+    @SwitchProperty({
+        name: 'Smoldering Polarization Warning',
+        description: 'Alerts you x minutes before you run out. Use /gummy [minutes] to set time left if you cannot see the time in tab.',
+        category: 'Slayers',
+        subcategory: 'Inferno Demonlord',
+    })
+    gummyWarning = false;
+
+    @SliderProperty({
+        name: 'Time Before Warning',
+        description: 'Select time in minutes.',
+        category: 'Slayers',
+        subcategory: 'Inferno Demonlord',
+        min: 1,
+        max: 10
+    })
+    gummyTimer = 5;
+
+    @SwitchProperty({
+        name: 'Disable Hellion Shield Messages',
+        description: 'Hides "Strike using the x attunement on your dagger!" messages.',
+        category: 'Slayers',
+        subcategory: 'Inferno Demonlord',
+    })
+    hideAttunements = false;
 
     // Dungeons
     @SwitchProperty({
@@ -175,7 +222,40 @@ class settings {
         subcategory: 'Dungeons',
     })
     entryMessage = '';
-    
+
+    @SwitchProperty({
+        name: 'Bonzo Mask Invinicibility Timer',
+        description: 'Timer under crosshair for invincibility.',
+        category: 'Dungeons',
+        subcategory: 'Invincibility Timers',
+    })
+    bonzoInvinicibility = false;
+
+    @SwitchProperty({
+        name: 'Spirit Mask Invinicibility Timer',
+        description: 'Timer under crosshair for invincibility.',
+        category: 'Dungeons',
+        subcategory: 'Invincibility Timers',
+    })
+    spiritInvinicibility = false;
+
+    @SwitchProperty({
+        name: 'Phoenix Invinicibility Timer',
+        description: 'Timer under crosshair for invincibility.',
+        category: 'Dungeons',
+        subcategory: 'Invincibility Timers',
+    })
+    phoenixInvinicibility = false;
+
+    @SliderProperty({
+        name: 'Phoenix Level',
+        description: 'Select phoenix level.',
+        category: 'Dungeons',
+        subcategory: 'Invincibility Timers',
+        min: 1,
+        max: 100
+    })
+    phoenixLevel = 1;
 
     // Discord
     @SwitchProperty({
