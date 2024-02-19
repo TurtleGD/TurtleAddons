@@ -63,7 +63,7 @@ class settings {
     levelSound = false;
 
     @SwitchProperty({
-        name: 'Kicked Timer',
+        name: 'Kicked To Lobby Timer',
         description: `Timer under crosshair when you get kicked to lobby.`,
         category: 'General',
         subcategory: 'General'
