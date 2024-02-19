@@ -1,13 +1,13 @@
 import settings from "../settings";
 import { getArea, createWaypoint, nearCoords, inTrueLair, RED, BOLD, EntityArmorStand, isDead } from "../exports";
 
-var startTime;
-var endTime;
-var timeToKill;
-var counting = false;
-var inInfernal = false;
-var dead = false
-var rendArrows = 0;
+let startTime;
+let endTime;
+let timeToKill;
+let counting = false;
+let inInfernal = false;
+let dead = false
+let rendArrows = 0;
 
 register('worldLoad', () => {
     counting = false;
@@ -70,7 +70,7 @@ register("tick", () => {
 register('step', () => {
     if (!settings.chunkAlert) return;
 
-    dead = isDead();
+    dead = isDead()
 }).setDelay(1)
 
 
