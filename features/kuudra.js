@@ -1,5 +1,5 @@
 import settings from "../settings";
-import { getArea, createWaypoint, nearCoords, inTrueLair, RED, BOLD, EntityArmorStand, isDead } from "../exports";
+import { getArea, createWaypoint, nearCoords, inTrueLair, RED, BOLD, EntityArmorStand, isDead, WHITE, GRAY, AQUA} from "../exports";
 
 let startTime;
 let endTime;
@@ -40,7 +40,8 @@ register("chat", (message) => {
     if (message.includes("KUUDRA DOWN!") && !message.includes(':') && inInfernal && Player.getY() < 30) {
         endTime = new Date().getTime();
         timeToKill = (endTime - startTime) / 1000;
-        ChatLib.command(`pc Party DPS: ${(300/timeToKill).toFixed(2)}m`);
+        if (!settings.partyDpsNoSend) ChatLib.command(`pc Party DPS: ${(300/timeToKill).toFixed(2)}m`);
+        else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Party DPS: ${(300/timeToKill).toFixed(2)}m`);
     };
 }).setCriteria("${message}");
 
