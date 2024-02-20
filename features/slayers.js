@@ -54,6 +54,7 @@ register('step', () => {
     if (ChatLib.removeFormatting(TabList.getFooter()).includes(`Smoldering Polarization I ${settings.gummyTimer}m`) || gummyTimeLeft == settings.gummyTimer) {
         Client.showTitle(`${RED}GUMMY LOW!`, '', 0, 60, 20);
         pling.play();
+        ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE + settings.gummyTimer}m of ${GREEN}Smoldering Polarization I ${WHITE}left.`)
     }
     gummyTimeLeft -= 1;
 }).setDelay(60);
@@ -64,6 +65,16 @@ register('command', (arg) => {
         gummyTimeLeft = arg;
     } else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument, enter an integer.`)
 }).setName('gummy')
+
+register('command', () => {
+    if (gummyTimeLeft != undefined && !isNaN(gummyTimeLeft)) ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE + gummyTimeLeft}m of ${GREEN}Smoldering Polarization I ${WHITE}left.`)
+    else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${GREEN}Smoldering Polarization I ${WHITE}is inactive.`)
+}).setName('gummytime')
+
+register('chat', (message) => {
+    if (!settings.gummyWarning) return;
+    if (message == 'You ate a Re-heated Gummy Polar Bear!') gummyTimeLeft = 59
+}).setCriteria("${message}");
 
 
 // Hide attunements
