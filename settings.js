@@ -42,7 +42,7 @@ class settings {
     @ButtonProperty({
         name: "GitHub",
         description: `Link to GitHub`,
-        category: "GitHub",
+        category: "General",
         subcategory: "GitHub",
         placeholder: "Visit GitHub"
     })
@@ -54,7 +54,7 @@ class settings {
         name: 'Level Up Sound Effect',
         description: `Disfigure - Blank.`,
         category: 'General',
-        subcategory: 'General'
+        subcategory: 'Miscellaneous'
     })
     levelSound = false;
 
@@ -62,7 +62,7 @@ class settings {
         name: 'Kicked To Lobby Timer',
         description: `Timer under crosshair when you get kicked to lobby.`,
         category: 'General',
-        subcategory: 'General'
+        subcategory: 'Miscellaneous'
     })
     kickedTimer = false;
 
