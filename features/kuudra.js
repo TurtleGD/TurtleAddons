@@ -31,6 +31,9 @@ register('renderWorld', () => {
 
     // Stun Block
     if (settings.stunBlock && nearCoords(-153, 31, -172, 40)) createWaypoint(-153, 31, -172, 0, 0, 255, 0.25, 1, true);
+
+    // Animation Skip Block
+    if (settings.skipBlock && nearCoords(-170, 35, -147, 40) && inInfernal) createWaypoint(-170, 35, -147, 0, 0, 255, 0.25, 1, true);
 });
 
 // Party DPS
@@ -43,7 +46,7 @@ register("chat", (message) => {
         setTimeout(() => {
             if (!settings.partyDpsNoSend) ChatLib.command(`pc Party DPS: ${(300/timeToKill).toFixed(2)}m`);
             else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Party DPS: ${(300/timeToKill).toFixed(2)}m`);
-        }, 100);
+        }, 50);
     };
 }).setCriteria("${message}");
 
