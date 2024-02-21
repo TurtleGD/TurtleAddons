@@ -1,7 +1,11 @@
 import settings from "../settings";
 import { LIGHT_PURPLE, RED, rune, pling, AQUA, GRAY, WHITE, GREEN } from "../exports";
+import PogObject from "../../PogData"
 
-let gummyTimeLeft;
+const persistentData = new PogObject("TurtleAddons", {
+    gummyTimeLeft: 0,
+});
+
 
 // Rare drops
 register("chat", (message) => {
@@ -51,29 +55,24 @@ register("chat", (message) => {
 register('step', () => {
     if (!settings.gummyWarning) return;
     
-    if (ChatLib.removeFormatting(TabList.getFooter()).includes(`Smoldering Polarization I ${settings.gummyTimer}m`) || gummyTimeLeft == settings.gummyTimer) {
+    if (ChatLib.removeFormatting(TabList.getFooter()).includes(`Smoldering Polarization I ${settings.gummyTimer}m`) || persistentData.gummyTimeLeft == settings.gummyTimer) {
         Client.showTitle(`${RED}GUMMY LOW!`, '', 0, 60, 20);
         pling.play();
         ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE + settings.gummyTimer}m of ${GREEN}Smoldering Polarization I ${WHITE}left.`)
     }
-    gummyTimeLeft -= 1;
+    persistentData.gummyTimeLeft -= 1;
+    persistentData.save();
 }).setDelay(60);
 
-register('command', (arg) => {
-    if (!isNaN(parseInt(arg))) {
-        ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Set ${GREEN}Smoldering Polarization I${WHITE} to ${arg}m.`)
-        gummyTimeLeft = arg;
-    } else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument, enter an integer.`)
-}).setName('gummy')
-
 register('command', () => {
-    if (gummyTimeLeft != undefined && !isNaN(gummyTimeLeft)) ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE + gummyTimeLeft}m of ${GREEN}Smoldering Polarization I ${WHITE}left.`)
+    if (persistentData.gummyTimeLeft != undefined && !isNaN(persistentData.gummyTimeLeft) && persistentData.gummyTimeLeft != 0) ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE + persistentData.gummyTimeLeft}m of ${GREEN}Smoldering Polarization I ${WHITE}left.`)
     else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${GREEN}Smoldering Polarization I ${WHITE}is inactive.`)
-}).setName('gummytime')
+}).setName('gummy')
 
 register('chat', (message) => {
     if (!settings.gummyWarning) return;
-    if (message == 'You ate a Re-heated Gummy Polar Bear!') gummyTimeLeft = 59
+    if (message == 'You ate a Re-heated Gummy Polar Bear!') persistentData.gummyTimeLeft = 59
+    persistentData.save();
 }).setCriteria("${message}");
 
 
