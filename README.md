@@ -9,8 +9,7 @@ ChatTriggers Module for Hypixel SkyBlock.
     - Kicked To Lobby Timer
 ### <u>Kuudra Features</u>
 - **Stunnning**
-    - Highlight Stun Block (Nether Brick Stun)
-    - Highlight Etherwarp Block (Nether Brick Stun)
+    - Nether Brick Stun Helper
 - **Infernal**
     - Party DPS
     - Energized Chunk Alert
@@ -40,4 +39,4 @@ ChatTriggers Module for Hypixel SkyBlock.
 - **Discord Webhook**
     - Send Custom Messages (if a match is found)
     - Can be the actual chat message
-    - Send Coordinates Option
+    - Customizable
