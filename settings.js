@@ -11,7 +11,7 @@ import { BOLD, AQUA, RESET, DARK_GRAY } from "./exports";
 
 @Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons`, {
     getCategoryComparator: () => (a, b) => {
-        const categories = ['GitHub', 'General', 'Kuudra', 'Slayers', 'Dungeons', 'Discord Webhook'];
+        const categories = ['General', 'Kuudra', 'Slayers', 'Dungeons', 'Discord Webhook'];
 
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
@@ -22,12 +22,12 @@ class settings {
 
         this.addDependency("Highlight Stun Block", "Nether Brick Stun Helper");
         this.addDependency("Highlight Etherwarp Block", "Nether Brick Stun Helper");
+        this.addDependency("Highlight Animation Skip Block (T5 Only)", "Nether Brick Stun Helper");
         this.addDependency("Don't Send To Party", "Party True DPS Message");
         this.addDependency("Webhook Link", "Discord Webhook");
         this.addDependency("Message to Match", "Discord Webhook");
         this.addDependency("Message to Send", "Discord Webhook");
         this.addDependency("Send Coordinates", "Discord Webhook");
-        this.addDependency("Ping Someone", "Discord Webhook");
         this.addDependency("Name", "Discord Webhook");
         this.addDependency("Profile Picture", "Discord Webhook");
         this.addDependency("Only Non-Player Messages", "Discord Webhook");
@@ -38,7 +38,7 @@ class settings {
         this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE ${RESET}enabling boss dialogue`);
     }
 
-    // GitHub
+    // General
     @ButtonProperty({
         name: "GitHub",
         description: `Link to GitHub`,
@@ -50,7 +50,6 @@ class settings {
         java.awt.Desktop.getDesktop().browse(new java.net.URI("https://github.com/TurtleGD/TurtleAddons"));
     }
 
-    // General
     @SwitchProperty({
         name: 'Level Up Sound Effect',
         description: `Disfigure - Blank.`,
@@ -91,6 +90,14 @@ class settings {
         subcategory: 'Kuudra'
     })
     etherwarpBlock = false;
+
+    @CheckboxProperty({
+        name: 'Highlight Animation Skip Block (T5 Only)',
+        description: `Highlights the block to etherwarp to.`,
+        category: 'Kuudra',
+        subcategory: 'Kuudra'
+    })
+    skipBlock = false;
 
     @SwitchProperty({
         name: 'Party True DPS Message',
@@ -153,7 +160,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Smoldering Polarization Warning',
-        description: 'Alerts you x minutes before you run out. Use /gummy [minutes] to set time left if you cannot see the time in tab.',
+        description: 'Alerts you x minutes before you run out.',
         category: 'Slayers',
         subcategory: 'Inferno Demonlord',
     })
@@ -303,14 +310,6 @@ class settings {
         subcategory: 'Discord Webhook',
     })
     webhookCoords = false;
-
-    @TextProperty({
-        name: 'Ping Someone',
-        description: 'Enter id to add a mention to the message\nFormat is "<@userID>"',
-        category: 'Discord Webhook',
-        subcategory: 'Discord Webhook',
-    })
-    webhookPing = '';
 
     @TextProperty({
         name: 'Name',
