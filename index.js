@@ -5,17 +5,16 @@ import "./features/slayers";
 import "./features/dungeons";
 import "./features/discord";
 import "./features/general";
-import { GRAY, AQUA, WHITE, UNDERLINE, BOLD, RESET } from './exports';
+import { AQUA, WHITE, UNDERLINE, BOLD, RESET } from './exports';
 
 register('command', (arg) => {
     if (arg == undefined) settings.openGUI();
     if (arg == 'help') {
-        ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}]`);
+        ChatLib.chat(`${AQUA + BOLD + UNDERLINE}Commands:`);
         ChatLib.chat('');
         ChatLib.chat(`${AQUA + BOLD}/turtleaddons, /ta, /turtle, /8joh, /joh ${RESET + WHITE}- Open settings.`);
         ChatLib.chat(`${AQUA + BOLD}/getnbt ${RESET + WHITE}- Send NBT data of held item into chat. Open '/ct console' to get color codes.`);
-        ChatLib.chat(`${AQUA + BOLD}/gummy [minutes] ${RESET + WHITE}- Set smoldering polarization timer.`);
-        ChatLib.chat(`${AQUA + BOLD}/gummytime ${RESET + WHITE}- See remaining time of smoldering polarization.`);
+        ChatLib.chat(`${AQUA + BOLD}/gummy [minutes] ${RESET + WHITE}- See remaining duration of smoldering polarization.`);
     }    ;
     if (arg == 'changelog') {
         axios.get('https://chattriggers.com/api/modules/1882').then(response => {if (response.data.releases[0].releaseVersion != JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version){
