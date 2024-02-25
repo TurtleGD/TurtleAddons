@@ -31,9 +31,20 @@ register('renderWorld', () => {
 
     // Stun Block
     if (settings.stunBlock && nearCoords(-153, 31, -172, 40)) createWaypoint(-153, 31, -172, 0, 0, 255, 0.25, 1, true);
+});
 
+register('renderWorld', () => {
     // Animation Skip Block
-    if (settings.skipBlock && nearCoords(-170, 35, -147, 40) && inInfernal) createWaypoint(-170, 35, -147, 0, 0, 255, 0.25, 1, true);
+    if (!settings.skipBlock) return;
+
+    if (nearCoords(-170, 35, -147, 40) && inInfernal) createWaypoint(-170, 35, -147, 0, 0, 255, 0.25, 1, true);
+});
+
+register('renderWorld', () => {
+    // Insta-Stun Etherwarp Block
+    if (!settings.instaStunEtherwarpBlock) return;
+
+    if (nearCoords(-168, 21, -170, 40) && inInfernal) createWaypoint(-168, 21, -170, 0, 0, 255, 0.25, 1, true);
 });
 
 // Party DPS
