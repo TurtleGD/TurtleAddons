@@ -9,7 +9,7 @@ import { AQUA, WHITE, UNDERLINE, BOLD, RESET, GRAY } from './exports';
 
 register('command', (arg) => {
     switch (arg) {
-        case 'undefined':
+        case undefined:
             settings.openGUI();
             break;
         case 'help':
