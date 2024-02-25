@@ -4,12 +4,14 @@ ChatTriggers Module for Hypixel SkyBlock.
 <br>
 
 ### <u>General Features</u>
-- **Stunnning**
+- **General**
     - Level Up Sound Effect
     - Kicked To Lobby Timer
 ### <u>Kuudra Features</u>
 - **Stunnning**
     - Nether Brick Stun Helper
+    - Insta Stun Etherwarp Block
+    - Animation Skip Etherwarp Block
 - **Infernal**
     - Party DPS
     - Energized Chunk Alert
