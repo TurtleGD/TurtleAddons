@@ -55,10 +55,10 @@ register("chat", (message) => {
 register('step', () => {
     if (!settings.gummyWarning) return;
     
-    if (ChatLib.removeFormatting(TabList.getFooter()).includes(`Smoldering Polarization I ${settings.gummyTimer}m`) || persistentData.gummyTimeLeft == settings.gummyTimer) {
+    if (persistentData.gummyTimeLeft == settings.gummyTimer) {
         Client.showTitle(`${RED}GUMMY LOW!`, '', 0, 60, 20);
         pling.play();
-        ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE + settings.gummyTimer}m of ${GREEN}Smoldering Polarization I ${WHITE}left.`)
+        ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE + settings.gummyTimer}m of ${GREEN}Smoldering Polarization I ${WHITE}left.`);
     }
     persistentData.gummyTimeLeft -= 1;
     persistentData.save();
