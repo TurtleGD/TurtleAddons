@@ -22,7 +22,6 @@ class settings {
 
         this.addDependency("Highlight Stun Block", "Nether Brick Stun Helper");
         this.addDependency("Highlight Etherwarp Block", "Nether Brick Stun Helper");
-        this.addDependency("Highlight Animation Skip Block (T5 Only)", "Nether Brick Stun Helper");
         this.addDependency("Don't Send To Party", "Party True DPS Message");
         this.addDependency("Webhook Link", "Discord Webhook");
         this.addDependency("Message to Match", "Discord Webhook");
@@ -71,7 +70,7 @@ class settings {
         name: 'Nether Brick Stun Helper',
         description: `Highlights the blocks used for nether brick stunning.\n(Requires at least 1500 mining speed).`,
         category: 'Kuudra',
-        subcategory: 'Kuudra'
+        subcategory: 'Stunning'
     })
     stunHelper = false;
 
@@ -79,7 +78,7 @@ class settings {
         name: 'Highlight Stun Block',
         description: `Highlights the nether brick block to break.`,
         category: 'Kuudra',
-        subcategory: 'Kuudra'
+        subcategory: 'Stunning'
     })
     stunBlock = false;
 
@@ -87,7 +86,7 @@ class settings {
         name: 'Highlight Etherwarp Block',
         description: `Highlights the block to etherwarp to.`,
         category: 'Kuudra',
-        subcategory: 'Kuudra'
+        subcategory: 'Stunning'
     })
     etherwarpBlock = false;
 
@@ -95,9 +94,17 @@ class settings {
         name: 'Highlight Animation Skip Block (T5 Only)',
         description: `Highlights the block to etherwarp to.`,
         category: 'Kuudra',
-        subcategory: 'Kuudra'
+        subcategory: 'Stunning'
     })
     skipBlock = false;
+
+    @CheckboxProperty({
+        name: 'Highlight Insta-Stun Etherwarp Block',
+        description: `Highlights the block to etherwarp to.`,
+        category: 'Kuudra',
+        subcategory: 'Stunning'
+    })
+    instaStunEtherwarpBlock = false;
 
     @SwitchProperty({
         name: 'Party True DPS Message',
