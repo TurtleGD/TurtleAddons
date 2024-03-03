@@ -248,25 +248,23 @@ function roomFromId(roomId) {
         const data = JSON.parse(FileLib.read('TurtleAddons', 'roomdata.json'));
 
         for (const obj of data) {
-            if (obj.id && Array.isArray(obj.id) && obj.id.includes(roomId)) {
-                return obj.name;
-            }
-        }
+            if (obj.id && Array.isArray(obj.id) && obj.id.includes(roomId)) return obj.name;
+        };
         return null;
 
     } catch (error) {
         console.log(error);
         return null;
-    }
-}
+    };
+};
 
 register('command', () => {
     const match = Scoreboard.getLineByIndex(Scoreboard.getLines().length - 1).toString().removeFormatting().match(/(-?\d+),(-?\d+)\b/);
 
     if (match) {
-        if (roomFromId(match.slice(1).toString()) == null) ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Room not recognized.`)
-        else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Current room: ${roomFromId(match.slice(1).toString())}`)
-    }
+        if (roomFromId(match.slice(1).toString()) == null) ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Room not recognized.`);
+        else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Current room: ${roomFromId(match.slice(1).toString())}`);
+    };
 }).setName('getroom');
 
 register('tick', () => {
@@ -276,10 +274,10 @@ register('tick', () => {
     const match = Scoreboard.getLineByIndex(Scoreboard.getLines().length - 1).toString().removeFormatting().match(/(-?\d+),(-?\d+)\b/);
 
     if (match) {
-        const currentRoom = roomFromId(match.slice(1).toString())?.toLowerCase()
+        const currentRoom = roomFromId(match.slice(1).toString())?.toLowerCase();
         if (rooms.includes(currentRoom)) {
             ChatLib.command(`pc ${settings.roomEntryMessage}`)
-            rooms.splice(rooms.indexOf(currentRoom), 1)
+            rooms.splice(rooms.indexOf(currentRoom), 1);
         };
     };
 });
