@@ -5,7 +5,8 @@ import "./features/slayers";
 import "./features/dungeons";
 import "./features/discord";
 import "./features/general";
-import { AQUA, WHITE, UNDERLINE, BOLD, RESET, GRAY } from './exports';
+import "./features/partyCommands";
+import { AQUA, WHITE, UNDERLINE, BOLD, RESET } from './exports';
 
 register('command', (arg) => {
     switch (arg) {
@@ -35,3 +36,22 @@ register('command', (arg) => {
 register('command', () => {
     ChatLib.simulateChat(Player.getHeldItem()?.getNBT());
 }).setName('getnbt');
+
+
+['t5', 't4', 't3', 't2', 't1'].forEach((name, index) => {
+    register('command', () => {
+        ChatLib.command(`joininstance kuudra_${['infernal', 'fiery', 'burning', 'hot', 'normal'][index]}`);
+    }).setName(name, true);
+});
+
+['m7', 'm6', 'm5', 'm4', 'm3', 'm2', 'm1'].forEach((name, index) => {
+    register('command', () => {
+        ChatLib.command(`joininstance master_catacombs_floor_${['seven', 'six', 'five', 'four', 'three', 'two', 'one'][index]}`);
+    }).setName(name, true);
+});
+
+['f7', 'f6', 'f5', 'f4', 'f3', 'f2', 'f1'].forEach((name, index) => {
+    register('command', () => {
+        ChatLib.command(`joininstance catacombs_floor_${['seven', 'six', 'five', 'four', 'three', 'two', 'one'][index]}`);
+    }).setName(name, true);
+});
