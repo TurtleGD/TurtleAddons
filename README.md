@@ -26,10 +26,22 @@ ChatTriggers Module for Hypixel SkyBlock.
 ### <u>Dungeon Features</u>
 -  **Dungeons**
     - Early P2 Entry Message
+    - Send Message on Specific Room Entry
 -  **Invincibility Timers**
     - Bonzo Mask Invincibility Timer
     - Spirit Mask Invincibility Timer
     - Phoenix Invincibility Timer
+- **Terminals**
+    - Show Terminal Number on Terminal
+    - Callout Terminal in Chat
+- **Wither King**
+    - P5 Ragnarock Axe Timer
+    - Relic Placement Waypoint
+    - Dragon Skip Notification
+  ### <u>Party Commands</u>
+-  **Dungeons**
+    - Join Instance Commands
+    - Leader Commands
 - **Terminals**
     - Show Terminal Number on Terminal
     - Callout Terminal in Chat
