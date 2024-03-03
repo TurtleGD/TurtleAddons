@@ -1,5 +1,5 @@
 import settings from "../settings";
-import { createWaypoint } from "../exports";
+import { createWaypoint, getArea } from "../exports";
 
 let witherKingMessageSent = false;
 let witherKingMessageTime;
@@ -16,6 +16,8 @@ let spiritInvinicibility = false;
 let phoenixTime;
 let phoenixInvinicibility = false;
 
+let rooms = settings.roomName.toLowerCase().split(', ')
+
 register('worldLoad', () => {
     witherKingMessageSent = false;
     holdingRelic = undefined;
@@ -25,6 +27,7 @@ register('worldLoad', () => {
     bonzoInvinicibility = false;
     spiritInvinicibility = false;
     phoenixInvinicibility = false;
+    rooms = settings.roomName.toLowerCase().split(', ')
 });
 
 // Term stuff
@@ -54,7 +57,7 @@ register("chat", (message) => {
 
 // P2 early entry maxor check
 register("chat", (message) => {
-    if (settings.entryMessage.length == 0) return;
+    if (settings.p2EntryMessage.length == 0) return;
 
     if (message.includes("I'VE BEEN TOLD I COULD HAVE A BIT OF FUN WITH YOU")) inMaxor = true;
     if (message.includes("I'M TOO YOUNG TO DIE AGAIN")) inMaxor = false; 
@@ -115,8 +118,8 @@ register("chat", (message) => {
 
 // Early P2 entry message
 register('tick', () => {
-    if (!earlyP2MessageSent && settings.entryMessage.length != 0 && Player.getY() < 205 && inMaxor) {
-        ChatLib.command(`pc ${settings.entryMessage}`);
+    if (!earlyP2MessageSent && settings.p2EntryMessage.length != 0 && Player.getY() < 205 && inMaxor) {
+        ChatLib.command(`pc ${settings.p2EntryMessage}`);
         earlyP2MessageSent = true
     }
 });
@@ -159,11 +162,11 @@ register("renderOverlay", () => {
 
 // Early P2 entry message
 register('tick', () => {
-    if (!earlyP2MessageSent && settings.entryMessage.length != 0 && Player.getY() < 205 && inMaxor) {
+    if (!earlyP2MessageSent && settings.p2EntryMessage.length != 0 && Player.getY() < 205 && inMaxor) {
         let regex = new RegExp(`${Player.getName()}(?:\\s[^\\s]+\\s)?\\((.*?)\\)`);
         let match = TabList.getNames().map(a => a.removeFormatting()).join(", ").match(regex);
         if (match[1].includes('Mage')) {
-            ChatLib.command(`pc ${settings.entryMessage}`);
+            ChatLib.command(`pc ${settings.p2EntryMessage}`);
             earlyP2MessageSent = true
         }
     }
@@ -234,5 +237,46 @@ register('renderWorld', () => {
         case "Green":
             createWaypoint(49, 7, 44, 0, 255, 0, 0.25, 1, false);
             break;
+    };
+});
+
+
+// Dungeon room thing why does this stupid function only work if it has a try catch
+function roomFromId(roomId) {
+    try {
+        const data = JSON.parse(FileLib.read('TurtleAddons', 'roomdata.json'));
+
+        for (const obj of data) {
+            if (obj.id && Array.isArray(obj.id) && obj.id.includes(roomId)) {
+                return obj.name;
+            }
+        }
+
+        ChatLib.chat('Room not recognized.');
+        return null;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+register('command', () => {
+    const match = Scoreboard.getLineByIndex(Scoreboard.getLines().length - 1).toString().removeFormatting().match(/(-?\d+),(-?\d+)\b/);
+
+    if (match) ChatLib.chat(roomFromId(match.slice(1).toString()));
+}).setName('getroom');
+
+register('tick', () => {
+    if (!settings.sendRoomEntryMessage) return;
+    if (!getArea().includes('Catacombs')) return;
+
+    const match = Scoreboard.getLineByIndex(Scoreboard.getLines().length - 1).toString().removeFormatting().match(/(-?\d+),(-?\d+)\b/);
+
+    if (match) {
+        const currentRoom = roomFromId(match.slice(1).toString()).toLowerCase()
+        if (rooms.includes(currentRoom)) {
+            ChatLib.command(`pc ${settings.roomEntryMessage}`)
+            rooms.splice(rooms.indexOf(currentRoom), 1)
+        };
     };
 });
