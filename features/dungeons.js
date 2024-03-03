@@ -1,5 +1,5 @@
 import settings from "../settings";
-import { createWaypoint, getArea } from "../exports";
+import { createWaypoint, getArea, GRAY, AQUA, WHITE } from "../exports";
 
 let witherKingMessageSent = false;
 let witherKingMessageTime;
@@ -244,6 +244,7 @@ register('renderWorld', () => {
 // Dungeon room thing why does this stupid function only work if it has a try catch
 function roomFromId(roomId) {
     try {
+        // File copied over from BetterMap
         const data = JSON.parse(FileLib.read('TurtleAddons', 'roomdata.json'));
 
         for (const obj of data) {
@@ -251,9 +252,8 @@ function roomFromId(roomId) {
                 return obj.name;
             }
         }
-
-        ChatLib.chat('Room not recognized.');
         return null;
+
     } catch (error) {
         console.log(error);
         return null;
@@ -263,7 +263,10 @@ function roomFromId(roomId) {
 register('command', () => {
     const match = Scoreboard.getLineByIndex(Scoreboard.getLines().length - 1).toString().removeFormatting().match(/(-?\d+),(-?\d+)\b/);
 
-    if (match) ChatLib.chat(roomFromId(match.slice(1).toString()));
+    if (match) {
+        if (roomFromId(match.slice(1).toString()) == null) ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Room not recognized.`)
+        else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Current room: ${roomFromId(match.slice(1).toString())}`)
+    }
 }).setName('getroom');
 
 register('tick', () => {
@@ -273,7 +276,7 @@ register('tick', () => {
     const match = Scoreboard.getLineByIndex(Scoreboard.getLines().length - 1).toString().removeFormatting().match(/(-?\d+),(-?\d+)\b/);
 
     if (match) {
-        const currentRoom = roomFromId(match.slice(1).toString()).toLowerCase()
+        const currentRoom = roomFromId(match.slice(1).toString())?.toLowerCase()
         if (rooms.includes(currentRoom)) {
             ChatLib.command(`pc ${settings.roomEntryMessage}`)
             rooms.splice(rooms.indexOf(currentRoom), 1)
