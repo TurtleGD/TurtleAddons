@@ -38,17 +38,10 @@ ChatTriggers Module for Hypixel SkyBlock.
     - P5 Ragnarock Axe Timer
     - Relic Placement Waypoint
     - Dragon Skip Notification
-  ### <u>Party Commands</u>
--  **Dungeons**
+### <u>Party Commands</u>
+- **Party Commands**
     - Join Instance Commands
     - Leader Commands
-- **Terminals**
-    - Show Terminal Number on Terminal
-    - Callout Terminal in Chat
-- **Wither King**
-    - P5 Ragnarock Axe Timer
-    - Relic Placement Waypoint
-    - Dragon Skip Notification
 ### <u>Discord Features</u>
 - **Discord Webhook**
     - Send Custom Messages (if a match is found)
