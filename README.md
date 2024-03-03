@@ -26,7 +26,7 @@ ChatTriggers Module for Hypixel SkyBlock.
 ### <u>Dungeon Features</u>
 -  **Dungeons**
     - Early P2 Entry Message
-    - Send Message on Specific Room Entry
+    - Send Message on Specific Room Entry (Uses room data from BetterMap)
 -  **Invincibility Timers**
     - Bonzo Mask Invincibility Timer
     - Spirit Mask Invincibility Timer
