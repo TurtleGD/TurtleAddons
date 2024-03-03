@@ -11,7 +11,7 @@ import { BOLD, AQUA, RESET, DARK_GRAY } from "./exports";
 
 @Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons`, {
     getCategoryComparator: () => (a, b) => {
-        const categories = ['General', 'Kuudra', 'Slayers', 'Dungeons', 'Discord Webhook'];
+        const categories = ['General', 'Kuudra', 'Slayers', 'Dungeons', 'Party Commands', 'Discord Webhook'];
 
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
@@ -32,9 +32,13 @@ class settings {
         this.addDependency("Only Non-Player Messages", "Discord Webhook");
         this.addDependency("Alert Radius", "Energized Chunk Alert");
         this.addDependency("Phoenix Level", "Phoenix Invinicibility Timer");
+        this.addDependency("Room Name", "Send Message on Specific Room Entry");
+        this.addDependency("Room Entry Message", "Send Message on Specific Room Entry");
         this.addDependency("Time Before Warning", "Smoldering Polarization Warning");
         
         this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE ${RESET}enabling boss dialogue`);
+
+        this.setCategoryDescription("Party Commands", `Prefix: "${BOLD};${RESET}"`);
     }
 
     // General
@@ -68,7 +72,7 @@ class settings {
     // Kuudra
     @SwitchProperty({
         name: 'Nether Brick Stun Helper',
-        description: `Highlights the blocks used for nether brick stunning.\n(Requires at least 1500 mining speed).`,
+        description: `Highlights the blocks used for nether brick stunning.\n${DARK_GRAY}(Requires at least 1500 mining speed).`,
         category: 'Kuudra',
         subcategory: 'Stunning'
     })
@@ -240,7 +244,31 @@ class settings {
         category: 'Dungeons',
         subcategory: 'Dungeons',
     })
-    entryMessage = '';
+    p2EntryMessage = '';
+
+    @SwitchProperty({
+        name: 'Send Message on Specific Room Entry',
+        description: `Sends a message when you enter a specified room.`,
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
+    })
+    sendRoomEntryMessage = false;
+
+    @TextProperty({
+        name: 'Room Name',
+        description: 'Use /getroom in a dungeon room to get the name. Use commas to separate multiple rooms.',
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
+    })
+    roomName = '';
+
+    @TextProperty({
+        name: 'Room Entry Message',
+        description: 'Message to send when entering the specified room.',
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
+    })
+    roomEntryMessage = '';
 
     @SwitchProperty({
         name: 'Bonzo Mask Invinicibility Timer',
@@ -341,6 +369,23 @@ class settings {
         subcategory: 'Discord Webhook',
     })
     webhookNonPlayer = false;
+
+    // Party Commands
+    @SwitchProperty({
+        name: 'Join Instance Commands',
+        description: 'Kuudra and Dungeons, "f7", "t5", etc.',
+        category: 'Party Commands',
+        subcategory: 'Party Commands',
+    })
+    instanceCommands = false;
+
+    @SwitchProperty({
+        name: 'Leader Commands',
+        description: 'transfer, warp, allinv, kick [name].',
+        category: 'Party Commands',
+        subcategory: 'Party Commands',
+    })
+    leaderCommands = false;
 }
 
 export default new settings();
