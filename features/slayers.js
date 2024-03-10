@@ -1,11 +1,5 @@
 import settings from "../settings";
-import { LIGHT_PURPLE, RED, rune, pling, AQUA, GRAY, WHITE, GREEN } from "../exports";
-import PogObject from "../../PogData"
-
-const persistentData = new PogObject("TurtleAddons", {
-    gummyTimeLeft: 0,
-});
-
+import { LIGHT_PURPLE, RED, rune, pling, AQUA, GRAY, WHITE, GREEN, persistentData, removeEmojis, getArea, EntityArmorStand } from "../exports";
 
 // Rare drops
 register("chat", (message) => {
@@ -53,25 +47,26 @@ register("chat", (message) => {
 
 // Smoldering polarization warning
 register('step', () => {
-    if (!settings.gummyWarning) return;
+    if (!settings.gummyWarning || (!Scoreboard.getTitle().includes('SKYBLOCK') && !removeEmojis(Scoreboard.getLinesByScore(1).join('')) == 'ewww.hypixel.neet') || getArea().includes('Catacombs')) return;
+
+    if (persistentData.gummyTimeLeft > 0) persistentData.gummyTimeLeft -= 1;
     
-    if (persistentData.gummyTimeLeft == settings.gummyTimer) {
+    if (persistentData.gummyTimeLeft == settings.gummyTimer * 60) {
         Client.showTitle(`${RED}GUMMY LOW!`, '', 0, 60, 20);
         pling.play();
         ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE + settings.gummyTimer}m of ${GREEN}Smoldering Polarization I ${WHITE}left.`);
     }
-    persistentData.gummyTimeLeft -= 1;
     persistentData.save();
-}).setDelay(60);
+}).setDelay(1);
 
 register('command', () => {
-    if (persistentData.gummyTimeLeft != undefined && !isNaN(persistentData.gummyTimeLeft) && persistentData.gummyTimeLeft != 0) ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE + persistentData.gummyTimeLeft}m of ${GREEN}Smoldering Polarization I ${WHITE}left.`)
+    if (persistentData.gummyTimeLeft != 0) ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE + Math.floor(persistentData.gummyTimeLeft / 60)}m ${persistentData.gummyTimeLeft % 60}s of ${GREEN}Smoldering Polarization I ${WHITE}left.`)
     else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${GREEN}Smoldering Polarization I ${WHITE}is inactive.`)
 }).setName('gummy')
 
 register('chat', (message) => {
     if (!settings.gummyWarning) return;
-    if (message == 'You ate a Re-heated Gummy Polar Bear!') persistentData.gummyTimeLeft = 59
+    if (message == 'You ate a Re-heated Gummy Polar Bear!') persistentData.gummyTimeLeft = 3599
     persistentData.save();
 }).setCriteria("${message}");
 
@@ -80,4 +75,49 @@ register('chat', (message) => {
 register('chat', (message, event) => {
     if (!settings.hideAttunements) return;
     if (message.startsWith("Strike using the") || message == 'Your hit was reduced by Hellion Shield!') cancel(event)
+}).setCriteria("${message}");
+
+
+// Boss kill time
+let bossSpawn = false;
+let spawnTime = undefined;
+let killTime = undefined;
+let x = undefined;
+let y = undefined;
+let z = undefined;
+
+register('tick', () => {
+    if (!settings.slayerKillTime) return;
+
+    World.getAllEntitiesOfType(EntityArmorStand).forEach(stand => {
+        let name = stand.getName().removeFormatting();
+
+        // Checks spawned by name tag
+        if (name.includes(`Spawned by: ${Player.getName()}`) && spawnTime == undefined && removeEmojis(Scoreboard.getLinesByScore(5).join('')).includes('Slayer Quest')) {
+            bossSpawn = true;
+            spawnTime = new Date().getTime();
+            killTime = undefined;
+        };
+
+        // Gets spawned by name tag location for boss check later
+        if (name.includes(`Spawned by: ${Player.getName()}`)) {
+            x = stand.getX();
+            y = stand.getY();
+            z = stand.getZ();
+        };
+
+        // Checks hp name tag to spawned by name tag to check whos boss
+        if (name.includes(' 0❤') && killTime == undefined && Math.hypot(stand.getX() - x, stand.getY() - y, stand.getZ() - z) < 1) {
+            bossSpawn = false;
+            killTime = new Date().getTime();
+            ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Slayer took ${((killTime - spawnTime) / 1000).toFixed(3)}s to kill!`);
+            setTimeout(() => spawnTime = undefined, 3000);
+        };
+    });
+});
+
+register('chat', (message) => {
+    if (!settings.slayerKillTime) return;
+    
+    if ((message.includes('SLAYER QUEST FAILED!') && !message.includes(':')) || message.includes('Your Slayer Quest has been cancelled!')) setTimeout(() => spawnTime = undefined, 500)
 }).setCriteria("${message}");
