@@ -170,8 +170,16 @@ class settings {
     slayerDropTitle = false;
 
     @SwitchProperty({
+        name: 'True Boss Kill Time',
+        description: 'Gets boss kill time to three decimals and does not include spawn/death animation. (Might be a little inaccurate)',
+        category: 'Slayers',
+        subcategory: 'Slayers',
+    })
+    slayerKillTime = false;
+
+    @SwitchProperty({
         name: 'Smoldering Polarization Warning',
-        description: 'Alerts you x minutes before you run out.',
+        description: 'Alerts you x minutes before you run out. Will most likely be slightly inaccurate as server lag "increases" the in-game duration.',
         category: 'Slayers',
         subcategory: 'Inferno Demonlord',
     })
