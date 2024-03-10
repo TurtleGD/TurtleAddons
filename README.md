@@ -17,6 +17,8 @@ ChatTriggers Module for Hypixel SkyBlock.
     - Energized Chunk Alert
     - Rend Arrow Notification
 ### <u>Slayer Features</u>
+- **Slayers**
+    - True Slayer Kill Time
 - **Boss Drops**
     - Send Rare Drops to Chat
     - Rare Drop Title
