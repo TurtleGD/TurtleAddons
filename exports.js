@@ -1,6 +1,7 @@
 import renderBeaconBeam from "../BeaconBeam";
 import RenderLib from "../RenderLib";
 import { getMatchFromLines, getScoreboard, removeUnicode } from "../BloomCore/utils/Utils";
+import PogObject from "../PogData"
 
 export function getArea() {
     return (removeUnicode(getMatchFromLines(/ ⏣ (.+)/, getScoreboard(false))))
@@ -17,6 +18,10 @@ export function createWaypoint(x, y, z, r, g, b, innerAlpha, outerAlpha, noBeaco
 export function nearCoords(x, y, z, radius) {
     return Math.hypot(Player.getX() - x, Player.getY() - y, Player.getZ() - z) < radius;
 };
+
+export function distanceFromCoords(x, y, z) {
+    return Math.hypot(Player.getX() - x, Player.getY() - y, Player.getZ() - z)
+}
 
 export function inTrueLair() {
     return (Player.getX() > -116 && Player.getX() < -88) &&
@@ -37,41 +42,19 @@ export const EntityArmorStand = Java.type('net.minecraft.entity.item.EntityArmor
 export const rune = '◆';
 
 // Sounds
-export const level = new Sound({source: '../modules/TurtleAddons/assets/level.ogg'});
-export const pling = new Sound({source: '../modules/TurtleAddons/assets/pling.ogg'});
+export const level = new Sound({source: '../modules/TurtleAddons/assets/level.ogg', priority: true});
+export const pling = new Sound({source: '../modules/TurtleAddons/assets/pling.ogg', priority: true});
 
-// Party commands
-export const instanceCommands = {
-    ';t1': 'joininstance kuudra_normal',
-    ';t2': 'joininstance kuudra_hot',
-    ';t3': 'joininstance kuudra_burning',
-    ';t4': 'joininstance kuudra_fiery',
-    ';t5': 'joininstance kuudra_infernal',
+// PogData
+export const persistentData = new PogObject("TurtleAddons", {
+    gummyTimeLeft: 0,
+});
 
-    ';f1': 'joininstance catacombs_floor_one',
-    ';f2': 'joininstance catacombs_floor_two',
-    ';f3': 'joininstance catacombs_floor_three',
-    ';f4': 'joininstance catacombs_floor_four',
-    ';f5': 'joininstance catacombs_floor_five',
-    ';f6': 'joininstance catacombs_floor_six',
-    ';f7': 'joininstance catacombs_floor_seven',
-
-    ';m1': 'joininstance master_catacombs_floor_one',
-    ';m2': 'joininstance master_catacombs_floor_two',
-    ';m3': 'joininstance master_catacombs_floor_three',
-    ';m4': 'joininstance master_catacombs_floor_four',
-    ';m5': 'joininstance master_catacombs_floor_five',
-    ';m6': 'joininstance master_catacombs_floor_six',
-    ';m7': 'joininstance master_catacombs_floor_seven',
-
-    ';torres': 'joininstance master_catacombs_floor_seven',
-    ';prime': 'joininstance kuudra_burning'
-};
-
-
+export function removeEmojis(str) {
+    return str.replace(/[^\x00-\x80]/g, "")
+}
 
 // From VolcAddons
-
 export const BLACK = '§0';
 export const DARK_BLUE = '§1';
 export const DARK_GREEN = '§2';
