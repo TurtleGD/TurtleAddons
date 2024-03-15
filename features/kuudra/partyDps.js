@@ -1,6 +1,6 @@
 import settings from "../../settings";
 import { WHITE, GRAY, AQUA} from "../../exports";
-import { getArea, inTrueLair} from "../../exports";
+import { getArea, inTrueLair } from "../../exports";
 
 let startTime;
 let endTime;
