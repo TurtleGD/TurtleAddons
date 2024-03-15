@@ -1,5 +1,5 @@
 import settings from "../../settings";
-import { RED, BOLD} from "../../exports";
+import { RED, BOLD } from "../../exports";
 
 let rendArrows = 0;
 
