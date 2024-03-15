@@ -15,18 +15,10 @@ export function createWaypoint(x, y, z, r, g, b, innerAlpha, outerAlpha, noBeaco
     renderBeaconBeam(x, y + 1, z, 1, 1, 1, 1, false);
 };
 
-export function nearCoords(x, y, z, radius) {
-    return Math.hypot(Player.getX() - x, Player.getY() - y, Player.getZ() - z) < radius;
-};
-
-export function distanceFromCoords(x, y, z) {
-    return Math.hypot(Player.getX() - x, Player.getY() - y, Player.getZ() - z)
-}
-
 export function inTrueLair() {
-    return (Player.getX() > -116 && Player.getX() < -88) &&
-       (Player.getY() > 3 && Player.getY() < 13) &&
-       (Player.getZ() > -120 && Player.getZ() < -92);
+    return (Player.getX() > -130 && Player.getX() < -75) &&
+       (Player.getY() > 3 && Player.getY() < 30) &&
+       (Player.getZ() > -130 && Player.getZ() < -75);
 };
 
 export function isDead() {
@@ -37,6 +29,7 @@ export function isDead() {
 
 // Armor stand
 export const EntityArmorStand = Java.type('net.minecraft.entity.item.EntityArmorStand').class;
+export const EntityMagmaCube = Java.type("net.minecraft.entity.monster.EntityMagmaCube").class;
 
 // Stupid rune symbol fuck you
 export const rune = '◆';
@@ -48,6 +41,18 @@ export const pling = new Sound({source: '../modules/TurtleAddons/assets/pling.og
 // PogData
 export const persistentData = new PogObject("TurtleAddons", {
     gummyTimeLeft: 0,
+
+    triangle1: [],
+    triangle2: [],
+
+    equals1: [],
+    equals2: [],
+
+    slash1: [],
+    slash2: [],
+    
+    x1: [],
+    x2: [],
 });
 
 export function removeEmojis(str) {
@@ -78,3 +83,20 @@ export const STRIKETHROUGH = '§m';
 export const UNDERLINE = '§n';
 export const ITALIC = '§o';
 export const RESET = '§r';
+
+export function formatNumber(num) {
+    if (isNaN(num) || num === 0) return "0";
+    
+    const sign = Math.sign(num);
+    const absNum = Math.abs(num);
+
+    if (absNum < 1) return (sign === -1 ? '-' : '') + absNum.toFixed(2);
+
+    const abbrev = ["", "k", "m", "b", "t", "q", "Q"];
+    const index = Math.floor(Math.log10(absNum) / 3);
+  
+    const formattedNumber = ((sign === -1 ? -1 : 1) * absNum / Math.pow(10, index * 3)).toFixed(2) + abbrev[index];
+
+    if (Number.isInteger(absNum) && absNum < 1_000) return String(parseInt(formattedNumber));
+    return formattedNumber;
+}
