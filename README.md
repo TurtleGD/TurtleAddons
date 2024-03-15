@@ -16,6 +16,11 @@ ChatTriggers Module for Hypixel SkyBlock.
     - Party DPS
     - Energized Chunk Alert
     - Rend Arrow Notification
+    - True Kuudra HP Display
+    - Hide VolcAddons HP Display (True Lair)
+- **Kuudra**
+    - Second Pre Waypoints
+    - Average Pre Times
 ### <u>Slayer Features</u>
 - **Slayers**
     - True Slayer Kill Time
@@ -25,6 +30,8 @@ ChatTriggers Module for Hypixel SkyBlock.
 - **Inferno Demonlord**
     - Smoldering Polarization Warning
     - Disable Hellion Shield Messages
+    - Disable Demon Damage Messages
+    - Blaze Pillar Alert
 ### <u>Dungeon Features</u>
 -  **Dungeons**
     - Early P2 Entry Message
