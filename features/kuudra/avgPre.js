@@ -1,6 +1,6 @@
 import settings from "../../settings";
 import { WHITE, GRAY, AQUA } from "../../exports";
-import { persistentData} from "../../exports";
+import { persistentData } from "../../exports";
 
 let instanceStartTime = undefined;
 let suppliesPlaced = 0;
