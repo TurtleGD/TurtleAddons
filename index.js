@@ -10,6 +10,7 @@ import "./features/dungeons/roomMessage.js";
 import "./features/dungeons/terminals.js";
 import "./features/general/kickedTimer.js";
 import "./features/general/levelUp.js";
+import "./features/kuudra/avgPre.js";
 import "./features/kuudra/chunkAlert.js";
 import "./features/kuudra/partyDps.js";
 import "./features/kuudra/rendAlert.js";
