@@ -1,6 +1,6 @@
 import settings from "../../settings";
 import { RED, BOLD} from "../../exports";
-import { getArea, inTrueLair, EntityArmorStand, isDead} from "../../exports";
+import { getArea, inTrueLair, EntityArmorStand, isDead } from "../../exports";
 
 let inInfernal = false;
 let dead = false
