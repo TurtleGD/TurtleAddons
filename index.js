@@ -36,9 +36,9 @@ register('command', (arg) => {
             ChatLib.chat(`${AQUA + BOLD}/getnbt ${RESET + WHITE}- Send NBT data of held item into chat. Open '/ct console' to get color codes.`);
             ChatLib.chat(`${AQUA + BOLD}/gummy ${RESET + WHITE}- See remaining duration of smoldering polarization.`);
             ChatLib.chat(`${AQUA + BOLD}/avgpre ${RESET + WHITE}- View average placement times of first and second pres.`);
-            ChatLib.chat(`${AQUA + BOLD}/f[1-7] ${RESET + WHITE}- Enter catacomb floors 1-7.`);
-            ChatLib.chat(`${AQUA + BOLD}/m[1-7] ${RESET + WHITE}- Enter master catacomb floors 1-7.`);
-            ChatLib.chat(`${AQUA + BOLD}/t[1-5] ${RESET + WHITE}- Enter kuudra tiers 1-5.`);
+            ChatLib.chat(`${AQUA + BOLD}/f[1-7] ${RESET + WHITE}- Enter Catacomb floors 1-7.`);
+            ChatLib.chat(`${AQUA + BOLD}/m[1-7] ${RESET + WHITE}- Enter Master Catacomb floors 1-7.`);
+            ChatLib.chat(`${AQUA + BOLD}/t[1-5] ${RESET + WHITE}- Enter Kuudra tiers 1-5.`);
             ChatLib.chat('');
             break;
         case 'changelog':
