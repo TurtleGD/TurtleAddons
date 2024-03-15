@@ -154,14 +154,6 @@ class settings {
         subcategory: 'Infernal Kuudra'
     })
     partyDpsNoSend = false;
-
-    @SwitchProperty({
-        name: 'Hide VolcAddons HP In True Lair',
-        description: `Gets rid of the 100k hp thing in VolcAddons during p4.\n${DARK_GRAY}Requires VolcAddons (duh)`,
-        category: 'Kuudra',
-        subcategory: 'Infernal Kuudra'
-    })
-    hideVolcHP = false;
     
     @SwitchProperty({
         name: 'True HP Display',
