@@ -1,7 +1,6 @@
 import settings from "../../settings";
 import { RED, GREEN, DARK_RED} from "../../exports";
 import { getArea, inTrueLair, isDead, EntityMagmaCube, formatNumber } from "../../exports";
-import VolcAddons from "../../../VolcAddons/utils/settings";
 
 let HPDisplay = [];
 let inInfernal = false;
@@ -31,11 +30,6 @@ register('tick', () => {
                 else HPDisplay = [`${GREEN + formatNumber(kuudraHP * 12000) + RED}❤`, cube.getX(), cube.getY(), cube.getZ()];
             };
         });
-    };
-
-    if (settings.hideVolcHP && VolcAddons) {
-        if (inTrueLair() && inInfernal) VolcAddons.kuudraHP = false
-        else VolcAddons.kuudraHP = true
     };
 });
 
