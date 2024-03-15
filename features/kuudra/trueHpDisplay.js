@@ -1,6 +1,6 @@
 import settings from "../../settings";
 import { RED, GREEN, DARK_RED} from "../../exports";
-import { getArea, inTrueLair, isDead, EntityMagmaCube, formatNumber} from "../../exports";
+import { getArea, inTrueLair, isDead, EntityMagmaCube, formatNumber } from "../../exports";
 import VolcAddons from "../../../VolcAddons/utils/settings";
 
 let HPDisplay = [];
