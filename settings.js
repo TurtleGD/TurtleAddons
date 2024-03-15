@@ -8,8 +8,9 @@ import {
     @TextProperty
 } from '../Vigilance/index';
 import { BOLD, AQUA, RESET, DARK_GRAY } from "./exports";
+import { level } from "./exports";
 
-@Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons`, {
+@Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
     getCategoryComparator: () => (a, b) => {
         const categories = ['General', 'Kuudra', 'Slayers', 'Dungeons', 'Party Commands', 'Discord Webhook'];
 
@@ -20,9 +21,14 @@ class settings {
     constructor() {
         this.initialize(this);
 
+        this.addDependency("Level Up Volume", "Level Up Sound Effect");
+        this.addDependency("Level Up Volume Test", "Level Up Sound Effect");
+        this.addDependency("Outlier Threshold", "Record First Two Pre Times")
         this.addDependency("Highlight Stun Block", "Nether Brick Stun Helper");
         this.addDependency("Highlight Etherwarp Block", "Nether Brick Stun Helper");
         this.addDependency("Don't Send To Party", "Party True DPS Message");
+        this.addDependency("Only Show If Dead", "True HP Display");
+        this.addDependency("Label Second Pre Waypoints", "Second Pre Waypoints");
         this.addDependency("Webhook Link", "Discord Webhook");
         this.addDependency("Message to Match", "Discord Webhook");
         this.addDependency("Message to Send", "Discord Webhook");
@@ -36,8 +42,8 @@ class settings {
         this.addDependency("Room Entry Message", "Send Message on Specific Room Entry");
         this.addDependency("Time Before Warning", "Smoldering Polarization Warning");
         
-        this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE ${RESET}enabling boss dialogue`);
 
+        this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE ${RESET}enabling boss dialogue`);
         this.setCategoryDescription("Party Commands", `Prefix: "${BOLD};${RESET}"`);
     }
 
@@ -57,9 +63,32 @@ class settings {
         name: 'Level Up Sound Effect',
         description: `Disfigure - Blank.`,
         category: 'General',
-        subcategory: 'Miscellaneous'
+        subcategory: 'Sound Effects'
     })
     levelSound = false;
+
+    @SliderProperty({
+        name: 'Level Up Volume',
+        description: 'Volume of the sound.',
+        category: 'General',
+        subcategory: 'Sound Effects',
+        min: 1,
+        max: 100
+    })
+    levelVolume = 100;
+
+    @ButtonProperty({
+        name: "Level Up Volume Test",
+        description: `Plays the sound.`,
+        category: "General",
+        subcategory: "Sound Effects",
+        placeholder: "Play Sound"
+    })
+    playLevelUp() {
+        level.stop();
+        level.setVolume(this.levelVolume / 100)
+        level.play();
+    }
 
     @SwitchProperty({
         name: 'Kicked To Lobby Timer',
@@ -127,6 +156,30 @@ class settings {
     partyDpsNoSend = false;
 
     @SwitchProperty({
+        name: 'Hide VolcAddons HP In True Lair',
+        description: `Gets rid of the 100k hp thing in VolcAddons during p4.\n${DARK_GRAY}Requires VolcAddons (duh)`,
+        category: 'Kuudra',
+        subcategory: 'Infernal Kuudra'
+    })
+    hideVolcHP = false;
+    
+    @SwitchProperty({
+        name: 'True HP Display',
+        description: `Shows true kuudra hp on the bottom of the cube.`,
+        category: 'Kuudra',
+        subcategory: 'Infernal Kuudra'
+    })
+    trueHPDisplay = false;
+
+    @SwitchProperty({
+        name: 'Only Show If Dead',
+        description: `Hides the display when you are alive (you already have one).`,
+        category: 'Kuudra',
+        subcategory: 'Infernal Kuudra'
+    })
+    deadHPDisplay = false;
+
+    @SwitchProperty({
         name: 'Energized Chunk Alert',
         description: `Alerts and pings you if a chunk is near you.\n(No idea the actual explosion range is cba testing)`,
         category: 'Kuudra',
@@ -152,6 +205,40 @@ class settings {
     })
     rendArrows = false;
 
+    @SwitchProperty({
+        name: 'Second Pre Waypoints',
+        description: `Pearl waypoints for 2nd pre.`,
+        category: 'Kuudra',
+        subcategory: 'Kuudra'
+    })
+    secondWaypoints = false;
+
+    @SwitchProperty({
+        name: 'Label Second Pre Waypoints',
+        description: `Labels the waypoints.`,
+        category: 'Kuudra',
+        subcategory: 'Kuudra'
+    })
+    labelSecondWaypoints = false;
+
+    @SwitchProperty({
+        name: 'Record First Two Pre Times',
+        description: `Records supply placements.\nView first and second averages with /avgpre [pre].\nLeave pre as blank to view overall averages.\nClear data with /clearpres.`,
+        category: 'Kuudra',
+        subcategory: 'Kuudra'
+    })
+    recordPreTimes = false;
+
+    @SliderProperty({
+        name: 'Outlier Threshold',
+        description: 'Will not record times past this.',
+        category: 'Kuudra',
+        subcategory: 'Kuudra',
+        min: 1,
+        max: 120
+    })
+    outlierThreshold = 60;
+
     // Slayers
     @SwitchProperty({
         name: 'Send Rare Drops',
@@ -170,8 +257,8 @@ class settings {
     slayerDropTitle = false;
 
     @SwitchProperty({
-        name: 'True Boss Kill Time',
-        description: 'Gets boss kill time to three decimals and does not include spawn/death animation. (Might be a little inaccurate)',
+        name: 'True Slayer Kill Time',
+        description: 'Gets slayer kill time to three decimals and does not include spawn/death animation. (Might be a little inaccurate)',
         category: 'Slayers',
         subcategory: 'Slayers',
     })
@@ -202,6 +289,23 @@ class settings {
         subcategory: 'Inferno Demonlord',
     })
     hideAttunements = false;
+
+    @SwitchProperty({
+        name: 'Disable Demon Damage Messages',
+        description: 'Hides the damage messages when you get hit',
+        category: 'Slayers',
+        subcategory: 'Inferno Demonlord',
+    })
+    hideDemonMessages = false;
+
+    @SwitchProperty({
+        name: 'Fire Pillar Alert',
+        description: 'Same as other mods (soopy laggy??)',
+        category: 'Slayers',
+        subcategory: 'Inferno Demonlord',
+    })
+    blazePillar = false;
+    
 
     // Dungeons
     @SwitchProperty({
