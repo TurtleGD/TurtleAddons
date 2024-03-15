@@ -1,5 +1,5 @@
 import settings from "../../settings";
-import { getArea, createWaypoint} from "../../exports";
+import { getArea, createWaypoint } from "../../exports";
 
 let inInfernal = false;
 let inKuudra = false;
