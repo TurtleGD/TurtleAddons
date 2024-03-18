@@ -36,8 +36,6 @@ register("chat", (message) => {
             if (suppliesPlaced == 1 && pre == 'equals' && supplyTime < settings.outlierThreshold) persistentData.equals2.push(supplyTime);
             if (suppliesPlaced == 1 && pre == 'slash' && supplyTime < settings.outlierThreshold) persistentData.slash2.push(supplyTime);
             if (suppliesPlaced == 1 && pre == 'x' && supplyTime < settings.outlierThreshold) persistentData.x2.push(supplyTime);
-            if (suppliesPlaced == 0 && supplyTime < settings.outlierThreshold) ChatLib.chat(`registered first pre placement at ${supplyTime}s at ${pre}`)
-            if (suppliesPlaced == 1 && supplyTime < settings.outlierThreshold) ChatLib.chat(`registered second pre placement at ${supplyTime}s at ${pre}`)
             persistentData.save();
             
             suppliesPlaced += 1;
