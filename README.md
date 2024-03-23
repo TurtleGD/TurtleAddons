@@ -7,6 +7,8 @@ ChatTriggers Module for Hypixel SkyBlock.
 - **General**
     - Level Up Sound Effect
     - Kicked To Lobby Timer
+- **Pets**
+    - Pet XP Display
 ### <u>Kuudra Features</u>
 - **Stunnning**
     - Nether Brick Stun Helper
@@ -21,6 +23,7 @@ ChatTriggers Module for Hypixel SkyBlock.
 - **Kuudra**
     - Second Pre Waypoints
     - Average Pre Times
+    - Stun Timer
 ### <u>Slayer Features</u>
 - **Slayers**
     - True Slayer Kill Time
@@ -32,10 +35,12 @@ ChatTriggers Module for Hypixel SkyBlock.
     - Disable Hellion Shield Messages
     - Disable Demon Damage Messages
     - Blaze Pillar Alert
+    - Hide Fireballs During Boss
 ### <u>Dungeon Features</u>
 -  **Dungeons**
     - Early P2 Entry Message
     - Send Message on Specific Room Entry (Uses room data from BetterMap)
+    - Ultimate Alert
 -  **Invincibility Timers**
     - Bonzo Mask Invincibility Timer
     - Spirit Mask Invincibility Timer
@@ -47,6 +52,9 @@ ChatTriggers Module for Hypixel SkyBlock.
     - P5 Ragnarock Axe Timer
     - Relic Placement Waypoint
     - Dragon Skip Notification
+### <u>Fishing</u>
+-  **Fishing**
+    - Underground Fishing Speed Check [WIP]
 ### <u>Party Commands</u>
 - **Party Commands**
     - Join Instance Commands
