@@ -7,12 +7,12 @@ import {
     @SliderProperty,
     @TextProperty
 } from '../Vigilance/index';
-import { BOLD, AQUA, RESET, DARK_GRAY } from "./exports";
-import { level } from "./exports";
+import { BOLD, AQUA, RESET, DARK_GRAY } from "./utils/formatting";
+import { level } from "./utils/sounds";
 
 @Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
     getCategoryComparator: () => (a, b) => {
-        const categories = ['General', 'Kuudra', 'Slayers', 'Dungeons', 'Party Commands', 'Discord Webhook'];
+        const categories = ['General', 'Kuudra', 'Slayers', 'Dungeons', 'Fishing', 'Party Commands', 'Discord Webhook'];
 
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
@@ -26,6 +26,7 @@ class settings {
         this.addDependency("Outlier Threshold", "Record First Two Pre Times")
         this.addDependency("Highlight Stun Block", "Nether Brick Stun Helper");
         this.addDependency("Highlight Etherwarp Block", "Nether Brick Stun Helper");
+        this.addDependency("Entry Timer", "Stun Timer");
         this.addDependency("Don't Send To Party", "Party True DPS Message");
         this.addDependency("Only Show If Dead", "True HP Display");
         this.addDependency("Label Second Pre Waypoints", "Second Pre Waypoints");
@@ -37,6 +38,9 @@ class settings {
         this.addDependency("Profile Picture", "Discord Webhook");
         this.addDependency("Only Non-Player Messages", "Discord Webhook");
         this.addDependency("Alert Radius", "Energized Chunk Alert");
+        this.addDependency("Bonzo Mask Invinicibility Timer", "Mask/Phoenix Invinicibility Timers");
+        this.addDependency("Spirit Mask Invinicibility Timer", "Mask/Phoenix Invinicibility Timers");
+        this.addDependency("Phoenix Invinicibility Timer", "Mask/Phoenix Invinicibility Timers");
         this.addDependency("Phoenix Level", "Phoenix Invinicibility Timer");
         this.addDependency("Room Name", "Send Message on Specific Room Entry");
         this.addDependency("Room Entry Message", "Send Message on Specific Room Entry");
@@ -92,11 +96,20 @@ class settings {
 
     @SwitchProperty({
         name: 'Kicked To Lobby Timer',
-        description: `Timer under crosshair when you get kicked to lobby.`,
+        description: `Timer next to crosshair when you get kicked to lobby.`,
         category: 'General',
         subcategory: 'Miscellaneous'
     })
     kickedTimer = false;
+
+    @SwitchProperty({
+        name: 'Pet XP Display',
+        description: `Shows XP from tab list, requires xp to be visible.\nUse /movepetxp ["x", "y"] [num] to change pos.`,
+        category: 'General',
+        subcategory: 'Pets'
+    })
+    petXP = false;
+
 
     // Kuudra
     @SwitchProperty({
@@ -138,6 +151,22 @@ class settings {
         subcategory: 'Stunning'
     })
     instaStunEtherwarpBlock = false;
+
+    @SwitchProperty({
+        name: 'Stun Timer',
+        description: `Tells you how long it took for a pod to break.`,
+        category: 'Kuudra',
+        subcategory: 'Stunning'
+    })
+    stunTimer = false;
+
+    @SwitchProperty({
+        name: 'Entry Timer',
+        description: `Tells you how long it took to enter kuudra.\nNot sure how accurate this is.`,
+        category: 'Kuudra',
+        subcategory: 'Stunning'
+    })
+    entryTimer = false;
 
     @SwitchProperty({
         name: 'Party True DPS Message',
@@ -284,7 +313,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Disable Demon Damage Messages',
-        description: 'Hides the damage messages when you get hit',
+        description: 'Hides the damage messages when you get hit.',
         category: 'Slayers',
         subcategory: 'Inferno Demonlord',
     })
@@ -297,6 +326,14 @@ class settings {
         subcategory: 'Inferno Demonlord',
     })
     blazePillar = false;
+
+    @SwitchProperty({
+        name: 'Hide Fireballs',
+        description: 'Hides fireballs from all blazes during a boss.',
+        category: 'Slayers',
+        subcategory: 'Inferno Demonlord',
+    })
+    hideFireballs = false;
     
 
     // Dungeons
@@ -375,26 +412,34 @@ class settings {
     roomEntryMessage = '';
 
     @SwitchProperty({
-        name: 'Bonzo Mask Invinicibility Timer',
-        description: 'Timer under crosshair for invincibility.',
+        name: 'Mask/Phoenix Invinicibility Timers',
+        description: 'Timer next to crosshair for invincibility.\nUse /movemask ["x", "y"] [num] to change pos',
         category: 'Dungeons',
-        subcategory: 'Invincibility Timers',
+        subcategory: 'Dungeons',
+    })
+    invincibilityTimers = false;
+
+    @CheckboxProperty({
+        name: 'Bonzo Mask Invinicibility Timer',
+        description: 'Timer next to crosshair for invincibility.',
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
     })
     bonzoInvinicibility = false;
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: 'Spirit Mask Invinicibility Timer',
-        description: 'Timer under crosshair for invincibility.',
+        description: 'Timer next to crosshair for invincibility.',
         category: 'Dungeons',
-        subcategory: 'Invincibility Timers',
+        subcategory: 'Dungeons',
     })
     spiritInvinicibility = false;
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: 'Phoenix Invinicibility Timer',
-        description: 'Timer under crosshair for invincibility.',
+        description: 'Timer next to crosshair for invincibility.',
         category: 'Dungeons',
-        subcategory: 'Invincibility Timers',
+        subcategory: 'Dungeons',
     })
     phoenixInvinicibility = false;
 
@@ -402,11 +447,19 @@ class settings {
         name: 'Phoenix Level',
         description: 'Select phoenix level.',
         category: 'Dungeons',
-        subcategory: 'Invincibility Timers',
+        subcategory: 'Dungeons',
         min: 1,
         max: 100
     })
     phoenixLevel = 1;
+
+    @SwitchProperty({
+        name: 'Class Ultimate Use Alert',
+        description: 'Makes a title when you use your ult.',
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
+    })
+    ultAlert = false;
 
     // Discord
     @SwitchProperty({
@@ -473,6 +526,17 @@ class settings {
         subcategory: 'Discord Webhook',
     })
     webhookNonPlayer = false;
+
+
+    // Fishing
+    @TextProperty({
+        name: 'Underground Block Overlay [WIP]',
+        description: 'Draws an overlay over lava/water that nerfs fishing speed.\nUse /checkunderground [distance] to check blocks in a square around you, more = laggier.\nUse /clearunderground to clear the overlay\n(Constantly checking laggy rn)',
+        category: 'Fishing',
+        subcategory: 'Fishing',
+    })
+    ammonite = '(This box does nothing)';
+
 
     // Party Commands
     @SwitchProperty({
