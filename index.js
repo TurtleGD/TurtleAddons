@@ -92,5 +92,10 @@ register('command', () => {
 
 // Testing don't run dumb shit
 register('command', (arg) => {
-    eval(arg)
+    try {
+        eval(arg)
+    } catch (error) {
+        ChatLib.chat(error)
+        console.log(error)
+    }
 }).setName('runcode')
