@@ -1,0 +1,2 @@
+export const level = new Sound({source: '../modules/TurtleAddons/assets/level.ogg', priority: true});
+export const pling = new Sound({source: '../modules/TurtleAddons/assets/pling.ogg', priority: true});
