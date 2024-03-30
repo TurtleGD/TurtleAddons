@@ -21,7 +21,7 @@ register("chat", (message) => {
                 if (Player.getX() < -60 && Player.getX() > -75 && Player.getY() < 82 && Player.getY() > 75 && Player.getZ() < -80 && Player.getZ() > -95) pre = 'equals'
                 if (Player.getX() < -105 && Player.getX() > -120 && Player.getY() < 82 && Player.getY() > 75 && Player.getZ() < -65 && Player.getZ() > -75) pre = 'slash'
                 if (Player.getX() < -125 && Player.getX() > -155 && Player.getY() < 82 && Player.getY() > 70 && Player.getZ() < -130 && Player.getZ() > -170) pre = 'x'
-            }, 12000);
+            }, 14000);
         };
     
         if (message.includes(Player.getName()) && message.includes("recovered one of Elle's supplies!") && !message.includes(':')) {
@@ -49,28 +49,30 @@ register('command', (arg) => {
         switch (arg) {
             case 'triangle':
             case 'tri':
-                ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Average times on triangle: ${(pogData.triangle1.reduce((a, b) => a + b, 0) / pogData.triangle1.length).toFixed(3)}s | ${(pogData.triangle2.reduce((a, b) => a + b, 0) / pogData.triangle2.length).toFixed(3)}s`);
+                ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Average times on triangle: ${(pogData.triangle1.reduce((a, b) => a + b, 0) / pogData.triangle1.length).toFixed(3)}s | ${(pogData.triangle2.reduce((a, b) => a + b, 0) / pogData.triangle2.length).toFixed(3)}s in ${pogData.triangle1.length} | ${pogData.triangle2.length} placements.`);
                 break;
             case 'equals':
             case 'equal':
             case '=':
-                ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Average times on equals: ${(pogData.equals1.reduce((a, b) => a + b, 0) / pogData.equals1.length).toFixed(3)}s | ${(pogData.equals2.reduce((a, b) => a + b, 0) / pogData.equals2.length).toFixed(3)}s`);
+                ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Average times on equals: ${(pogData.equals1.reduce((a, b) => a + b, 0) / pogData.equals1.length).toFixed(3)}s | ${(pogData.equals2.reduce((a, b) => a + b, 0) / pogData.equals2.length).toFixed(3)}s in ${pogData.equals1.length} | ${pogData.equals2.length} placements.`);
                 break;
             case 'slash':
             case '/':
             case 'line':
-                ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Average times on slash: ${(pogData.slash1.reduce((a, b) => a + b, 0) / pogData.slash1.length).toFixed(3)}s | ${(pogData.slash2.reduce((a, b) => a + b, 0) / pogData.slash2.length).toFixed(3)}s`);
+                ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Average times on slash: ${(pogData.slash1.reduce((a, b) => a + b, 0) / pogData.slash1.length).toFixed(3)}s | ${(pogData.slash2.reduce((a, b) => a + b, 0) / pogData.slash2.length).toFixed(3)}s in ${pogData.slash1.length} | ${pogData.slash2.length} placements.`);
                 break;
             case 'x':
             case 'X':
-                ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Average times on x: ${(pogData.x1.reduce((a, b) => a + b, 0) / pogData.x1.length).toFixed(3)}s | ${(pogData.x2.reduce((a, b) => a + b, 0) / pogData.x2.length).toFixed(3)}s`);
+                ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Average times on x: ${(pogData.x1.reduce((a, b) => a + b, 0) / pogData.x1.length).toFixed(3)}s | ${(pogData.x2.reduce((a, b) => a + b, 0) / pogData.x2.length).toFixed(3)}s in ${pogData.x1.length} | ${pogData.x2.length} placements.`);
                 break;
             default:
                 ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}"${arg}" is not a valid pre.`);
                 break;
         };
     } else {
-        ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Average times overall: ${((pogData.triangle1.reduce((a, b) => a + b, 0) + pogData.equals1.reduce((a, b) => a + b, 0) + pogData.slash1.reduce((a, b) => a + b, 0) + pogData.x1.reduce((a, b) => a + b, 0)) / (pogData.triangle1.length + pogData.equals1.length + pogData.slash1.length + pogData.x1.length)).toFixed(3)}s | ${((pogData.triangle2.reduce((a, b) => a + b, 0) + pogData.equals2.reduce((a, b) => a + b, 0) + pogData.slash2.reduce((a, b) => a + b, 0) + pogData.x2.reduce((a, b) => a + b, 0)) / (pogData.triangle2.length + pogData.equals2.length + pogData.slash2.length + pogData.x2.length)).toFixed(3)}s`);
+        const totalFirst = pogData.triangle1.length + pogData.equals1.length + pogData.slash1.length + pogData.x1.length;
+        const totalSecond = pogData.triangle2.length + pogData.equals2.length + pogData.slash2.length + pogData.x2.length;
+        ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Average times overall: ${((pogData.triangle1.reduce((a, b) => a + b, 0) + pogData.equals1.reduce((a, b) => a + b, 0) + pogData.slash1.reduce((a, b) => a + b, 0) + pogData.x1.reduce((a, b) => a + b, 0)) / totalFirst).toFixed(3)}s | ${((pogData.triangle2.reduce((a, b) => a + b, 0) + pogData.equals2.reduce((a, b) => a + b, 0) + pogData.slash2.reduce((a, b) => a + b, 0) + pogData.x2.reduce((a, b) => a + b, 0)) / totalSecond).toFixed(3)}s in ${totalFirst} | ${totalSecond} placements.`);
     };
 }).setName('avgpre');
 
