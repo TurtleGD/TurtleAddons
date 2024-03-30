@@ -25,13 +25,14 @@ const instanceCommands = {
 
     ';torres': 'joininstance master_catacombs_floor_seven',
     ';prime': 'joininstance kuudra_burning',
+    ';knacr': 'joininstance kuudra_burning',
     ';lovekuudra' : 'joininstance kuudra_infernal',
     ';jack' : 'joininstance kuudra_infernal'
 };
 
 register('chat', (message) => {
     if (settings.instanceCommands) {
-        const regex = /Party\s*>\s*\[[^\]]+\]\s*(?:[^:]+:\s*)?(.+)/;
+        const regex = /Party > [^:]+: (.+)/;
         const match = message.match(regex);
 
         if (match) {
