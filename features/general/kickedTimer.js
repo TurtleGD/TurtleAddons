@@ -5,31 +5,29 @@ import { pogData } from "../../utils/pogData";
 
 let kickTime;
 let kicked = false;
-let kickedAndLobbied = false;
 let showThing = false;
 
 register('worldLoad', () => {
-  if (kicked) {
-    kickTime = new Date().getTime();
-    kickedAndLobbied = true;
-    kicked = false;
-  };
+  if (kicked) kickTime = new Date().getTime();
 });
 
 register('chat', (message) => {
 if (settings.kickedTimer) {
-  if (message == 'You were kicked while joining that server!' && !kicked) kicked = true;
+  if (message == 'You were kicked while joining that server!' && Scoreboard.getTitle().includes('SKYBLOCK')) kicked = true;
 };
 }).setCriteria("${message}");
 
 register("renderOverlay", () => {
-  if (kickedAndLobbied) {
+  if (kicked) {
     let timeLeft = new Date().getTime();
     timeLeft = 60 - (timeLeft - kickTime) / 1000;
-    if (timeLeft >= 0) Renderer.drawString(`${AQUA + BOLD}Cooldown over in: ${RESET + timeLeft.toFixed(1)}s`, pogData.lobbyX, pogData.lobbyY, true);
+    if (timeLeft >= 0) {
+      Renderer.scale(pogData.lobbyScale);
+      Renderer.drawString(`${AQUA + BOLD}Cooldown over in: ${RESET + timeLeft.toFixed(1)}s`, pogData.lobbyX / pogData.lobbyScale, pogData.lobbyY / pogData.lobbyScale, true);
+    }
     if (timeLeft < 0) {
       kickTime = undefined;
-      kickedAndLobbied = false;
+      kicked = false;
       pling.play();
     };
   };
@@ -38,14 +36,18 @@ register("renderOverlay", () => {
 register('command', (...args) => {
   if (args) {
     if (args[0].toLowerCase() == 'x') {
-      if (!isNaN(parseInt(args[1]))) pogData.ragX = parseInt(args[1]);
+      if (!isNaN(parseInt(args[1]))) pogData.lobbyX = parseInt(args[1]);
       else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
     }
     else if (args[0].toLowerCase() == 'y') {
-      if (!isNaN(parseInt(args[1]))) pogData.ragY = parseInt(args[1]);
+      if (!isNaN(parseInt(args[1]))) pogData.lobbyY = parseInt(args[1]);
       else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
     }
-    else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use "x" or "y".`);
+    else if (args[0].toLowerCase() == 'scale') {
+      if (!isNaN(parseInt(args[1]))) pogData.lobbyScale = parseInt(args[1]);
+      else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
+    }
+    else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use "x", "y", or "scale".`);
   }
   pogData.save();
 
@@ -54,5 +56,8 @@ register('command', (...args) => {
 }).setName('movelobby')
 
 register('renderOverlay', () => {
-  if (showThing) Renderer.drawString(`${AQUA + BOLD}Cooldown over in: ${RESET}60.0s`, pogData.lobbyX, pogData.lobbyY, true);
+  if (showThing) {
+    Renderer.scale(pogData.lobbyScale);
+    Renderer.drawString(`${AQUA + BOLD}Cooldown over in: ${RESET}60.0s`, pogData.lobbyX / pogData.lobbyScale, pogData.lobbyY / pogData.lobbyScale, true);
+  }
 })
