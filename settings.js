@@ -12,7 +12,7 @@ import { level } from "./utils/sounds";
 
 @Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
     getCategoryComparator: () => (a, b) => {
-        const categories = ['General', 'Kuudra', 'Slayers', 'Dungeons', 'Fishing', 'Party Commands', 'Discord Webhook'];
+        const categories = ['General', 'Combat', 'Kuudra', 'Slayers', 'Dungeons', 'Fishing', 'Party Commands', 'Discord Webhook'];
 
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
@@ -37,7 +37,6 @@ class settings {
         this.addDependency("Name", "Discord Webhook");
         this.addDependency("Profile Picture", "Discord Webhook");
         this.addDependency("Only Non-Player Messages", "Discord Webhook");
-        this.addDependency("Alert Radius", "Energized Chunk Alert");
         this.addDependency("Bonzo Mask Invinicibility Timer", "Mask/Phoenix Invinicibility Timers");
         this.addDependency("Spirit Mask Invinicibility Timer", "Mask/Phoenix Invinicibility Timers");
         this.addDependency("Phoenix Invinicibility Timer", "Mask/Phoenix Invinicibility Timers");
@@ -96,7 +95,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Kicked To Lobby Timer',
-        description: `Timer next to crosshair when you get kicked to lobby.`,
+        description: `Timer next to crosshair when you get kicked to lobby.\nUse /movelobby [x/y/scale] [num] to change pos.`,
         category: 'General',
         subcategory: 'Miscellaneous'
     })
@@ -104,11 +103,45 @@ class settings {
 
     @SwitchProperty({
         name: 'Pet XP Display',
-        description: `Shows XP from tab list, requires xp to be visible.\nUse /movepetxp ["x", "y"] [num] to change pos.`,
+        description: `Shows XP from tab list, requires xp to be visible.\nUse /movepetxp [x/y/scale] [num] to change pos.`,
         category: 'General',
-        subcategory: 'Pets'
+        subcategory: 'Miscellaneous'
     })
     petXP = false;
+
+    @TextProperty({
+        name: 'Pet XP Display (Fishing)',
+        description: `Input name of pet to level.\nSaves pet xp when you swap to your fishing pet.`,
+        category: 'General',
+        subcategory: 'Miscellaneous'
+    })
+    petXPFishing = ''
+
+    @SwitchProperty({
+        name: 'Party Finder Blacklist',
+        description: `Automatically kick blacklist players from party finder.\nUse /blacklist [view/add/remove/clear].`,
+        category: 'General',
+        subcategory: 'Miscellaneous'
+    })
+    blacklist = false;
+
+
+    // Combat
+    @TextProperty({
+        name: 'Hide Non Critical Hits',
+        description: `Stops non crits from rendering under a certain damage value.\nOnly use numbers.`,
+        category: 'Combat',
+        subcategory: 'Combat'
+    })
+    hideNonCrits = '0'
+
+    @SwitchProperty({
+        name: 'Souls Rebound Timer',
+        description: `Shows a timer for when souls rebound expires.\nUse /movesrb [x/y/scale] [num] to change pos.`,
+        category: 'Combat',
+        subcategory: 'Combat',
+    })
+    srbTimer = false;
 
 
     // Kuudra
@@ -153,6 +186,14 @@ class settings {
     instaStunEtherwarpBlock = false;
 
     @SwitchProperty({
+        name: 'Stun DPS',
+        description: `Tells you the dps for stun.`,
+        category: 'Kuudra',
+        subcategory: 'Stunning'
+    })
+    stunDps = false;
+
+    @SwitchProperty({
         name: 'Stun Timer',
         description: `Tells you how long it took for a pod to break.`,
         category: 'Kuudra',
@@ -162,7 +203,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Entry Timer',
-        description: `Tells you how long it took to enter kuudra.\nNot sure how accurate this is.`,
+        description: `Tells you how long it took to enter kuudra. (Only works for stunner)\nNot sure how accurate this is.`,
         category: 'Kuudra',
         subcategory: 'Stunning'
     })
@@ -202,29 +243,11 @@ class settings {
 
     @SwitchProperty({
         name: 'Energized Chunk Alert',
-        description: `Alerts and pings you if a chunk is near you.\n(No idea the actual explosion range is cba testing)`,
+        description: `Alerts and pings you if a chunk is near you.\n(Should probably have the correct range)`,
         category: 'Kuudra',
         subcategory: 'Infernal Kuudra'
     })
     chunkAlert = false;
-
-    @SliderProperty({
-        name: 'Alert Radius',
-        description: 'Select the distance to chunk to alert.',
-        category: 'Kuudra',
-        subcategory: 'Infernal Kuudra',
-        min: 5,
-        max: 10
-    })
-    chunkRadius = 7;
-
-    @SwitchProperty({
-        name: 'Rend Arrow Alert',
-        description: `Alerts and pings you when you have hit 5 arrows with a rend bow. Requires terror and max stacks.\n(A little buggy)`,
-        category: 'Kuudra',
-        subcategory: 'Infernal Kuudra'
-    })
-    rendArrows = false;
 
     @SwitchProperty({
         name: 'Second Pre Waypoints',
@@ -259,6 +282,7 @@ class settings {
         max: 120
     })
     outlierThreshold = 60;
+    
 
     // Slayers
     @SwitchProperty({
@@ -287,7 +311,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Smoldering Polarization Warning',
-        description: 'Alerts you x minutes before you run out. Will most likely be slightly inaccurate as server lag "increases" the in-game duration.',
+        description: 'Alerts you x minutes before you run out. Will most likely be slightly inaccurate as server lag "increases" the in-game duration.\nAlso enables a display.\nUse /movegummy [x/y/scale] [num] to change pos.',
         category: 'Slayers',
         subcategory: 'Inferno Demonlord',
     })
@@ -339,7 +363,7 @@ class settings {
     // Dungeons
     @SwitchProperty({
         name: 'P5 Ragnarock Axe Timer',
-        description: 'Tells you when to rag axe during the dragons phase.\nActivates rag axe 5s before dragons spawn.',
+        description: 'Tells you when to rag axe during the dragons phase.\nActivates rag axe 5s before dragons spawn.\nUse /moverag [x/y/scale] [num] to change pos',
         category: 'Dungeons',
         subcategory: 'Wither King',
     })
@@ -413,7 +437,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Mask/Phoenix Invinicibility Timers',
-        description: 'Timer next to crosshair for invincibility.\nUse /movemask ["x", "y"] [num] to change pos',
+        description: 'Timer next to crosshair for invincibility.\nUse /movemask [x/y/scale] [num] to change pos',
         category: 'Dungeons',
         subcategory: 'Dungeons',
     })
