@@ -18,7 +18,7 @@ register('worldLoad', () => {
 register('tick', () => {
     if (settings.chunkAlert && inInfernal) {
         World.getAllEntitiesOfType(EntityArmorStand).forEach(stand => {
-            if (!dead && inTrueLair() && stand.getName().removeFormatting().toLowerCase().includes('energized chunk') && Player.asPlayerMP().distanceTo(stand.getX(), stand.getY(), stand.getZ()) < settings.chunkRadius) {
+            if (!dead && inTrueLair() && stand.getName().removeFormatting().toLowerCase().includes('energized chunk') && Player.asPlayerMP().distanceTo(stand.getX(), stand.getY(), stand.getZ()) < 9) {
                 World.playSound('note.pling', 0.1, 2);
                 Client.showTitle(`${RED + BOLD}CHUNK!`, '', 0, 2, 0);
             };
