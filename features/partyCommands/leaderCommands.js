@@ -2,7 +2,7 @@ import settings from "../../settings";
 
 register('chat', (message) => {
     if (settings.leaderCommands) {
-        const messageRegex = /Party\s*>\s*(?:\[.*?\]\s*)?(?:\w+):\s*(.+)/;
+        const messageRegex = /Party > [^:]+: (.+)/;
         const messageMatch = message.match(messageRegex);
 
         const playerRegex = /^Party > (?:\[.*?\]\s*)?(\w+):([^]+)/;
