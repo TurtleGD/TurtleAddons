@@ -14,12 +14,12 @@ register("chat", (message, event) => {
 
     // Hide demon damage
     if (settings.hideDemonMessages) {
-        if ((message.includes("true damage from Quazii's beam") || message.includes("true damage from Typhoeus's fire")) && message.includes(':')) cancel(event)
+        if ((message.includes("true damage from Quazii's beam") || message.includes("true damage from Typhoeus's fire")) && !message.includes(':')) cancel(event)
     };
 
     // Gummy refresh
     if (settings.gummyWarning) {
-        if (message == 'You ate a Re-heated Gummy Polar Bear!') pogData.gummyTimeLeft = 3599
+        if (message == 'You ate a Re-heated Gummy Polar Bear!') pogData.gummyTimeLeft = 3600
         pogData.save();
     };
 }).setCriteria("${message}");
@@ -39,10 +39,51 @@ register('step', () => {
     };
 }).setDelay(1);
 
-register('command', () => {
-    if (pogData.gummyTimeLeft != 0) ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE + Math.floor(pogData.gummyTimeLeft / 60)}m ${pogData.gummyTimeLeft % 60}s of ${GREEN}Smoldering Polarization I ${WHITE}left.`)
-    else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${GREEN}Smoldering Polarization I ${WHITE}is inactive.`)
-}).setName('gummy')
+let showThing = false;
+
+register("renderOverlay", () => {
+    if (!showThing) {
+        if (pogData.gummyTimeLeft > 0) {
+            Renderer.scale(pogData.gummyScale);
+            Renderer.drawString(`${GREEN}Smoldering Polarization I: ${WHITE + Math.floor(pogData.gummyTimeLeft / 60)}m ${pogData.gummyTimeLeft % 60}s`, pogData.gummyX / pogData.gummyScale, pogData.gummyY / pogData.gummyScale, true);
+        }
+        else {
+            Renderer.scale(pogData.gummyScale);
+            Renderer.drawString(`${GREEN}Smoldering Polarization I: ${RED}Expired!`, pogData.gummyX / pogData.gummyScale, pogData.gummyY / pogData.gummyScale, true);
+        }
+    }
+});
+
+register('command', (...args) => {
+    if (args) {
+      if (args[0].toLowerCase() == 'x') {
+        if (!isNaN(parseInt(args[1]))) pogData.gummyX = parseInt(args[1]);
+        else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
+      }
+      else if (args[0].toLowerCase() == 'y') {
+        if (!isNaN(parseInt(args[1]))) pogData.gummyY = parseInt(args[1]);
+        else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
+      }
+      else if (args[0].toLowerCase() == 'scale') {
+        if (!isNaN(parseInt(args[1]))) pogData.gummyScale = parseInt(args[1]);
+        else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
+      }
+      else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use "x", "y", or "scale".`);
+    }
+    pogData.save();
+
+    showThing = true;
+    setTimeout(() => showThing = false, 2000);
+}).setName('movegummy')
+
+register('renderOverlay', () => {
+    if (showThing) {
+        Renderer.scale(pogData.gummyScale);
+        Renderer.drawString(`${GREEN}Smoldering Polarization ${WHITE}60m 0s`, pogData.gummyX / pogData.gummyScale, pogData.gummyY / pogData.gummyScale, true);
+    }
+})
+
+
 
 // Fire pillar stuff
 let plingCounter = 0
@@ -114,5 +155,5 @@ register('soundPlay', () => {
 
 // Hides fireballs
 register("renderEntity", (entity, pos, partialTick, event) => {
-    if (settings.hideFireballs && entity.getName().includes('Fireball') && removeEmojis(Scoreboard.getLines()).includes('Slay the boss!')) cancel(event);
+    if (settings.hideFireballs && entity.getName().includes('Fireball') && removeEmojis(Scoreboard.getLines().join('')).includes('Slay the boss!')) cancel(event);
 })
