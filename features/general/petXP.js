@@ -1,24 +1,37 @@
-import settings from "../../settings"
-import { pogData } from "../../utils/pogData"
-import { AQUA, RESET, GRAY, WHITE, BOLD } from "../../utils/formatting"
+import settings from "../../settings";
+import { pogData } from "../../utils/pogData";
+import { AQUA, RESET, GRAY, WHITE } from "../../utils/formatting";
 
 let petXP = undefined;
 let showThing = false;
+let fishingPetXP = '';
 
 register('step', () => {
-  if (settings.petXP){
+  if (settings.petXPFishing.length > 0){
+    for (let i = 0; i < TabList.getNames().length; i++) {
+      if (TabList.getNames()[i].includes(settings.petXPFishing)) {
+        fishingPetXP = TabList.getNames()[i + 1];
+        break;
+      } 
+    }
+  } else if (settings.petXP){
     for (let i = 0; i < TabList.getNames().length; i++) {
       if ((TabList.getNames()[i]).removeFormatting().includes('XP (') || TabList.getNames()[i].includes('MAX LEVEL')) {
         petXP = i;
         break;
-      }    
-      else petXP = undefined;
+      } 
     }
   }
 }).setDelay(1)
 
 register('renderOverlay', () => {
-  if (petXP && !showThing) Renderer.drawString(`${AQUA + BOLD}Pet XP:${RESET}${(TabList.getNames()[petXP]).removeFormatting()}`, pogData.petXPX, pogData.petXPY, true);
+  if (petXP && !showThing && settings.petXPFishing.length == 0) {
+    Renderer.scale(pogData.petXPScale);
+    Renderer.drawString(`${AQUA}Pet XP:${RESET}${(TabList.getNames()[petXP])?.removeFormatting()}`, pogData.petXPX / pogData.petXPScale, pogData.petXPY / pogData.petXPScale, true);
+  } else if (!showThing && settings.petXPFishing.length > 0) {
+    Renderer.scale(pogData.petXPScale);
+    Renderer.drawString(`${AQUA}Pet XP (${settings.petXPFishing}):${RESET}${fishingPetXP?.removeFormatting()}`, pogData.petXPX / pogData.petXPScale, pogData.petXPY / pogData.petXPScale, true);
+  }
 })
 
 register('command', (...args) => {
@@ -31,7 +44,11 @@ register('command', (...args) => {
       if (!isNaN(parseInt(args[1]))) pogData.petXPY = parseInt(args[1]);
       else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
     }
-    else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use "x" or "y".`);
+    else if (args[0].toLowerCase() == 'scale') {
+      if (!isNaN(parseInt(args[1]))) pogData.petXPScale = parseInt(args[1]);
+      else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
+    }
+    else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use "x", "y", or "scale".`);
   }
   pogData.save();
 
@@ -40,5 +57,8 @@ register('command', (...args) => {
 }).setName('movepetxp')
 
 register('renderOverlay', () => {
-  if (showThing) Renderer.drawString(`${AQUA + BOLD}Pet XP: ${RESET}0/123,456 (0%)`, pogData.petXPX, pogData.petXPY, true);
+  if (showThing) {
+    Renderer.scale(pogData.petXPScale);
+    Renderer.drawString(`${AQUA}Pet XP: ${RESET}0/123,456 (0%)`, pogData.petXPX / pogData.petXPScale, pogData.petXPY / pogData.petXPScale, true);
+  }
 })
