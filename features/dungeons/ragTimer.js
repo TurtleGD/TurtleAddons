@@ -18,7 +18,10 @@ register("renderOverlay", () => {
     if (witherKingMessageTime && !showThing) {
         let timeLeftRag = new Date().getTime();
         timeLeftRag = 5 - (timeLeftRag - witherKingMessageTime) / 1000;
-        if (timeLeftRag >= 0) Renderer.drawString(`${AQUA + BOLD }Use Rag in: ${RESET + timeLeftRag.toFixed(3)}s`, pogData.ragX, pogData.ragY, true);
+        if (timeLeftRag >= 0) {
+          Renderer.scale(pogData.ragScale);
+          Renderer.drawString(`${AQUA + BOLD}Use Rag in: ${RESET + timeLeftRag.toFixed(3)}s`, pogData.ragX / pogData.ragScale, pogData.ragY / pogData.ragScale, true);
+        }
     };
 });
 
@@ -32,7 +35,11 @@ register('command', (...args) => {
         if (!isNaN(parseInt(args[1]))) pogData.ragY = parseInt(args[1]);
         else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
       }
-      else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use "x" or "y".`);
+      else if (args[0].toLowerCase() == 'scale') {
+        if (!isNaN(parseInt(args[1]))) pogData.ragScale = parseInt(args[1]);
+        else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
+      }
+      else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use "x", "y", or "scale".`);
     }
     pogData.save();
 
@@ -41,5 +48,8 @@ register('command', (...args) => {
 }).setName('moverag')
 
 register('renderOverlay', () => {
-    if (showThing) Renderer.drawString(`${AQUA + BOLD }Use Rag in: ${RESET}5.000s`, pogData.ragX, pogData.ragY, true);
+    if (showThing) {
+        Renderer.scale(pogData.ragScale);
+        Renderer.drawString(`${AQUA + BOLD}Use Rag in: ${RESET}5.000s`, pogData.ragX / pogData.ragScale, pogData.ragY / pogData.ragScale, true);
+    }
 })
