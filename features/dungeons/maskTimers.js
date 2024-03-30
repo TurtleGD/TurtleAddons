@@ -50,7 +50,10 @@ register("renderOverlay", () => {
     if (bonzoInvinicibility && !showThing) {
         let timeLeftBonzo = new Date().getTime();
         timeLeftBonzo = 3 - (timeLeftBonzo - bonzoTime) / 1000;
-        if (timeLeftBonzo >= 0) Renderer.drawString(`${AQUA + BOLD}Invincibility: ${RESET + timeLeftBonzo.toFixed(3)}s`, pogData.maskX, pogData.maskY, true);
+        if (timeLeftBonzo >= 0) {
+            Renderer.scale(pogData.maskScale);
+            Renderer.drawString(`${AQUA + BOLD}Invincibility: ${RESET + timeLeftBonzo.toFixed(3)}s`, pogData.maskX / pogData.maskScale, pogData.maskY / pogData.maskScale, true);
+        }
         if (timeLeftBonzo < 0) {
             bonzoInvinicibility = false;
         };
@@ -59,7 +62,10 @@ register("renderOverlay", () => {
     if (spiritInvinicibility && !showThing) {
         let timeLeftSpirit = new Date().getTime();
         timeLeftSpirit = 3 - (timeLeftSpirit - spiritTime) / 1000;
-        if (timeLeftSpirit >= 0) Renderer.drawString(`${AQUA + BOLD}Invincibility: ${RESET + timeLeftSpirit.toFixed(3)}s`, pogData.maskX, pogData.maskY, true);
+        if (timeLeftSpirit >= 0) {
+            Renderer.scale(pogData.maskScale);
+            Renderer.drawString(`${AQUA + BOLD}Invincibility: ${RESET + timeLeftSpirit.toFixed(3)}s`, pogData.maskX / pogData.maskScale, pogData.maskY / pogData.maskScale, true);
+        }
         if (timeLeftSpirit < 0) {
             spiritInvinicibility = false;
         };
@@ -68,7 +74,10 @@ register("renderOverlay", () => {
     if (phoenixInvinicibility && !showThing) {
         let timeLeftPhoenix = new Date().getTime();
         timeLeftPhoenix = (2 + (settings.phoenixLevel * 0.02)) - (timeLeftPhoenix - phoenixTime) / 1000;
-        if (timeLeftPhoenix >= 0) Renderer.drawString(`${AQUA + BOLD}Invincibility: ${RESET + timeLeftPhoenix.toFixed(3)}s`, pogData.maskX, pogData.maskY, true);
+        if (timeLeftPhoenix >= 0) {
+            Renderer.scale(pogData.maskScale);
+            Renderer.drawString(`${AQUA + BOLD}Invincibility: ${RESET + timeLeftPhoenix.toFixed(3)}s`, pogData.maskX / pogData.maskScale, pogData.maskY / pogData.maskScale, true);
+        }
         if (timeLeftPhoenix < 0) {
             phoenixInvinicibility = false;
         };
@@ -85,7 +94,11 @@ register('command', (...args) => {
         if (!isNaN(parseInt(args[1]))) pogData.maskY = parseInt(args[1]);
         else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
       }
-      else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use "x" or "y".`);
+      else if (args[0].toLowerCase() == 'scale') {
+        if (!isNaN(parseInt(args[1]))) pogData.maskScale = parseInt(args[1]);
+        else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
+      }
+      else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use "x", "y", or "scale".`);
     }
     pogData.save();
 
@@ -94,5 +107,8 @@ register('command', (...args) => {
 }).setName('movemask')
 
 register('renderOverlay', () => {
-    if (showThing) Renderer.drawString(`${AQUA + BOLD}Invincibility: ${RESET}5.000s`, pogData.maskX, pogData.maskY, true);
+    if (showThing) {
+        Renderer.scale(pogData.maskScale);
+        Renderer.drawString(`${AQUA + BOLD}Invincibility: ${RESET}5.000s`, pogData.maskX / pogData.maskScale, pogData.maskY / pogData.maskScale, true);
+    }
 });
