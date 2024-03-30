@@ -11,7 +11,7 @@ export function createWaypoint(x, y, z, r, g, b, innerAlpha, outerAlpha, noBeaco
     RenderLib.drawEspBox(x + 0.5, y, z + 0.5, 1, 1, r, g, b, outerAlpha, true);
 
     if (noBeacon) return;
-    renderBeaconBeam(x, y + 1, z, 1, 1, 1, 1, false);
+    renderBeaconBeam(x, y + 1, z, 1, 1, 1, 0.05 * Player.asPlayerMP().distanceTo(x, y, z), false);
 };
 
 export function inTrueLair() {
