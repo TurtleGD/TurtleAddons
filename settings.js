@@ -7,7 +7,7 @@ import {
     @SliderProperty,
     @TextProperty
 } from '../Vigilance/index';
-import { BOLD, AQUA, RESET, DARK_GRAY } from "./utils/formatting";
+import { BOLD, AQUA, RESET, AQUA } from "./utils/formatting";
 import { level } from "./utils/sounds";
 
 @Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
@@ -37,15 +37,12 @@ class settings {
         this.addDependency("Name", "Discord Webhook");
         this.addDependency("Profile Picture", "Discord Webhook");
         this.addDependency("Only Non-Player Messages", "Discord Webhook");
-        this.addDependency("Bonzo Mask Invinicibility Timer", "Mask/Phoenix Invinicibility Timers");
-        this.addDependency("Spirit Mask Invinicibility Timer", "Mask/Phoenix Invinicibility Timers");
-        this.addDependency("Phoenix Invinicibility Timer", "Mask/Phoenix Invinicibility Timers");
-        this.addDependency("Phoenix Level", "Phoenix Invinicibility Timer");
+        this.addDependency("Announce Usage", "Mask/Phoenix Invinicibility Timers");
+        this.addDependency("Phoenix Level", "Mask/Phoenix Invinicibility Timers");
         this.addDependency("Room Name", "Send Message on Specific Room Entry");
         this.addDependency("Room Entry Message", "Send Message on Specific Room Entry");
         this.addDependency("Time Before Warning", "Smoldering Polarization Warning");
         
-
         this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE ${RESET}enabling boss dialogue`);
         this.setCategoryDescription("Party Commands", `Prefix: "${BOLD};${RESET}"`);
     }
@@ -147,7 +144,7 @@ class settings {
     // Kuudra
     @SwitchProperty({
         name: 'Nether Brick Stun Helper',
-        description: `Highlights the blocks used for nether brick stunning.\n${DARK_GRAY}(Requires at least 1500 mining speed).`,
+        description: `Highlights the blocks used for nether brick stunning.\n(Requires at least 1500 mining speed).`,
         category: 'Kuudra',
         subcategory: 'Stunning'
     })
@@ -187,7 +184,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Stun DPS',
-        description: `Tells you the dps for stun.`,
+        description: `Tells you the dps for stun.\n(Might break if you stun))`,
         category: 'Kuudra',
         subcategory: 'Stunning'
     })
@@ -201,9 +198,9 @@ class settings {
     })
     stunTimer = false;
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: 'Entry Timer',
-        description: `Tells you how long it took to enter kuudra. (Only works for stunner)\nNot sure how accurate this is.`,
+        description: `Tells you how long it took for you to enter kuudra.`,
         category: 'Kuudra',
         subcategory: 'Stunning'
     })
@@ -217,7 +214,7 @@ class settings {
     })
     partyDps = false;
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: "Don't Send To Party",
         description: `Sends the message to yourself.`,
         category: 'Kuudra',
@@ -233,7 +230,7 @@ class settings {
     })
     trueHPDisplay = false;
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: 'Only Show If Dead',
         description: `Hides the display when you are alive (you already have one).`,
         category: 'Kuudra',
@@ -257,7 +254,7 @@ class settings {
     })
     secondWaypoints = false;
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: 'Label Second Pre Waypoints',
         description: `Labels the waypoints.`,
         category: 'Kuudra',
@@ -303,7 +300,7 @@ class settings {
 
     @SwitchProperty({
         name: 'True Slayer Kill Time',
-        description: 'Gets slayer kill time to three decimals and does not include spawn/death animation. (Might be a little inaccurate)',
+        description: 'Gets slayer kill time and does not include spawn/death animation. (Might be a little inaccurate)',
         category: 'Slayers',
         subcategory: 'Slayers',
     })
@@ -421,7 +418,7 @@ class settings {
 
     @TextProperty({
         name: 'Room Name',
-        description: 'Use /getroom in a dungeon room to get the name. Use commas to separate multiple rooms.',
+        description: `Use /getroom in a dungeon room to get the name. Use commas to separate multiple rooms.`,
         category: 'Dungeons',
         subcategory: 'Dungeons',
     })
@@ -444,28 +441,12 @@ class settings {
     invincibilityTimers = false;
 
     @CheckboxProperty({
-        name: 'Bonzo Mask Invinicibility Timer',
-        description: 'Timer next to crosshair for invincibility.',
+        name: 'Announce Usage',
+        description: 'Sends a message in party chat when mask/phoenix procs.',
         category: 'Dungeons',
         subcategory: 'Dungeons',
     })
-    bonzoInvinicibility = false;
-
-    @CheckboxProperty({
-        name: 'Spirit Mask Invinicibility Timer',
-        description: 'Timer next to crosshair for invincibility.',
-        category: 'Dungeons',
-        subcategory: 'Dungeons',
-    })
-    spiritInvinicibility = false;
-
-    @CheckboxProperty({
-        name: 'Phoenix Invinicibility Timer',
-        description: 'Timer next to crosshair for invincibility.',
-        category: 'Dungeons',
-        subcategory: 'Dungeons',
-    })
-    phoenixInvinicibility = false;
+    announceUsage = false;
 
     @SliderProperty({
         name: 'Phoenix Level',
@@ -479,11 +460,27 @@ class settings {
 
     @SwitchProperty({
         name: 'Class Ultimate Use Alert',
-        description: 'Makes a title when you use your ult.',
+        description: 'Makes a title when you use your ult.\n(Why the fuck is this so buggy)',
         category: 'Dungeons',
         subcategory: 'Dungeons',
     })
     ultAlert = false;
+
+    @SwitchProperty({
+        name: 'Announce Leaps',
+        description: 'Sends a message in party chat when leaping to someone.',
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
+    })
+    leapAnnounce = false;
+
+    @TextProperty({
+        name: 'Death Message',
+        description: `Sends a message whenever someone dies. Use ${AQUA}{name}${RESET} to use player name.`,
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
+    })
+    deathMessage = '';
 
     // Discord
     @SwitchProperty({
