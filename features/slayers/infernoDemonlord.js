@@ -42,7 +42,7 @@ register('step', () => {
 let showThing = false;
 
 register("renderOverlay", () => {
-    if (!showThing) {
+    if (!showThing && settings.gummyWarning) {
         if (pogData.gummyTimeLeft > 0) {
             Renderer.scale(pogData.gummyScale);
             Renderer.drawString(`${GREEN}Smoldering Polarization I: ${WHITE + Math.floor(pogData.gummyTimeLeft / 60)}m ${pogData.gummyTimeLeft % 60}s`, pogData.gummyX / pogData.gummyScale, pogData.gummyY / pogData.gummyScale, true);
