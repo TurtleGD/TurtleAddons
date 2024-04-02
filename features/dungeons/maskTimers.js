@@ -14,36 +14,31 @@ register('worldLoad', () => {
     bonzoInvinicibility = false;
     spiritInvinicibility = false;
     phoenixInvinicibility = false;
-});
+})
 
 
 register("chat", (message) => {
-    if (settings.bonzoInvinicibility) {
+    if (settings.invincibilityTimers) {
         if (message == "Your Bonzo's Mask saved your life!" || message == "Your ⚚ Bonzo's Mask saved your life!") {
+            if (settings.announceUsage) ChatLib.command("pc Bonzo's Mask Used!")
             bonzoTime = new Date().getTime();
             bonzoInvinicibility = true
             spiritInvinicibility = false
             phoenixInvinicibility = false
-        };
-    };
-
-    if (settings.spiritInvinicibility) {
-        if (message == "Second Wind Activated! Your Spirit Mask saved your life!") {
+        } else if (message == "Second Wind Activated! Your Spirit Mask saved your life!") {
+            if (settings.announceUsage) ChatLib.command('pc Spirit Mask Used!')
             spiritTime = new Date().getTime();
             bonzoInvinicibility = false
             spiritInvinicibility = true
             phoenixInvinicibility = false
-        };
-    };
-
-    if (settings.phoenixInvinicibility) {
-        if (message == 'Your Phoenix Pet saved you from certain death!') {
+        } else if (message == 'Your Phoenix Pet saved you from certain death!') {
+            if (settings.announceUsage) ChatLib.command('pc Phoenix Used!')
             phoenixTime = new Date().getTime();
             bonzoInvinicibility = false
             spiritInvinicibility = false
             phoenixInvinicibility = true
         };
-    };
+    }
 }).setCriteria("${message}");
 
 register("renderOverlay", () => {
@@ -56,8 +51,8 @@ register("renderOverlay", () => {
         }
         if (timeLeftBonzo < 0) {
             bonzoInvinicibility = false;
-        };
-    };
+        }
+    }
 
     if (spiritInvinicibility && !showThing) {
         let timeLeftSpirit = new Date().getTime();
@@ -68,8 +63,8 @@ register("renderOverlay", () => {
         }
         if (timeLeftSpirit < 0) {
             spiritInvinicibility = false;
-        };
-    };
+        }
+    }
 
     if (phoenixInvinicibility && !showThing) {
         let timeLeftPhoenix = new Date().getTime();
@@ -80,9 +75,9 @@ register("renderOverlay", () => {
         }
         if (timeLeftPhoenix < 0) {
             phoenixInvinicibility = false;
-        };
-    };
-});
+        }
+    }
+})
 
 register('command', (...args) => {
     if (args) {
@@ -111,4 +106,4 @@ register('renderOverlay', () => {
         Renderer.scale(pogData.maskScale);
         Renderer.drawString(`${AQUA + BOLD}Invincibility: ${RESET}5.000s`, pogData.maskX / pogData.maskScale, pogData.maskY / pogData.maskScale, true);
     }
-});
+})
