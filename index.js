@@ -1,8 +1,10 @@
 import "./features/combat/hideCrits.js";
 import "./features/combat/srbTimer.js";
 import "./features/discord/discord.js";
+import "./features/dungeons/deathMessage.js";
 import "./features/dungeons/dragonSkip.js";
 import "./features/dungeons/earlyP2.js";
+import "./features/dungeons/leapAnnounce.js";
 import "./features/dungeons/maskTimers.js";
 import "./features/dungeons/ragTimer.js";
 import "./features/dungeons/relicWaypoints.js";
@@ -30,7 +32,6 @@ import settings from './settings';
 import axios from '../axios';
 import { AQUA, WHITE, STRIKETHROUGH, BOLD, GRAY } from './utils/formatting.js';
 
-
 register('command', (arg) => {
     switch (arg) {
         case undefined:
@@ -56,6 +57,7 @@ register('command', (arg) => {
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
             ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Kuudra:`));
             ChatLib.chat('');
+            ChatLib.chat(`${AQUA}/t[1-5] ${WHITE}- Enter Kuudra tiers 1-5.`);
             ChatLib.chat(`${AQUA}/avgpre ${WHITE}- View average placement times of first and second pres.`);
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
             ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Slayers:`));
@@ -66,7 +68,6 @@ register('command', (arg) => {
             ChatLib.chat('');
             ChatLib.chat(`${AQUA}/f[1-7] ${WHITE}- Enter Catacomb floors 1-7.`);
             ChatLib.chat(`${AQUA}/m[1-7] ${WHITE}- Enter Master Catacomb floors 1-7.`);
-            ChatLib.chat(`${AQUA}/t[1-5] ${WHITE}- Enter Kuudra tiers 1-5.`);
             ChatLib.chat(`${AQUA}/getroom ${WHITE}- Gets the current dungeon room you are in.`);
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
             ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Fishing:`));
