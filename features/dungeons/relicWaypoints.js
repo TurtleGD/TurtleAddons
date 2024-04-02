@@ -1,26 +1,27 @@
 import settings from "../../settings";
 import { createWaypoint } from "../../utils/functions";
 
-let holdingRelic;
+let holdingRelic = undefined;
+
 register('worldLoad', () => {
     holdingRelic = undefined;
-});
+})
 
 
 register("chat", (message) => {
-    if (settings.relicColor) {
+    if (settings.relicHelper) {
         if (message == '[BOSS] Wither King: You.. again?') {
             holdingRelic = undefined;
-        };
-    };
+        }
+    }
 }).setCriteria("${message}");
 
 register("chat", (relicPicker, relicColor) => {
     if (Player.getName() == relicPicker) holdingRelic = relicColor;
-}).setCriteria("${relicPicker} picked the Corrupted ${relicColor} Relic!");
+}).setCriteria("${relicPicker} picked the Corrupted ${relicColor} Relic!")
 
 register('renderWorld', () => {
-    if (settings.relicHelper) {
+    if (settings.relicHelper && holdingRelic) {
         switch (holdingRelic) {
             case "Red":
                 createWaypoint(51, 7, 42, 255, 0, 0, 0.25, 1, false);
@@ -38,6 +39,6 @@ register('renderWorld', () => {
             case "Green":
                 createWaypoint(49, 7, 44, 0, 255, 0, 0.25, 1, false);
                 break;
-        };
-    };
-});
+        }
+    }
+})
