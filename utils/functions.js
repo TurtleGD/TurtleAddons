@@ -1,10 +1,5 @@
 import renderBeaconBeam from "../../BeaconBeam";
 import RenderLib from "../../RenderLib";
-import { getMatchFromLines, getScoreboard, removeUnicode } from "../../BloomCore/utils/Utils";
-
-export function getArea() {
-    return (removeUnicode(getMatchFromLines(/ ⏣ (.+)/, getScoreboard(false))))
-};
 
 export function createWaypoint(x, y, z, r, g, b, innerAlpha, outerAlpha, noBeacon) {
     RenderLib.drawInnerEspBox(x + 0.5, y, z + 0.5, 1, 1, r, g, b, innerAlpha, true);
@@ -46,4 +41,27 @@ export function formatNumber(num) {
 
     if (Number.isInteger(absNum) && absNum < 1_000) return String(parseInt(formattedNumber));
     return formattedNumber;
+};
+
+// From BloomCore
+const getMatchFromLines = (regex, list, type) => {
+    for (let i = 0; i < list.length; i++) {
+        let match = list[i].match(regex)
+        if (!match) continue
+        return type == "int" ? parseInt(match[1]) : type == "float" ? parseFloat(match[1]) : match[1]
+    }
+    return null
+}
+
+const getScoreboard = (formatted=false) => {
+    if (!World.getWorld()) return null
+    let sb = Scoreboard.getLines().map(a => a.getName())
+    if (formatted) return Scoreboard.getLines()
+    return sb.map(a => ChatLib.removeFormatting(a))
+}
+
+const removeUnicode = (string) => typeof(string) !== "string" ? "" : string.replace(/[^\u0000-\u007F]/g, "")
+
+export function getArea() {
+    return (removeUnicode(getMatchFromLines(/ ⏣ (.+)/, getScoreboard(false))))
 };
