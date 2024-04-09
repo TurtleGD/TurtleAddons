@@ -21,7 +21,7 @@ register("renderOverlay", () => {
   if (kicked) {
     let timeLeft = new Date().getTime();
     timeLeft = 60 - (timeLeft - kickTime) / 1000;
-    if (timeLeft >= 0) {
+    if (timeLeft >= 0 && !showThing) {
       Renderer.scale(pogData.lobbyScale);
       Renderer.drawString(`${AQUA + BOLD}Cooldown over in: ${RESET + timeLeft.toFixed(1)}s`, pogData.lobbyX / pogData.lobbyScale, pogData.lobbyY / pogData.lobbyScale, true);
     }
@@ -29,9 +29,14 @@ register("renderOverlay", () => {
       kickTime = undefined;
       kicked = false;
       pling.play();
-    };
-  };
-});
+    }
+  }
+  
+  if (showThing) {
+    Renderer.scale(pogData.lobbyScale);
+    Renderer.drawString(`${AQUA + BOLD}Cooldown over in: ${RESET}60.0s`, pogData.lobbyX / pogData.lobbyScale, pogData.lobbyY / pogData.lobbyScale, true);
+  }
+})
 
 register('command', (...args) => {
   if (args) {
@@ -54,10 +59,3 @@ register('command', (...args) => {
   showThing = true;
   setTimeout(() => showThing = false, 2000);
 }).setName('movelobby')
-
-register('renderOverlay', () => {
-  if (showThing) {
-    Renderer.scale(pogData.lobbyScale);
-    Renderer.drawString(`${AQUA + BOLD}Cooldown over in: ${RESET}60.0s`, pogData.lobbyX / pogData.lobbyScale, pogData.lobbyY / pogData.lobbyScale, true);
-  }
-})
