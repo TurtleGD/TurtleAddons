@@ -8,7 +8,7 @@ register('chat', (message) => {
     if (settings.blacklist) {
         if (message.startsWith('Party Finder >')) {
             for (let i = 0; i < pogData.blacklist.length; i++) {
-                if (message.includes(pogData.blacklist[i])) {
+                if (message.toLowerCase().includes(pogData.blacklist[i].toLowerCase())) {
                     ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Attempting to kick ${AQUA + pogData.blacklist[i] + WHITE}.`)
                     ChatLib.command(`p kick ${pogData.blacklist[i]}`)
                 }
@@ -33,6 +33,7 @@ register('command', (...args) => {
             else if (!pogData.blacklist.join('').includes(args[1])) {
                 pogData.blacklist.push(args[1])
                 ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Added ${AQUA + args[1] + WHITE} to the blacklist.`);
+                pogData.save();
             }
             else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${AQUA + args[1] + WHITE} is already in the blacklist.`);
             break;
@@ -42,6 +43,7 @@ register('command', (...args) => {
                     pogData.blacklist.splice(i, 1);
                     ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Removed ${AQUA + args[1] + WHITE} from the blacklist.`);
                     found = true;
+                    pogData.save();
                 }
             }
             if (!found) {
@@ -52,6 +54,7 @@ register('command', (...args) => {
         case 'clear':
             pogData.blacklist.splice(0, pogData.blacklist.length);
             ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Cleared the blacklist.`);
+            pogData.save();
             break;
         default:
             ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use "view", "add", "remove", or "clear".`);
