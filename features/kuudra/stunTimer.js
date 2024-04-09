@@ -1,5 +1,6 @@
 import settings from "../../settings";
 import { WHITE, GRAY, AQUA } from "../../utils/formatting";
+import { getArea } from "../../utils/functions";
 
 let p3 = undefined;
 let sentEntry = false;
@@ -17,7 +18,7 @@ register("chat", (message) => {
 }).setCriteria("${message}");
 
 register('tick', () => {
-    if (settings.entryTimer && !sentEntry &&
+    if (settings.entryTimer && !sentEntry && getArea().includes('Kuudra') &&
         (Player.asPlayerMP().getX() > -175 && Player.asPlayerMP().getX() < -130) &&
         (Player.asPlayerMP().getY() > 12 && Player.asPlayerMP().getY() < 62) &&
         (Player.asPlayerMP().getZ() > -197 && Player.asPlayerMP().getZ() < -140)
