@@ -34,6 +34,10 @@ export const pogData = new PogObject("TurtleAddons", {
     gummyY: 249,
     gummyScale: 1,
 
+    pillarX: 490,
+    pillarY: 249,
+    pillarScale: 1,
+
     srbX: 490,
     srbY: 249,
     srbScale: 1,
