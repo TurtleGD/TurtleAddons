@@ -42,7 +42,7 @@ register('tick', () => {
         if (match) {
             const currentRoom = roomFromId(match.slice(1).toString())?.toLowerCase();
             if (rooms.includes(currentRoom)) {
-                ChatLib.command(`pc ${settings.roomEntryMessage}`);
+                ChatLib.chat(`pc ${settings.roomEntryMessage.replace('[name]', roomFromId(match.slice(1).toString()))}`);
                 rooms.splice(rooms.indexOf(currentRoom), 1);
             };
         };
