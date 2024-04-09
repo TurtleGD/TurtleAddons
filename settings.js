@@ -5,7 +5,9 @@ import {
     @CheckboxProperty,
     @ButtonProperty,
     @SliderProperty,
-    @TextProperty
+    @ColorProperty,
+    @TextProperty,
+    Color
 } from '../Vigilance/index';
 import { BOLD, AQUA, RESET, AQUA } from "./utils/formatting";
 import { level } from "./utils/sounds";
@@ -42,7 +44,11 @@ class settings {
         this.addDependency("Room Name", "Send Message on Specific Room Entry");
         this.addDependency("Room Entry Message", "Send Message on Specific Room Entry");
         this.addDependency("Time Before Warning", "Smoldering Polarization Warning");
-        
+        this.addDependency("Gyro Color", "Gyrokinetic Wand Range Overlay");
+        this.addDependency("Gyro RGB", "Gyrokinetic Wand Range Overlay");
+        this.addDependency("Gyro Ring Width", "Gyrokinetic Wand Range Overlay");
+        this.addDependency("Gyro Ring Opacity", "Gyrokinetic Wand Range Overlay");
+
         this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE ${RESET}enabling boss dialogue`);
         this.setCategoryDescription("Party Commands", `Prefix: "${BOLD};${RESET}"`);
     }
@@ -184,7 +190,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Stun DPS',
-        description: `Tells you the dps for stun.\n(Might break if you stun))`,
+        description: `Tells you the dps for stun.\n(Might break if you stun cause render distance)`,
         category: 'Kuudra',
         subcategory: 'Stunning'
     })
@@ -342,7 +348,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Fire Pillar Alert',
-        description: 'Same as other mods (soopy laggy??)',
+        description: 'Makes a display thats similar to other mods (soopy laggy??)\nUse /movepillar [x/y/scale] [num] to change pos.',
         category: 'Slayers',
         subcategory: 'Inferno Demonlord',
     })
@@ -412,7 +418,7 @@ class settings {
         name: 'Send Message on Specific Room Entry',
         description: `Sends a message when you enter a specified room.`,
         category: 'Dungeons',
-        subcategory: 'Dungeons',
+        subcategory: 'Message On Room',
     })
     sendRoomEntryMessage = false;
 
@@ -420,15 +426,15 @@ class settings {
         name: 'Room Name',
         description: `Use /getroom in a dungeon room to get the name. Use commas to separate multiple rooms.`,
         category: 'Dungeons',
-        subcategory: 'Dungeons',
+        subcategory: 'Message On Room',
     })
     roomName = '';
 
     @TextProperty({
         name: 'Room Entry Message',
-        description: 'Message to send when entering the specified room.',
+        description: `Message to send when entering the specified room. Use ${AQUA}[name]${RESET} to use room name.`,
         category: 'Dungeons',
-        subcategory: 'Dungeons',
+        subcategory: 'Message On Room',
     })
     roomEntryMessage = '';
 
@@ -436,7 +442,7 @@ class settings {
         name: 'Mask/Phoenix Invinicibility Timers',
         description: 'Timer next to crosshair for invincibility.\nUse /movemask [x/y/scale] [num] to change pos',
         category: 'Dungeons',
-        subcategory: 'Dungeons',
+        subcategory: 'Invinicibility Timers',
     })
     invincibilityTimers = false;
 
@@ -444,7 +450,7 @@ class settings {
         name: 'Announce Usage',
         description: 'Sends a message in party chat when mask/phoenix procs.',
         category: 'Dungeons',
-        subcategory: 'Dungeons',
+        subcategory: 'Invinicibility Timers',
     })
     announceUsage = false;
 
@@ -452,7 +458,7 @@ class settings {
         name: 'Phoenix Level',
         description: 'Select phoenix level.',
         category: 'Dungeons',
-        subcategory: 'Dungeons',
+        subcategory: 'Invinicibility Timers',
         min: 1,
         max: 100
     })
@@ -476,11 +482,57 @@ class settings {
 
     @TextProperty({
         name: 'Death Message',
-        description: `Sends a message whenever someone dies. Use ${AQUA}{name}${RESET} to use player name.`,
+        description: `Sends a message whenever someone dies. Use ${AQUA}[name]${RESET} to use player name.`,
         category: 'Dungeons',
         subcategory: 'Dungeons',
     })
     deathMessage = '';
+
+    @SwitchProperty({
+        name: 'Gyrokinetic Wand Range Overlay',
+        description: 'Draws a circle of gyro range.',
+        category: 'Dungeons',
+        subcategory: 'Gyrokinetic Wand',
+    })
+    gyroDisplay = false;
+
+    @ColorProperty({
+        name: 'Gyro Color',
+        description: `Color for gyro ring.`,
+        category: 'Dungeons',
+        subcategory: 'Gyrokinetic Wand'
+    })
+    gyroColor = Color.CYAN
+
+    @SliderProperty({
+        name: 'Gyro RGB',
+        description: 'RGB Speed. Use 0 to disable.',
+        category: 'Dungeons',
+        subcategory: 'Gyrokinetic Wand',
+        min: 0,
+        max: 5
+    })
+    rgbGyro = 0;
+
+    @SliderProperty({
+        name: 'Gyro Ring Width',
+        description: 'Width for gyro ring. (Fill %)',
+        category: 'Dungeons',
+        subcategory: 'Gyrokinetic Wand',
+        min: 1,
+        max: 100
+    })
+    gyroRing = 2;
+
+    @SliderProperty({
+        name: 'Gyro Ring Opacity',
+        description: 'Opacity for gyro ring.',
+        category: 'Dungeons',
+        subcategory: 'Gyrokinetic Wand',
+        min: 1,
+        max: 100
+    })
+    gyroOpacity = 100;
 
     // Discord
     @SwitchProperty({
