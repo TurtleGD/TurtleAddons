@@ -23,7 +23,7 @@ const rareDrops = [
     'Duplex I', 'Archfiend Dice', 'High Class Archfiend Dice', "Wilson's Engineering Plans", 'Subzero Inverter', '◆ Fiery Burst Rune I'
 ]
 
-register("chat", (message, event) => {
+register("chat", (message) => {
     if (!message.includes(':') && message.includes('DROP!')) {
         const regex = /\((.*?)\)/;
         const match = message.match(regex);
