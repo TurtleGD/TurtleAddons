@@ -9,6 +9,16 @@ let bossX = undefined;
 let bossY = undefined;
 let bossZ = undefined;
 
+function roundToNearest0_05(num) {
+    return Math.round(num * 20) / 20;
+}
+
+// Example usage:
+var originalNumber = 3.47;
+var roundedNumber = roundToNearest0_05(originalNumber);
+console.log(roundedNumber); // Output will be 3.45
+
+
 register("chat", (message) => {
     // Reset kill timer on fail/restart
     if (settings.slayerKillTime) {
@@ -40,17 +50,11 @@ register('tick', () => {
             }
     
             // Checks hp name tag to spawned by name tag to check whos boss
-            if (name.includes(' 0❤') && (name.includes('Horror') || name.includes('Packmaster') || name.includes('Broodfather') || name.includes('Seraph') || name.includes('Demonlord') || name.includes('Bloodfiend')) && killTime == undefined && Math.hypot(stand.getX() - bossX, stand.getY() - bossY, stand.getZ() - bossZ) < 1) {
+            if (name.includes(' 0❤') && (name.includes('Horror') || name.includes('Packmaster') || name.includes('Broodfather') || name.includes('Seraph') || name.includes('Demonlord') || name.includes('Bloodfiend')) && killTime == undefined && Math.hypot(stand.getX() - bossX, stand.getY() - bossY, stand.getZ() - bossZ) < 0.5) {
                 killTime = new Date().getTime();
-                ChatLib.chat(new TextComponent(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Slayer took ${((killTime - spawnTime) / 1000).toFixed(2)}s to kill!`).setHoverValue(`Spawn: ${((spawnTime - lastKillTime) / 1000).toFixed(2)}s\nKill: ${((killTime - spawnTime) / 1000).toFixed(2)}s\nSpawn and kill: ${((killTime - lastKillTime) / 1000).toFixed(2)}s`));
+                ChatLib.chat(new TextComponent(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Slayer took ${roundToNearest0_05((killTime - spawnTime) / 1000).toFixed(2)}s to kill!`).setHoverValue(`Spawn: ${roundToNearest0_05((spawnTime - lastKillTime) / 1000).toFixed(2)}s\nKill: ${roundToNearest0_05((killTime - spawnTime) / 1000).toFixed(2)}s\nSpawn and kill: ${roundToNearest0_05((killTime - lastKillTime) / 1000).toFixed(2)}s`));
                 lastKillTime = new Date().getTime();
-                setTimeout(() => {
-                    spawnTime = undefined;
-                    pillarX = undefined;
-                    pillarY = undefined;
-                    pillarZ = undefined;
-                    pillarSoundThing = 0;
-                }, 3000)
+                setTimeout(() => spawnTime = undefined, 3000)
                 
             }
         })
