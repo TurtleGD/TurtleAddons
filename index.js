@@ -4,6 +4,7 @@ import "./features/discord/discord.js";
 import "./features/dungeons/deathMessage.js";
 import "./features/dungeons/dragonSkip.js";
 import "./features/dungeons/earlyP2.js";
+import "./features/dungeons/gyroDisplay.js";
 import "./features/dungeons/leapAnnounce.js";
 import "./features/dungeons/maskTimers.js";
 import "./features/dungeons/ragTimer.js";
