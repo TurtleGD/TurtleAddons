@@ -31,6 +31,9 @@ register('renderOverlay', () => {
   } else if (!showThing && settings.petXPFishing.length > 0) {
     Renderer.scale(pogData.petXPScale);
     Renderer.drawString(`${AQUA}Pet XP (${settings.petXPFishing}):${RESET}${fishingPetXP?.removeFormatting()}`, pogData.petXPX / pogData.petXPScale, pogData.petXPY / pogData.petXPScale, true);
+  } else if (showThing) {
+    Renderer.scale(pogData.petXPScale);
+    Renderer.drawString(`${AQUA}Pet XP: ${RESET}0/123,456 (0%)`, pogData.petXPX / pogData.petXPScale, pogData.petXPY / pogData.petXPScale, true);
   }
 })
 
@@ -55,10 +58,3 @@ register('command', (...args) => {
   showThing = true;
   setTimeout(() => showThing = false, 2000);
 }).setName('movepetxp')
-
-register('renderOverlay', () => {
-  if (showThing) {
-    Renderer.scale(pogData.petXPScale);
-    Renderer.drawString(`${AQUA}Pet XP: ${RESET}0/123,456 (0%)`, pogData.petXPX / pogData.petXPScale, pogData.petXPY / pogData.petXPScale, true);
-  }
-})
