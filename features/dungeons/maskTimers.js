@@ -77,6 +77,11 @@ register("renderOverlay", () => {
             phoenixInvinicibility = false;
         }
     }
+
+    if (showThing) {
+        Renderer.scale(pogData.maskScale);
+        Renderer.drawString(`${AQUA + BOLD}Invincibility: ${RESET}5.000s`, pogData.maskX / pogData.maskScale, pogData.maskY / pogData.maskScale, true);
+    }
 })
 
 register('command', (...args) => {
@@ -100,10 +105,3 @@ register('command', (...args) => {
     showThing = true;
     setTimeout(() => showThing = false, 2000);
 }).setName('movemask')
-
-register('renderOverlay', () => {
-    if (showThing) {
-        Renderer.scale(pogData.maskScale);
-        Renderer.drawString(`${AQUA + BOLD}Invincibility: ${RESET}5.000s`, pogData.maskX / pogData.maskScale, pogData.maskY / pogData.maskScale, true);
-    }
-})
