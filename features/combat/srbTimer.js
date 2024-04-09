@@ -20,6 +20,9 @@ register('renderOverlay', () => {
       Renderer.drawString(`${AQUA}Souls Rebound: ${WHITE + (5 - ((new Date().getTime() - startTime) / 1000)).toFixed(3)}s`, pogData.srbX / pogData.srbScale, pogData.srbY / pogData.srbScale, true);
     }
     if (5 - ((new Date().getTime() - startTime) / 1000) <= 0) startTime = undefined;
+  } else if (showThing) {
+    Renderer.scale(pogData.srbScale);
+    Renderer.drawString(`${AQUA}Souls Rebound: ${WHITE}5.000s`, pogData.srbX / pogData.srbScale, pogData.srbY / pogData.srbScale, true);
   }
 })
 
@@ -44,10 +47,3 @@ register('command', (...args) => {
   showThing = true;
   setTimeout(() => showThing = false, 2000);
 }).setName('movesrb')
-
-register('renderOverlay', () => {
-  if (showThing) {
-    Renderer.scale(pogData.srbScale);
-    Renderer.drawString(`${AQUA}Souls Rebound: ${WHITE}5.000s`, pogData.srbX / pogData.srbScale, pogData.srbY / pogData.srbScale, true);
-  }
-})
