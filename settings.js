@@ -9,12 +9,12 @@ import {
     @TextProperty,
     Color
 } from '../Vigilance/index';
-import { BOLD, AQUA, RESET, AQUA } from "./utils/formatting";
+import { BOLD, AQUA, RESET, AQUA, DARK_GRAY } from "./utils/formatting";
 import { level } from "./utils/sounds";
 
 @Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
     getCategoryComparator: () => (a, b) => {
-        const categories = ['General', 'Combat', 'Kuudra', 'Slayers', 'Dungeons', 'Fishing', 'Party Commands', 'Discord Webhook'];
+        const categories = ['General', 'Combat', 'Kuudra', 'Mining', 'Slayers', 'Dungeons', 'Fishing', 'Party Commands', 'Discord Webhook'];
 
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
@@ -48,8 +48,13 @@ class settings {
         this.addDependency("Gyro RGB", "Gyrokinetic Wand Range Overlay");
         this.addDependency("Gyro Ring Width", "Gyrokinetic Wand Range Overlay");
         this.addDependency("Gyro Ring Opacity", "Gyrokinetic Wand Range Overlay");
+        this.addDependency("Glacite Mineshafts Threshold", "Cold Alert");
+        this.addDependency("Glacite Tunnels Threshold", "Cold Alert");
+        this.addDependency("Scoreboard Widgets", "Custom Scoreboard");
+        this.addDependency("Custom Scoreboard Opacity", "Custom Scoreboard");
+        this.addDependency("Pet XP Display (Fishing)", "Pet XP Display");
 
-        this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE ${RESET}enabling boss dialogue`);
+        this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE${RESET} enabling boss dialogue`);
         this.setCategoryDescription("Party Commands", `Prefix: "${BOLD};${RESET}"`);
     }
 
@@ -58,7 +63,6 @@ class settings {
         name: "GitHub",
         description: `Link to GitHub`,
         category: "General",
-        subcategory: "GitHub",
         placeholder: "Visit GitHub"
     })
     gitHubLink() {
@@ -106,7 +110,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Pet XP Display',
-        description: `Shows XP from tab list, requires xp to be visible.\nUse /movepetxp [x/y/scale] [num] to change pos.`,
+        description: `Shows XP from tab list, requires xp to be visible.\nUse /movepetxp [x/y/scale] [num] to change pos.\n\nRun ${AQUA}/ct load${RESET} if it doesn't work.`,
         category: 'General',
         subcategory: 'Miscellaneous'
     })
@@ -118,7 +122,7 @@ class settings {
         category: 'General',
         subcategory: 'Miscellaneous'
     })
-    petXPFishing = ''
+    petXPFishing = '';
 
     @SwitchProperty({
         name: 'Party Finder Blacklist',
@@ -127,6 +131,32 @@ class settings {
         subcategory: 'Miscellaneous'
     })
     blacklist = false;
+
+    @SwitchProperty({
+        name: 'Custom Scoreboard',
+        description: `Lets you add widgets to the scoreboard.`,
+        category: 'General',
+        subcategory: 'Custom Scoreboard'
+    })
+    customScoreboard = false;
+
+    @TextProperty({
+        name: 'Scoreboard Widgets',
+        description: `Use commas to separate multiple widgets.`,
+        category: 'General',
+        subcategory: 'Custom Scoreboard'
+    })
+    scoreboardWidgets = '';
+
+    @SliderProperty({
+        name: 'Custom Scoreboard Opacity',
+        description: 'Opacity of background.',
+        category: 'General',
+        subcategory: 'Custom Scoreboard',
+        min: 0,
+        max: 100
+    })
+    customScoreboardOpacity = 33;
 
 
     // Combat
@@ -146,6 +176,14 @@ class settings {
     })
     srbTimer = false;
 
+
+    @SwitchProperty({
+        name: 'Crimson Stack Timer',
+        description: `Shows a timer under your crosshair for when you lose a crimson stack.`,
+        category: 'Combat',
+        subcategory: 'Combat',
+    })
+    crimsonTimer = false;
 
     // Kuudra
     @SwitchProperty({
@@ -287,6 +325,52 @@ class settings {
     outlierThreshold = 60;
     
 
+    // Mining
+    @SwitchProperty({
+        name: 'Corpses Waypoints',
+        description: 'Marks corpses with a label and beacon.\nPossible corpse locations are hardcoded, should probably be allowed.',
+        category: 'Mining',
+        subcategory: 'Glacite Tunnels',
+    })
+    corpseWaypoint = false;
+    
+    @SwitchProperty({
+        name: 'Announce Corpses',
+        description: 'Tells your party what corpses are in a mineshaft when entering. Requires "Frozen Corpse" in tab list.',
+        category: 'Mining',
+        subcategory: 'Glacite Tunnels',
+    })
+    corpseAnnounce = false;
+    
+    @SwitchProperty({
+        name: 'Cold Alert',
+        description: 'Alerts you when you reach a cold threshold.',
+        category: 'Mining',
+        subcategory: 'Glacite Tunnels',
+    })
+    coldAlert = false;
+
+    @SliderProperty({
+        name: 'Glacite Tunnels Threshold',
+        description: 'Cold threshold. Use 0 to disable.',
+        category: 'Mining',
+        subcategory: 'Glacite Tunnels',
+        min: 0,
+        max: 99
+    })
+    tunnelColdThreshold = 0;
+
+    @SliderProperty({
+        name: 'Glacite Mineshafts Threshold',
+        description: 'Cold threshold. Use 0 to disable.',
+        category: 'Mining',
+        subcategory: 'Glacite Tunnels',
+        min: 0,
+        max: 99
+    })
+    mineshaftColdThreshold = 0;
+
+
     // Slayers
     @SwitchProperty({
         name: 'Send Rare Drops',
@@ -314,7 +398,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Smoldering Polarization Warning',
-        description: 'Alerts you x minutes before you run out. Will most likely be slightly inaccurate as server lag "increases" the in-game duration.\nAlso enables a display.\nUse /movegummy [x/y/scale] [num] to change pos.',
+        description: `Alerts you x minutes before you run out.\nAlso enables a timer display.\nUse /movegummy [x/y/scale] [num] to change pos.\n\nThe timer is an ${AQUA + BOLD}APPROXIMATION${RESET} and will most likely be a few minutes ${RESET}lower.`, // why the fuck is lower bold without the reset
         category: 'Slayers',
         subcategory: 'Inferno Demonlord',
     })
@@ -322,7 +406,7 @@ class settings {
 
     @SliderProperty({
         name: 'Time Before Warning',
-        description: 'Select time in minutes.',
+        description: 'Time in minutes.',
         category: 'Slayers',
         subcategory: 'Inferno Demonlord',
         min: 1,
@@ -456,7 +540,7 @@ class settings {
 
     @SliderProperty({
         name: 'Phoenix Level',
-        description: 'Select phoenix level.',
+        description: 'Uses phoenix level for invincibility time.',
         category: 'Dungeons',
         subcategory: 'Invinicibility Timers',
         min: 1,
@@ -498,7 +582,7 @@ class settings {
 
     @ColorProperty({
         name: 'Gyro Color',
-        description: `Color for gyro ring.`,
+        description: `Color of gyro ring.`,
         category: 'Dungeons',
         subcategory: 'Gyrokinetic Wand'
     })
@@ -516,7 +600,7 @@ class settings {
 
     @SliderProperty({
         name: 'Gyro Ring Width',
-        description: 'Width for gyro ring. (Fill %)',
+        description: 'Width of gyro ring.',
         category: 'Dungeons',
         subcategory: 'Gyrokinetic Wand',
         min: 1,
@@ -526,7 +610,7 @@ class settings {
 
     @SliderProperty({
         name: 'Gyro Ring Opacity',
-        description: 'Opacity for gyro ring.',
+        description: 'Opacity of gyro ring.',
         category: 'Dungeons',
         subcategory: 'Gyrokinetic Wand',
         min: 1,
