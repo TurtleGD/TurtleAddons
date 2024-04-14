@@ -1,3 +1,4 @@
+import "./features/combat/crimsonTimer.js";
 import "./features/combat/hideCrits.js";
 import "./features/combat/srbTimer.js";
 import "./features/discord/discord.js";
@@ -14,6 +15,7 @@ import "./features/dungeons/terminals.js";
 import "./features/dungeons/ultAlert.js";
 import "./features/fishing/underground.js";
 import "./features/general/blacklist.js";
+import "./features/general/customScoreboard.js";
 import "./features/general/kickedTimer.js";
 import "./features/general/levelUp.js";
 import "./features/general/petXP.js"
@@ -24,6 +26,9 @@ import "./features/kuudra/stunDps.js";
 import "./features/kuudra/stunTimer.js";
 import "./features/kuudra/trueHpDisplay.js";
 import "./features/kuudra/waypoints.js";
+import "./features/mining/coldAlert.js";
+import "./features/mining/corpseAnnounce.js";
+import "./features/mining/corpseWaypoint.js";
 import "./features/partyCommands/instanceCommands.js";
 import "./features/partyCommands/leaderCommands.js"
 import "./features/slayers/rareDrops.js";
@@ -95,6 +100,7 @@ register('command', (arg) => {
     }
 }).setName('turtleaddons').setAliases('ta', 'turtle', '8joh', 'joh');
 
+// NBT command
 register('command', () => {
     ChatLib.simulateChat(Player.getHeldItem()?.getNBT());
 }).setName('getnbt');
