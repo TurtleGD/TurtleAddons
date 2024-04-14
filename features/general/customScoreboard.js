@@ -7,9 +7,10 @@ let width = 0;
 let text = new Text('');
 
 register('step', () => {
-    widgets = settings.scoreboardWidgets.split(/\s*,\s*/);
-
-    if (settings.customScoreboard) Scoreboard.setShouldRender(false);
+    if (settings.customScoreboard) {
+        Scoreboard.setShouldRender(false);
+        widgets = settings.scoreboardWidgets.split(/\s*,\s*/);
+    }
     else Scoreboard.setShouldRender(true);
 }).setDelay(1)
 
