@@ -83,7 +83,6 @@ register('command', (...args) => {
 // Fire pillar stuff this is such a mess holy fuck
 let plingCounter = 0;
 let pillar = undefined;
-let pillarSoundThing = 0;
 let showPillar = false;
 let pillarX = undefined;
 let pillarY = undefined;
@@ -103,7 +102,6 @@ register('tick', () => {
             pillarX = undefined;
             pillarY = undefined;
             pillarZ = undefined;
-            pillarSoundThing = 0;
         }
     }
 })
