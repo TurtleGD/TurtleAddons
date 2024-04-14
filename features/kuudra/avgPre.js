@@ -4,29 +4,29 @@ import { pogData } from "../../utils/pogData";
 
 let instanceStartTime = undefined;
 let suppliesPlaced = 0;
-let pre = undefined
+let pre = undefined;
 
 register('worldLoad', () => {
     instanceStartTime = undefined;
     suppliesPlaced = 0;
-    pre = undefined
-});
+    pre = undefined;
+})
 
 register("chat", (message) => {
     if (settings.recordPreTimes) {
         if (message == '[NPC] Elle: Okay adventurers, I will go and fish up Kuudra!') {
             instanceStartTime = new Date().getTime();
             setTimeout(() => {
-                if (Player.getX() < -65 && Player.getX() > -75 && Player.getY() < 82 && Player.getY() > 75 && Player.getZ() < -115 && Player.getZ() > -130) pre = 'triangle'
-                if (Player.getX() < -60 && Player.getX() > -75 && Player.getY() < 82 && Player.getY() > 75 && Player.getZ() < -80 && Player.getZ() > -95) pre = 'equals'
-                if (Player.getX() < -105 && Player.getX() > -120 && Player.getY() < 82 && Player.getY() > 75 && Player.getZ() < -65 && Player.getZ() > -75) pre = 'slash'
-                if (Player.getX() < -125 && Player.getX() > -155 && Player.getY() < 82 && Player.getY() > 70 && Player.getZ() < -130 && Player.getZ() > -170) pre = 'x'
-            }, 14000);
-        };
+                if (Player.getX() < -65 && Player.getX() > -75 && Player.getY() < 82 && Player.getY() > 75 && Player.getZ() < -115 && Player.getZ() > -130) pre = 'triangle';
+                if (Player.getX() < -60 && Player.getX() > -75 && Player.getY() < 82 && Player.getY() > 75 && Player.getZ() < -80 && Player.getZ() > -95) pre = 'equals';
+                if (Player.getX() < -105 && Player.getX() > -120 && Player.getY() < 82 && Player.getY() > 75 && Player.getZ() < -65 && Player.getZ() > -75) pre = 'slash';
+                if (Player.getX() < -125 && Player.getX() > -155 && Player.getY() < 82 && Player.getY() > 70 && Player.getZ() < -130 && Player.getZ() > -170) pre = 'x';
+            }, 14000)
+        }
     
         if (message.includes(Player.getName()) && message.includes("recovered one of Elle's supplies!") && !message.includes(':')) {
             let placeTime = new Date().getTime();
-            let supplyTime = (placeTime - instanceStartTime) / 1000
+            let supplyTime = (placeTime - instanceStartTime) / 1000;
 
             if (suppliesPlaced == 0 && pre == 'triangle' && supplyTime < settings.outlierThreshold) pogData.triangle1.push(supplyTime);
             if (suppliesPlaced == 0 && pre == 'equals' && supplyTime < settings.outlierThreshold) pogData.equals1.push(supplyTime);
@@ -39,9 +39,9 @@ register("chat", (message) => {
             pogData.save();
             
             suppliesPlaced += 1;
-        };
-    };
-}).setCriteria("${message}");
+        }
+    }
+}).setCriteria("${message}")
 
 // What the fuck did I just make
 register('command', (arg) => {
@@ -68,23 +68,23 @@ register('command', (arg) => {
             default:
                 ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}"${arg}" is not a valid pre.`);
                 break;
-        };
+        }
     } else {
         const totalFirst = pogData.triangle1.length + pogData.equals1.length + pogData.slash1.length + pogData.x1.length;
         const totalSecond = pogData.triangle2.length + pogData.equals2.length + pogData.slash2.length + pogData.x2.length;
         ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Average times overall: ${((pogData.triangle1.reduce((a, b) => a + b, 0) + pogData.equals1.reduce((a, b) => a + b, 0) + pogData.slash1.reduce((a, b) => a + b, 0) + pogData.x1.reduce((a, b) => a + b, 0)) / totalFirst).toFixed(3)}s | ${((pogData.triangle2.reduce((a, b) => a + b, 0) + pogData.equals2.reduce((a, b) => a + b, 0) + pogData.slash2.reduce((a, b) => a + b, 0) + pogData.x2.reduce((a, b) => a + b, 0)) / totalSecond).toFixed(3)}s in ${totalFirst} | ${totalSecond} placements.`);
-    };
-}).setName('avgpre');
+    }
+}).setName('avgpre')
 
 register('command', () => {
-    pogData.triangle1.splice(0, pogData.triangle1.length)
-    pogData.equals1.splice(0, pogData.equals1.length)
-    pogData.slash1.splice(0, pogData.slash1.length)
-    pogData.x1.splice(0, pogData.x1.length)
-    pogData.triangle2.splice(0, pogData.triangle2.length)
-    pogData.equals2.splice(0, pogData.equals2.length)
-    pogData.slash2.splice(0, pogData.slash2.length)
-    pogData.x2.splice(0, pogData.x2.length)
+    pogData.triangle1.length = 0;
+    pogData.equals1.length = 0;
+    pogData.slash1.length = 0;
+    pogData.x1.length = 0;
+    pogData.triangle2.length = 0;
+    pogData.equals2.length = 0;
+    pogData.slash2.slength = 0;
+    pogData.x2.length = 0;
     pogData.save();
     ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Cleared all recorded pre times.`);
 }).setName('clearpres')
