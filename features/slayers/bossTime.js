@@ -13,12 +13,6 @@ function roundToNearest0_05(num) {
     return Math.round(num * 20) / 20;
 }
 
-// Example usage:
-var originalNumber = 3.47;
-var roundedNumber = roundToNearest0_05(originalNumber);
-console.log(roundedNumber); // Output will be 3.45
-
-
 register("chat", (message) => {
     // Reset kill timer on fail/restart
     if (settings.slayerKillTime) {
