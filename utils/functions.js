@@ -22,7 +22,7 @@ export function isDead() {
 };
 
 export function removeEmojis(str) {
-    return str.replace(/[^\x00-\x80]/g, "")
+    return str.replace(/[^\x00-\x7F§]/g, "")
 }
 
 // From VolcAddons
