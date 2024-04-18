@@ -1,25 +1,37 @@
 import renderBeaconBeam from "../../BeaconBeam";
 import RenderLib from "../../RenderLib";
 
-export function createWaypoint(x, y, z, r, g, b, innerAlpha, outerAlpha, noBeacon) {
-    RenderLib.drawInnerEspBox(x + 0.5, y, z + 0.5, 1, 1, r, g, b, innerAlpha, true);
-    RenderLib.drawEspBox(x + 0.5, y, z + 0.5, 1, 1, r, g, b, outerAlpha, true);
+/**
+     * Creates a waypoint
+     * @param {number} x - X Coordinates of the waypoint
+     * @param {number} y - Y Coordinates of first position
+     * @param {number} z - Z Coordinates of first position
+     * @param {number} red - Box Color Red 0-1
+     * @param {number} green - Box Color Green 0-1
+     * @param {number} blue - Box Color Blue 0-1
+     * @param {number} innerAlpha - Box sides alpha 0-1
+     * @param {number} outerAlpha - Box edges alpha 0-1
+     * @param {number} drawBeacon - Add a beacon beam, true/false
+    */
+export function createWaypoint(x, y, z, red, green, blue, innerAlpha, outerAlpha, drawBeacon) {
+    RenderLib.drawInnerEspBox(x + 0.5, y, z + 0.5, 1, 1, red, green, blue, innerAlpha, true);
+    RenderLib.drawEspBox(x + 0.5, y, z + 0.5, 1, 1, red, green, blue, outerAlpha, true);
 
-    if (noBeacon) return;
+    if (!drawBeacon) return;
     renderBeaconBeam(x, y + 1, z, 1, 1, 1, 0.1 * Player.asPlayerMP().distanceTo(x, y, z), false);
-};
+}
 
 export function inTrueLair() {
     return (Player.getX() > -130 && Player.getX() < -75) &&
        (Player.getY() > 3 && Player.getY() < 30) &&
        (Player.getZ() > -130 && Player.getZ() < -75);
-};
+}
 
 export function isDead() {
     return Player.getInventory()?.getItems()?.some(item => {
         return item?.getNBT()?.getCompoundTag("tag")?.getCompoundTag("ExtraAttributes")?.getString('id') == 'HAUNT_ABILITY';
     });
-};
+}
 
 export function removeEmojis(str) {
     return str.replace(/[^\x00-\x7F§]/g, "")
@@ -65,3 +77,37 @@ const removeUnicode = (string) => typeof(string) !== "string" ? "" : string.repl
 export function getArea() {
     return (removeUnicode(getMatchFromLines(/ ⏣ (.+)/, getScoreboard(false))))
 };
+
+// Modified from RenderLibV2
+
+/**
+     * Draws a line between 2 coordinates
+     * @param {number} x - X Coordinates of first position
+     * @param {number} y - Y Coordinates of first position
+     * @param {number} z - Z Coordinates of first position
+     * @param {number} red - Line Color Red 0-1
+     * @param {number} green - Line Color Green 0-1
+     * @param {number} blue - Line Color Blue 0-1
+     * @param {number} alpha - Line Color Alpha 0-1
+    */
+
+export function drawLineFromCrosshair(x, y, z, red, green, blue, alpha) {
+    GlStateManager.func_179094_E(); // pushMatrix
+    GL11.glLineWidth(2);
+    GL11.glDisable(GL11.GL_CULL_FACE); // disableCullFace
+    GL11.glEnable(GL11.GL_BLEND); // enableBlend
+    GL11.glBlendFunc(770, 771); // blendFunc
+    GL11.glDisable(GL11.GL_TEXTURE_2D); // disableTexture2D
+    GL11.glDepthMask(false); // depthMask
+    GL11.glDisable(GL11.GL_DEPTH_TEST); // disableDepth
+
+    Tessellator.begin(3).colorize(red, green, blue, alpha).pos(Player.getRenderX(), Player.getRenderY() + Player.asPlayerMP().getEyeHeight(), Player.getRenderZ()).pos(x, y, z).draw();
+
+    GL11.glEnable(GL11.GL_CULL_FACE); // enableCull
+    GL11.glDisable(GL11.GL_BLEND); // disableBlend
+    GL11.glDepthMask(true); // depthMask
+    GL11.glEnable(GL11.GL_TEXTURE_2D); // enableTexture2D
+    GL11.glEnable(GL11.GL_DEPTH_TEST); // enableDepth
+
+    GlStateManager.func_179121_F(); // popMatrix
+}
