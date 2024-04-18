@@ -14,31 +14,34 @@ export const pogData = new PogObject("TurtleAddons", {
 
     blacklist: [],
 
+    // ROBPG, json doesn't have infinity smh
+    m7DragonPBs: [69420, 69420, 69420, 69420, 69420],
+
     petXPX: 490,
     petXPY: 290,
     petXPScale: 1,
 
-    maskX: 490,
-    maskY: 249,
-    maskScale: 1,
+    maskTimerX: 490,
+    maskTimerY: 249,
+    maskTimerScale: 1,
 
-    ragX: 490,
-    ragY: 249,
-    ragScale: 1,
+    p5RagTimerX: 490,
+    p5RagTimerY: 249,
+    p5RagTimerScale: 1,
 
-    lobbyX: 490,
-    lobbyY: 249,
-    lobbyScale: 1,
+    kickedTimerX: 490,
+    kickedTimerY: 249,
+    kickedTimerScale: 1,
 
-    gummyX: 490,
-    gummyY: 249,
-    gummyScale: 1,
+    gummyWarningX: 490,
+    gummyWarningY: 249,
+    gummyWarningScale: 1,
 
-    pillarX: 490,
-    pillarY: 249,
-    pillarScale: 1,
+    blazePillarX: 490,
+    blazePillarY: 249,
+    blazePillarScale: 1,
 
-    srbX: 490,
-    srbY: 249,
-    srbScale: 1,
+    srbTimerX: 490,
+    srbTimerY: 249,
+    srbTimerScale: 1,
 });
