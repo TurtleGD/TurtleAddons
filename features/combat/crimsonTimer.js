@@ -11,11 +11,17 @@ Chestplate - Slot 3
 Leggings - Slot 2
 Boots - Slot 1
 */
-
-const playerEntity = new EntityLivingBase(Player.asPlayerMP().getEntity())
+let playerEntity = undefined;
 let wearingCrimsonPieces = 0;
 let crimsonStacks = 0;
 let lastKill = undefined;
+
+register('worldLoad', () => {
+    setTimeout(() => playerEntity = new EntityLivingBase(Player?.asPlayerMP()?.getEntity()), 500)
+    wearingCrimsonPieces = 0;
+    crimsonStacks = 0;
+    lastKill = undefined;
+})
 
 register("actionBar", (message) => {
     if (settings.crimsonTimer) {
@@ -31,19 +37,16 @@ register("actionBar", (message) => {
     }
 }).setCriteria("${message}");
 
-
-register('tick', () => {
+register('soundPlay', () => {
     if (settings.crimsonTimer) {
+        lastKill = new Date().getTime();
+
         let crimsonPieces = 0;
         for (let i = 1; i < 5; i++) {
             if (playerEntity?.getItemInSlot(i)?.getNBT()?.getCompoundTag("tag")?.getCompoundTag("ExtraAttributes")?.getString('id')?.includes('CRIMSON')) crimsonPieces += 1;
         }
         wearingCrimsonPieces = crimsonPieces;
     }
-})
-
-register('soundPlay', () => {
-    if (settings.crimsonTimer) lastKill = new Date().getTime();
 }).setCriteria('tile.piston.in')
 
 register('renderOverlay', () => {
@@ -64,6 +67,6 @@ register('renderOverlay', () => {
                 break;
         }
         let timeLeft = cooldown + (lastKill - new Date().getTime()) / 1000;
-        if (timeLeft > 0 && crimsonStacks == 10) Renderer.drawString(`${timeLeft.toFixed(3)}`, Renderer.screen.getWidth() / 2 - 11, Renderer.screen.getHeight() / 2 + 10);
+        if (timeLeft > 0 && crimsonStacks == 10) Renderer.drawString(`${timeLeft.toFixed(3)}`, Renderer.screen.getWidth() / 2 - 12, Renderer.screen.getHeight() / 2 + 10, true);
     }
 })
