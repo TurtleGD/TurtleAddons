@@ -22,8 +22,8 @@ register("renderOverlay", () => {
         let timeLeft = new Date().getTime();
         timeLeft = 60 - (timeLeft - kickTime) / 1000;
         if (timeLeft >= 0 && !showThing) {
-            Renderer.scale(pogData.lobbyScale);
-            Renderer.drawString(`${AQUA + BOLD}Cooldown over in: ${RESET + timeLeft.toFixed(1)}s`, pogData.lobbyX / pogData.lobbyScale, pogData.lobbyY / pogData.lobbyScale, true);
+            Renderer.scale(pogData.kickedTimerScale);
+            Renderer.drawString(`${AQUA + BOLD}Cooldown over in: ${RESET + timeLeft.toFixed(1)}s`, pogData.kickedTimerX / pogData.kickedTimerScale, pogData.kickedTimerY / pogData.kickedTimerScale, true);
         }
         if (timeLeft < 0) {
             kickTime = undefined;
@@ -33,21 +33,21 @@ register("renderOverlay", () => {
     }
 
     if (showThing) {
-        Renderer.scale(pogData.lobbyScale);
-        Renderer.drawString(`${AQUA + BOLD}Cooldown over in: ${RESET}60.0s`, pogData.lobbyX / pogData.lobbyScale, pogData.lobbyY / pogData.lobbyScale, true);
+        Renderer.scale(pogData.kickedTimerScale);
+        Renderer.drawString(`${AQUA + BOLD}Cooldown over in: ${RESET}60.0s`, pogData.kickedTimerX / pogData.kickedTimerScale, pogData.kickedTimerY / pogData.kickedTimerScale, true);
     }
 });
 
 register('command', (...args) => {
     if (args) {
         if (args[0].toLowerCase() == 'x') {
-            if (!isNaN(parseInt(args[1]))) pogData.lobbyX = parseInt(args[1]);
+            if (!isNaN(parseFloat(args[1]))) pogData.kickedTimerX = parseFloat(args[1]);
             else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
         } else if (args[0].toLowerCase() == 'y') {
-            if (!isNaN(parseInt(args[1]))) pogData.lobbyY = parseInt(args[1]);
+            if (!isNaN(parseFloat(args[1]))) pogData.kickedTimerY = parseFloat(args[1]);
             else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
         } else if (args[0].toLowerCase() == 'scale') {
-            if (!isNaN(parseInt(args[1]))) pogData.lobbyScale = parseInt(args[1]);
+            if (!isNaN(parseFloat(args[1]))) pogData.kickedTimerScale = parseFloat(args[1]);
             else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
         } else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use "x", "y", or "scale".`);
     }
