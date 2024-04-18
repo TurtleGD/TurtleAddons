@@ -2,17 +2,22 @@ import "./features/combat/crimsonTimer.js";
 import "./features/combat/hideCrits.js";
 import "./features/combat/srbTimer.js";
 import "./features/discord/discord.js";
+import "./features/dungeons/announceEarlyP3.js";
+import "./features/dungeons/announceLeaps.js";
+import "./features/dungeons/announcePre2to4.js";
+import "./features/dungeons/bloodAlerts.js";
 import "./features/dungeons/deathMessage.js";
-import "./features/dungeons/dragonSkip.js";
+import "./features/dungeons/dragonDeath.js";
 import "./features/dungeons/earlyP2.js";
-import "./features/dungeons/gyroDisplay.js";
-import "./features/dungeons/leapAnnounce.js";
+import "./features/dungeons/gyroDisplay.js"
 import "./features/dungeons/maskTimers.js";
 import "./features/dungeons/ragTimer.js";
 import "./features/dungeons/relicWaypoints.js";
 import "./features/dungeons/roomMessage.js";
 import "./features/dungeons/terminals.js";
 import "./features/dungeons/ultAlert.js";
+import "./features/dungeons/watcherDialogueSkip.js";
+import "./features/dungeons/wishAlerts.js";
 import "./features/fishing/underground.js";
 import "./features/general/blacklist.js";
 import "./features/general/customScoreboard.js";
@@ -29,6 +34,7 @@ import "./features/kuudra/waypoints.js";
 import "./features/mining/coldAlert.js";
 import "./features/mining/corpseAnnounce.js";
 import "./features/mining/corpseWaypoint.js";
+import "./features/mining/mineshaftExitWaypoint.js";
 import "./features/partyCommands/instanceCommands.js";
 import "./features/partyCommands/leaderCommands.js"
 import "./features/slayers/rareDrops.js";
@@ -37,6 +43,7 @@ import "./features/slayers/bossTime.js";
 import settings from './settings';
 import axios from '../axios';
 import { AQUA, WHITE, STRIKETHROUGH, BOLD, GRAY } from './utils/formatting.js';
+import { moveOverlay } from './utils/overlay.js';
 
 register('command', (arg) => {
     switch (arg) {
@@ -51,6 +58,7 @@ register('command', (arg) => {
             ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}General:`));
             ChatLib.chat('');
             ChatLib.chat(`${AQUA}/ta (/turtleaddons, /turtle, /8joh, /joh) ${WHITE}- Open settings.`);
+            ChatLib.chat(`${AQUA}/ta gui ${WHITE}- Move overlays. Use scroll to change scale.`);
             ChatLib.chat(`${AQUA}/ta changelog ${WHITE}- View changelog.`);
             ChatLib.chat(`${AQUA}/getnbt ${WHITE}- Send NBT data of held item into chat. Open '/ct console' to get color codes.`);
             ChatLib.chat(`${AQUA}/movelobby [x/y/scale] [num] ${WHITE}- Edit Kicked To Lobby Timer.`);
@@ -97,6 +105,8 @@ register('command', (arg) => {
                     console.log(error);
                 });
             break;
+        case 'gui':
+            moveOverlay();
     }
 }).setName('turtleaddons').setAliases('ta', 'turtle', '8joh', 'joh');
 
@@ -104,23 +114,3 @@ register('command', (arg) => {
 register('command', () => {
     ChatLib.simulateChat(Player.getHeldItem()?.getNBT());
 }).setName('getnbt');
-
-
-// Instance commands
-['t5', 't4', 't3', 't2', 't1'].forEach((name, index) => {
-    register('command', () => {
-        ChatLib.command(`joininstance kuudra_${['infernal', 'fiery', 'burning', 'hot', 'normal'][index]}`);
-    }).setName(name, true);
-});
-
-['m7', 'm6', 'm5', 'm4', 'm3', 'm2', 'm1'].forEach((name, index) => {
-    register('command', () => {
-        ChatLib.command(`joininstance master_catacombs_floor_${['seven', 'six', 'five', 'four', 'three', 'two', 'one'][index]}`);
-    }).setName(name, true);
-});
-
-['f7', 'f6', 'f5', 'f4', 'f3', 'f2', 'f1'].forEach((name, index) => {
-    register('command', () => {
-        ChatLib.command(`joininstance catacombs_floor_${['seven', 'six', 'five', 'four', 'three', 'two', 'one'][index]}`);
-    }).setName(name, true);
-});
