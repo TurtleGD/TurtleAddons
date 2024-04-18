@@ -48,13 +48,11 @@ register('tick', () => {
         // Adjusts scoreboard width
         width = Math.max(width, ...customScoreboard.map(line => Renderer.getStringWidth(line) + 10))
 
-        // Centers title
-        while (Renderer.getStringWidth(title.removeFormatting()) < width - 15) {
-            title = ` ${title} `;
-        }
+        // Center title
+        while (Renderer.getStringWidth(title.removeFormatting()) < width - 15) title = ` ${title} `;
         customScoreboard.unshift(title);
 
-        // Merges list
+        // Merge list
         text.setString(customScoreboard.join('\n'));
     }
 })
