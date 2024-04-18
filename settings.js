@@ -5,11 +5,10 @@ import {
     @CheckboxProperty,
     @ButtonProperty,
     @SliderProperty,
-    @ColorProperty,
+    @ColorProperty, 
     @TextProperty,
-    Color
-} from '../Vigilance/index';
-import { BOLD, AQUA, RESET, AQUA, DARK_GRAY } from "./utils/formatting";
+    Color } from '../Vigilance/index';
+import { BOLD, AQUA, RESET, AQUA } from "./utils/formatting";
 import { level } from "./utils/sounds";
 
 @Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
@@ -53,6 +52,8 @@ class settings {
         this.addDependency("Scoreboard Widgets", "Custom Scoreboard");
         this.addDependency("Custom Scoreboard Opacity", "Custom Scoreboard");
         this.addDependency("Pet XP Display (Fishing)", "Pet XP Display");
+        this.addDependency("Party Blood Alerts", "Blood Room Alerts");
+        this.addDependency("Bloodcamper", "Blood Room Alerts");
 
         this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE${RESET} enabling boss dialogue`);
         this.setCategoryDescription("Party Commands", `Prefix: "${BOLD};${RESET}"`);
@@ -110,7 +111,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Pet XP Display',
-        description: `Shows XP from tab list, requires xp to be visible.\nUse /movepetxp [x/y/scale] [num] to change pos.\n\nRun ${AQUA}/ct load${RESET} if it doesn't work.`,
+        description: `Shows XP from tab list, requires xp to be visible.\nUse /movepetxp [x/y/scale] [num] to change pos.\n\nRun ${AQUA}/ct load${RESET} if it infinitely loads.`,
         category: 'General',
         subcategory: 'Miscellaneous'
     })
@@ -328,11 +329,19 @@ class settings {
     // Mining
     @SwitchProperty({
         name: 'Corpses Waypoints',
-        description: 'Marks corpses with a label and beacon.\nPossible corpse locations are hardcoded, should probably be allowed.',
+        description: 'Marks corpses with a label and beacon.',
         category: 'Mining',
         subcategory: 'Glacite Tunnels',
     })
     corpseWaypoint = false;
+
+    @SwitchProperty({
+        name: 'Mineshaft Exit Waypoints',
+        description: 'Marks the mineshaft exit with a label and beacon.',
+        category: 'Mining',
+        subcategory: 'Glacite Tunnels',
+    })
+    mineshaftExitWaypoint = false;
     
     @SwitchProperty({
         name: 'Announce Corpses',
@@ -465,12 +474,20 @@ class settings {
     relicHelper = false;
 
     @SwitchProperty({
-        name: 'Dragon Skip Notification',
-        description: 'Creates a subtitle on dragon death (hopefully).',
+        name: 'Dragon Count Notification',
+        description: 'Creates a subtitle on dragon death.',
         category: 'Dungeons',
         subcategory: 'Wither King',
     })
     dragSkipTitle = false;
+
+    @SwitchProperty({
+        name: 'Dragon Death Time',
+        description: 'Tells you how long it took to kill a dragon.',
+        category: 'Dungeons',
+        subcategory: 'Wither King',
+    })
+    dragDeathTimer = false;
 
     @SelectorProperty({
         name: 'Show Terminal Number',
@@ -490,6 +507,30 @@ class settings {
     })
     sendTermInChat = 0;
 
+    @SwitchProperty({
+        name: 'Announce Pre2 - Pre4 Completion',
+        description: `Sends a message when you finish.`,
+        category: 'Dungeons',
+        subcategory: 'Terminals',
+    })
+    announcePre2to4 = false;
+
+    @SwitchProperty({
+        name: 'Announce Early 3.2 - 3.5 Entry',
+        description: `Sends a message when you enter early.`,
+        category: 'Dungeons',
+        subcategory: 'Terminals',
+    })
+    announceEarlyP3 = false;
+
+    @SwitchProperty({
+        name: 'Announce Leaps',
+        description: 'Sends a message in party chat when leaping to someone.',
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
+    })
+    announceLeaps = false;
+
     @TextProperty({
         name: 'Early P2 Entry Message',
         description: 'Message to send when entering p2 early.',
@@ -497,6 +538,14 @@ class settings {
         subcategory: 'Dungeons',
     })
     p2EntryMessage = '';
+
+    @TextProperty({
+        name: 'Death Message',
+        description: `Sends a message whenever someone dies. Use ${AQUA}[name]${RESET} to use player name.`,
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
+    })
+    deathMessage = '';
 
     @SwitchProperty({
         name: 'Send Message on Specific Room Entry',
@@ -528,7 +577,7 @@ class settings {
         category: 'Dungeons',
         subcategory: 'Invinicibility Timers',
     })
-    invincibilityTimers = false;
+    maskTimer = false;
 
     @CheckboxProperty({
         name: 'Announce Usage',
@@ -550,27 +599,51 @@ class settings {
 
     @SwitchProperty({
         name: 'Class Ultimate Use Alert',
-        description: 'Makes a title when you use your ult.\n(Why the fuck is this so buggy)',
+        description: 'Makes a title when you use your ult.',
         category: 'Dungeons',
-        subcategory: 'Dungeons',
+        subcategory: 'Alerts',
     })
     ultAlert = false;
 
     @SwitchProperty({
-        name: 'Announce Leaps',
-        description: 'Sends a message in party chat when leaping to someone.',
+        name: 'Watcher Dialogue Skip Alert',
+        description: 'Notifies you when to start killing mobs.',
         category: 'Dungeons',
-        subcategory: 'Dungeons',
+        subcategory: 'Alerts',
     })
-    leapAnnounce = false;
+    watcherDialogueSkip = false;
 
-    @TextProperty({
-        name: 'Death Message',
-        description: `Sends a message whenever someone dies. Use ${AQUA}[name]${RESET} to use player name.`,
+    @SwitchProperty({
+        name: 'Healer Wish Alerts',
+        description: 'Notifies you when to use wishes in M7.',
         category: 'Dungeons',
-        subcategory: 'Dungeons',
+        subcategory: 'Alerts',
     })
-    deathMessage = '';
+    wishAlerts = false;
+
+    @SwitchProperty({
+        name: 'Blood Room Alerts',
+        description: 'Notifies you when blood is fully spawned/cleared.',
+        category: 'Dungeons',
+        subcategory: 'Alerts',
+    })
+    bloodAlerts = false;
+
+    @CheckboxProperty({
+        name: 'Party Blood Alerts',
+        description: 'Also notifies your party when blood is fully spawned/cleared.',
+        category: 'Dungeons',
+        subcategory: 'Alerts',
+    })
+    bloodAlertsParty = false;
+
+    @CheckboxProperty({
+        name: 'Bloodcamper',
+        description: 'Only notifies when blood is cleared.',
+        category: 'Dungeons',
+        subcategory: 'Alerts',
+    })
+    bloodcamper = false;
 
     @SwitchProperty({
         name: 'Gyrokinetic Wand Range Overlay',
