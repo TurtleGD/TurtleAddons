@@ -1,3 +1,4 @@
+import { pogData } from "./utils/pogData";
 import {
     @Vigilant,
     @SwitchProperty,
@@ -8,12 +9,11 @@ import {
     @ColorProperty, 
     @TextProperty,
     Color } from '../Vigilance/index';
-import { BOLD, AQUA, RESET, AQUA } from "./utils/formatting";
-import { level } from "./utils/sounds";
+import { BOLD, AQUA, RESET, AQUA, DARK_GRAY } from "./utils/formatting";
 
 @Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
     getCategoryComparator: () => (a, b) => {
-        const categories = ['General', 'Combat', 'Kuudra', 'Mining', 'Slayers', 'Dungeons', 'Fishing', 'Party Commands', 'Discord Webhook'];
+        const categories = ['General', 'Combat', 'Kuudra', 'Mining', 'Slayers', 'Dungeons', 'Fishing', 'Party Commands', 'Events', 'Discord Webhook'];
 
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
@@ -22,8 +22,6 @@ class settings {
     constructor() {
         this.initialize(this);
 
-        this.addDependency("Level Up Volume", "Level Up Sound Effect");
-        this.addDependency("Level Up Volume Test", "Level Up Sound Effect");
         this.addDependency("Outlier Threshold", "Record First Two Pre Times")
         this.addDependency("Highlight Stun Block", "Nether Brick Stun Helper");
         this.addDependency("Highlight Etherwarp Block", "Nether Brick Stun Helper");
@@ -38,6 +36,7 @@ class settings {
         this.addDependency("Name", "Discord Webhook");
         this.addDependency("Profile Picture", "Discord Webhook");
         this.addDependency("Only Non-Player Messages", "Discord Webhook");
+        this.addDependency("Timestamp", "Discord Webhook");
         this.addDependency("Announce Usage", "Mask/Phoenix Invinicibility Timers");
         this.addDependency("Phoenix Level", "Mask/Phoenix Invinicibility Timers");
         this.addDependency("Room Name", "Send Message on Specific Room Entry");
@@ -54,9 +53,11 @@ class settings {
         this.addDependency("Pet XP Display (Fishing)", "Pet XP Display");
         this.addDependency("Party Blood Alerts", "Blood Room Alerts");
         this.addDependency("Bloodcamper", "Blood Room Alerts");
+        this.addDependency("Reset Minion Time Data", "Last Checked Time");
 
-        this.setCategoryDescription("Dungeons", `Most features ${BOLD}REQUIRE${RESET} enabling boss dialogue`);
-        this.setCategoryDescription("Party Commands", `Prefix: "${BOLD};${RESET}"`);
+        this.setCategoryDescription("General", `Edit gui locations with ${AQUA}/ta gui\nRun ${AQUA}/ta help${RESET} for more info`);
+        this.setCategoryDescription("Dungeons", `Most features ${AQUA + BOLD}REQUIRE${RESET} enabling boss dialogue`);
+        this.setCategoryDescription("Party Commands", `Prefix: ${AQUA};\n${DARK_GRAY}(Semicolon)`);
     }
 
     // General
@@ -70,13 +71,14 @@ class settings {
         java.awt.Desktop.getDesktop().browse(new java.net.URI("https://github.com/TurtleGD/TurtleAddons"));
     }
 
-    @SwitchProperty({
+    @SelectorProperty({
         name: 'Level Up Sound Effect',
-        description: `Disfigure - Blank.`,
+        description: `Plays a sound on any level up (also on milestones)`,
         category: 'General',
-        subcategory: 'Sound Effects'
+        subcategory: 'Sound Effects',
+        options: ['None', 'Disfigure - Blank', 'DEAF KEV - Invincible', 'Elektronomia - Sky High', 'Different Heaven & EH!DE - My Heart', 'Different Heaven - Nekozilla', 'TheFatRat - Xenogenesis', 'Random'],
     })
-    levelSound = false;
+    levelSound = 0;
 
     @SliderProperty({
         name: 'Level Up Volume',
@@ -89,16 +91,14 @@ class settings {
     levelVolume = 100;
 
     @ButtonProperty({
-        name: "Level Up Volume Test",
+        name: "Level Up Test",
         description: `Plays the sound.`,
         category: "General",
         subcategory: "Sound Effects",
         placeholder: "Play Sound"
     })
     playLevelUp() {
-        level.stop();
-        level.setVolume(this.levelVolume / 100)
-        level.play();
+        ChatLib.simulateChat('LEVEL UP')
     }
 
     @SwitchProperty({
@@ -158,6 +158,26 @@ class settings {
         max: 100
     })
     customScoreboardOpacity = 33;
+
+    @SwitchProperty({
+        name: 'Last Checked Time',
+        description: `Puts a timer above a minion that tells you the last time it was checked.\n(Will not update if toggled off).\n${DARK_GRAY}(Might fuck up if you swap profiles so you might wanna disable/reset on other profiles)`,
+        category: 'General',
+        subcategory: 'Minions'
+    })
+    lastCheckedMinion = false;
+
+    @ButtonProperty({
+        name: "Reset Minion Time Data",
+        description: `Removes time (and position) data.`,
+        category: "General",
+        subcategory: 'Minions',
+        placeholder: "Reset Minion Data"
+    })
+    resetMinionData() {
+        pogData.minionData.length = 0;
+        pogData.save();
+    }
 
 
     // Combat
@@ -533,7 +553,7 @@ class settings {
 
     @TextProperty({
         name: 'Early P2 Entry Message',
-        description: 'Message to send when entering p2 early.',
+        description: 'Message to send when entering p2 early. (Only sends if mage).',
         category: 'Dungeons',
         subcategory: 'Dungeons',
     })
@@ -691,6 +711,17 @@ class settings {
     })
     gyroOpacity = 100;
 
+
+    // Events
+    @SwitchProperty({
+        name: 'Bingo Overlay',
+        description: 'Puts your uncompleted goals on screen. (Open goal page to update).',
+        category: 'Events',
+        subcategory: 'Bingo',
+    })
+    bingoOverlay = false;
+
+
     // Discord
     @SwitchProperty({
         name: 'Discord Webhook',
@@ -757,6 +788,14 @@ class settings {
     })
     webhookNonPlayer = false;
 
+    @CheckboxProperty({
+        name: 'Timestamp',
+        description: 'Adds a timestamp',
+        category: 'Discord Webhook',
+        subcategory: 'Discord Webhook',
+    })
+    webhookTimestamp = false;
+
 
     // Fishing
     @TextProperty({
@@ -787,3 +826,4 @@ class settings {
 }
 
 export default new settings();
+
