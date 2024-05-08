@@ -11,7 +11,7 @@ import RenderLib from "../../RenderLib";
      * @param {number} blue - Box Color Blue 0-1
      * @param {number} innerAlpha - Box sides alpha 0-1
      * @param {number} outerAlpha - Box edges alpha 0-1
-     * @param {number} drawBeacon - Add a beacon beam, true/false
+     * @param {boolean} drawBeacon - Add a beacon beam, true/false
     */
 export function createWaypoint(x, y, z, red, green, blue, innerAlpha, outerAlpha, drawBeacon) {
     RenderLib.drawInnerEspBox(x + 0.5, y, z + 0.5, 1, 1, red, green, blue, innerAlpha, true);
@@ -54,6 +54,20 @@ export function formatNumber(num) {
     if (Number.isInteger(absNum) && absNum < 1_000) return String(parseInt(formattedNumber));
     return formattedNumber;
 };
+
+export function getTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+  
+    const timeString = [
+        hours > 0 ? `${hours}hr` : '',
+        `${minutes < 10 && hours > 0 ? '0' : ''}${minutes > 0 || hours > 0 ? minutes + 'm' : ''}`,
+        `${remainingSeconds < 10 && (hours > 0 || minutes > 0) ? '0' : ''}${remainingSeconds.toFixed(hours > 0 || minutes > 0 ? 0 : 0)}s`
+    ].join('');
+  
+    return timeString;
+}
 
 // From BloomCore
 const getMatchFromLines = (regex, list, type) => {
