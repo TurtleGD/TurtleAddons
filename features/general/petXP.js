@@ -3,7 +3,7 @@ import { pogData } from "../../utils/pogData";
 import { AQUA, RESET, GRAY, WHITE } from "../../utils/formatting";
 
 let petXPIndex = undefined;
-let showPetXP = false;
+let showThing = false;
 let loadingThing = true;
 let noFishingPet = true;
 let fishingPetXP = '';
@@ -63,17 +63,17 @@ register('renderOverlay', () => {
         Renderer.drawString(`${AQUA}Pet XP:${RESET} Please enable the Pet Widget.`, pogData.petXPX / pogData.petXPScale, pogData.petXPY / pogData.petXPScale, true);
 
     // Fishing pet xp
-    } else if (!showPetXP && settings.petXPFishing.length > 0) {
+    } else if (!showThing && settings.petXPFishing.length > 0) {
         Renderer.scale(pogData.petXPScale);
         Renderer.drawString(`${AQUA}Pet XP (${settings.petXPFishing}):${RESET}${fishingPetXP}`, pogData.petXPX / pogData.petXPScale, pogData.petXPY / pogData.petXPScale, true);
 
     // Current pet xp
-    } else if (!showPetXP && settings.petXP && TabList?.getNames()[petXPIndex]) {
+    } else if (!showThing && settings.petXP && TabList?.getNames()[petXPIndex]) {
         Renderer.scale(pogData.petXPScale);
         Renderer.drawString(`${AQUA}Pet XP:${RESET}${TabList?.getNames()[petXPIndex].removeFormatting()}`, pogData.petXPX / pogData.petXPScale, pogData.petXPY / pogData.petXPScale, true);
     
     // Example value when moving location
-    } else if (showPetXP) {
+    } else if (showThing) {
         Renderer.scale(pogData.petXPScale);
         Renderer.drawString(`${AQUA}Pet XP: ${RESET}0/123,456 (0%)`, pogData.petXPX / pogData.petXPScale, pogData.petXPY / pogData.petXPScale, true);
     }
@@ -92,6 +92,7 @@ register('command', (...args) => {
             else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use a number.`);
         } else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use "x", "y", or "scale".`);
     }
+    else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use "x", "y", or "scale".`);
     pogData.save();
 
     showThing = true;
