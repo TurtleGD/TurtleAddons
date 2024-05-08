@@ -1,5 +1,5 @@
 import settings from "../settings";
-import { AQUA, BOLD, GOLD, GREEN, RED, RESET, WHITE } from "./formatting";
+import { AQUA, BOLD, GOLD, GRAY, GREEN, RED, RESET, WHITE, YELLOW } from "./formatting";
 import { pogData } from "./pogData";
 
 let gui = new Gui();
@@ -22,6 +22,7 @@ register('step', () => {
         if (settings.gummyWarning) overlays.push(['gummyWarning', pogData.gummyWarningX, pogData.gummyWarningY, pogData.gummyWarningScale, `${GREEN}Smoldering Polarization ${WHITE}60m 0s`]);
         if (settings.blazePillar) overlays.push(['blazePillar', pogData.blazePillarX, pogData.blazePillarY, pogData.blazePillarScale, `${GOLD + BOLD}7s ${RED + BOLD}8 hits`]);
         if (settings.srbTimer) overlays.push(['srbTimer', pogData.srbTimerX, pogData.srbTimerY, pogData.srbTimerScale, `${AQUA + BOLD}Souls Rebound: ${RESET}5.000s`]);
+        if (settings.bingoOverlay) overlays.push(['bingoOverlay', pogData.bingoOverlayX, pogData.bingoOverlayY, pogData.bingoOverlayScale, `${GRAY}Break ${YELLOW}150M Crop ${GRAY}Blocks.`]);
     }
 }).setDelay(1)
 
@@ -29,7 +30,7 @@ register('renderOverlay', () => {
     if (!gui.isOpen()) return;
 
     Renderer.drawRect((128 << 24) | (0 << 16) | (0 <<  8) | 0, 0, 0, Renderer.screen.getWidth(), Renderer.screen.getHeight());
-    Renderer.drawString('Use scroll to change scale.', (Renderer.screen.getWidth() / 2) - (Renderer.getStringWidth('Use Q/E while holding to change scale.') / 2), 20)
+    Renderer.drawString('Use scroll to change scale.', (Renderer.screen.getWidth() / 2) - (Renderer.getStringWidth('Use scroll to change scale.') / 2), 20)
     
     overlays.forEach(overlay => {
         settings[overlay[0]] = false;
