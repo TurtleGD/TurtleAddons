@@ -17,6 +17,8 @@ export const pogData = new PogObject("TurtleAddons", {
     // ROBPG, json doesn't have infinity smh
     m7DragonPBs: [69420, 69420, 69420, 69420, 69420],
 
+    minionData: [],
+
     petXPX: 490,
     petXPY: 290,
     petXPScale: 1,
@@ -44,4 +46,9 @@ export const pogData = new PogObject("TurtleAddons", {
     srbTimerX: 490,
     srbTimerY: 249,
     srbTimerScale: 1,
+
+    bingoOverlayX: 0,
+    bingoOverlayY: 0,
+    bingoOverlayScale: 1,
+    bingoData: '',
 });
