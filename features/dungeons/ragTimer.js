@@ -1,5 +1,5 @@
 import settings from "../../settings";
-import { AQUA, BOLD, RESET, GRAY } from "../../utils/formatting";
+import { AQUA, BOLD, RESET, GRAY, WHITE } from "../../utils/formatting";
 import { pogData } from "../../utils/pogData";
 
 let witherKingMessageTime = undefined;
@@ -44,6 +44,7 @@ register('command', (...args) => {
     }
     else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use "x", "y", or "scale".`);
   }
+  else ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${WHITE}Invalid argument. Use "x", "y", or "scale".`);
   pogData.save();
 
   showThing = true;
