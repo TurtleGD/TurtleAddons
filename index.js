@@ -18,10 +18,12 @@ import "./features/dungeons/terminals.js";
 import "./features/dungeons/ultAlert.js";
 import "./features/dungeons/watcherDialogueSkip.js";
 import "./features/dungeons/wishAlerts.js";
+import "./features/events/bingoOverlay.js";
 import "./features/fishing/underground.js";
 import "./features/general/blacklist.js";
 import "./features/general/customScoreboard.js";
 import "./features/general/kickedTimer.js";
+import "./features/general/lastCheckedMinion.js";
 import "./features/general/levelUp.js";
 import "./features/general/petXP.js"
 import "./features/kuudra/avgPre.js";
@@ -61,33 +63,34 @@ register('command', (arg) => {
             ChatLib.chat(`${AQUA}/ta gui ${WHITE}- Move overlays. Use scroll to change scale.`);
             ChatLib.chat(`${AQUA}/ta changelog ${WHITE}- View changelog.`);
             ChatLib.chat(`${AQUA}/getnbt ${WHITE}- Send NBT data of held item into chat. Open '/ct console' to get color codes.`);
-            ChatLib.chat(`${AQUA}/movelobby [x/y/scale] [num] ${WHITE}- Edit Kicked To Lobby Timer.`);
-            ChatLib.chat(`${AQUA}/movepetxp [x/y/scale] [num] ${WHITE}- Edit Pet XP Display.`);
             ChatLib.chat(`${AQUA}/blacklist [view/add/remove/clear] ${WHITE}- Access the party finder blacklist.`);
-            ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
-            ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Combat:`));
-            ChatLib.chat('');
-            ChatLib.chat(`${AQUA}/movesrb [x/y/scale] [num] ${WHITE}- Edit Souls Rebound Timer.`);
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
             ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Kuudra:`));
             ChatLib.chat('');
             ChatLib.chat(`${AQUA}/t[1-5] ${WHITE}- Enter Kuudra tiers 1-5.`);
             ChatLib.chat(`${AQUA}/avgpre ${WHITE}- View average placement times of first and second pres.`);
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
-            ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Slayers:`));
-            ChatLib.chat('');
-            ChatLib.chat(`${AQUA}/movegummy [x/y/scale] [num] ${WHITE}- Edit Smoldering Polarization Display.`);
-            ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
             ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Dungeons:`));
             ChatLib.chat('');
             ChatLib.chat(`${AQUA}/f[1-7] ${WHITE}- Enter Catacomb floors 1-7.`);
             ChatLib.chat(`${AQUA}/m[1-7] ${WHITE}- Enter Master Catacomb floors 1-7.`);
             ChatLib.chat(`${AQUA}/getroom ${WHITE}- Gets the current dungeon room you are in.`);
+            ChatLib.chat(`${AQUA}/dragpb ${WHITE}- Gets your PB M7 dragon kill times.`);
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
             ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Fishing:`));
             ChatLib.chat('');
             ChatLib.chat(`${AQUA}/checkunderground [distance] ${WHITE}- Checks if you get fishing speed nerf in blocks around you and makes an overlay.`);
             ChatLib.chat(`${AQUA}/clearunderground ${WHITE}- Clears the block overlays.`);
+            ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
+            ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Moving Guis (Precisely):`));
+            ChatLib.chat('');
+            ChatLib.chat(`${AQUA}/movebingooverlay [x/y/scale] [num] ${WHITE}- Edit Bingo Overlay.`);
+            ChatLib.chat(`${AQUA}/movelobby [x/y/scale] [num] ${WHITE}- Edit Kicked To Lobby Timer.`);
+            ChatLib.chat(`${AQUA}/movepetxp [x/y/scale] [num] ${WHITE}- Edit Pet XP Display.`);
+            ChatLib.chat(`${AQUA}/movegummy [x/y/scale] [num] ${WHITE}- Edit Smoldering Polarization Display.`);
+            ChatLib.chat(`${AQUA}/movesrb [x/y/scale] [num] ${WHITE}- Edit Souls Rebound Timer.`);
+            ChatLib.chat(`${AQUA}/moverag [x/y/scale] [num] ${WHITE}- Edit P5 Ragnarok Axe Timer.`);
+            ChatLib.chat(`${AQUA}/movemask [x/y/scale] [num] ${WHITE}- Edit Invincibility Timers.`);
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
             break;
         case 'changelog':
@@ -114,3 +117,9 @@ register('command', (arg) => {
 register('command', () => {
     ChatLib.simulateChat(Player.getHeldItem()?.getNBT());
 }).setName('getnbt');
+
+
+// For testing sound
+register('chat', (message, event) => {
+    if (message == 'LEVEL UP') cancel(event);
+}).setCriteria("${message}")
