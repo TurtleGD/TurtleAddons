@@ -1,9 +1,21 @@
 import settings from "../../settings";
-import { AQUA, DARK_GRAY, GOLD, GRAY, GREEN, LIGHT_PURPLE, RED, RESET } from "../../utils/formatting";
+import { AQUA, DARK_GRAY, GOLD, GRAY, GREEN, LIGHT_PURPLE, RED, RESET, STRIKETHROUGH } from "../../utils/formatting";
 import { EntityEnderDragon } from "../../utils/entities";
 import { pogData } from "../../utils/pogData";
 
-let inP5 = true;
+register('command', () => {
+    ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
+    ChatLib.chat(ChatLib.getCenteredText(`${GRAY}[${AQUA}TurtleAddons ${AQUA}M7 Dragon PBs${GRAY}]`));
+    ChatLib.chat('')
+    ChatLib.chat(ChatLib.getCenteredText(`${RED}Red${RESET}: ${pogData.m7DragonPBs[0].toFixed(2)}s`));
+    ChatLib.chat(ChatLib.getCenteredText(`${GOLD}Orange${RESET}: ${pogData.m7DragonPBs[1].toFixed(2)}s`));
+    ChatLib.chat(ChatLib.getCenteredText(`${AQUA}Blue${RESET}: ${pogData.m7DragonPBs[2].toFixed(2)}s`));
+    ChatLib.chat(ChatLib.getCenteredText(`${LIGHT_PURPLE}Purple${RESET}: ${pogData.m7DragonPBs[3].toFixed(2)}s`));
+    ChatLib.chat(ChatLib.getCenteredText(`${GREEN}Green${RESET}: ${pogData.m7DragonPBs[4].toFixed(2)}s`));
+    ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
+}).setName('dragpb').setAliases('dragpbs', 'dragonpb', 'dragonpbs')
+
+let inP5 = false;
 let killed = [];
 let numKilled = 0;
 let uuids = new Set();
@@ -19,13 +31,10 @@ const spawnPoints = [
 register('worldLoad', () => {
     killed.length = 0;
     numKilled = 0;
+    inP5 = false;
 
     if (settings.dragSkipTitle) Client.showTitle(' ', ' ', 0, 0, 1); // Might fix first title not appearing
 })
-
-register("chat", (message) => {
-    
-}).setCriteria("${message}");
 
 register('tick', () => {
     if (settings.dragDeathTimer && inP5) {
@@ -68,7 +77,7 @@ register('entityDeath', (entity) => {
                 
                 if (colorInfo) {
                     killed.push(colorInfo.format + colorInfo.name);
-                    pbMessage = `${DARK_GRAY}(PB: ${pogData.m7DragonPBs[spawnPoints.indexOf(colorInfo)]}s)`;
+                    pbMessage = `${DARK_GRAY}(PB: ${pogData.m7DragonPBs[spawnPoints.indexOf(colorInfo)].toFixed(2)}s)`;
                     
                     if (killTime < pogData.m7DragonPBs[spawnPoints.indexOf(colorInfo)]) {
                         pogData.m7DragonPBs[spawnPoints.indexOf(colorInfo)] = killTime;
