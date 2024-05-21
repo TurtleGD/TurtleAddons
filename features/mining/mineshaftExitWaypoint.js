@@ -5,6 +5,8 @@ import { getArea } from "../../utils/functions";
 
 let exit = [];
 
+
+// god i need something better than this
 register('worldLoad', () => {
     if (settings.mineshaftExitWaypoint) {
         setTimeout(() => {
