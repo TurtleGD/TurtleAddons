@@ -1,4 +1,4 @@
-﻿import settings from "../../settings";
+import settings from "../../settings";
 import { AQUA, BOLD, GOLD, GRAY, GREEN, WHITE, YELLOW } from "../../utils/formatting";
 import { pogData } from "../../utils/pogData";
 
@@ -55,7 +55,7 @@ register('step', () => {
             sheet.setString(pogData.bingoData); 
         }
     }
-})
+}).setFps(5)
 
 register('renderOverlay', () => {
     if (showThing) {
