@@ -11,7 +11,8 @@ import {
     Color } from '../Vigilance/index';
 import { BOLD, AQUA, RESET, AQUA, DARK_GRAY } from "./utils/formatting";
 
-@Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
+// haha
+@Vigilant('TurtleAddons', `${AQUA + BOLD}${Player.getName() == "x5tick" ? "Toe" : Player.getName() == "Threpar" ? "Femboy" : "Turtle"}Addons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
     getCategoryComparator: () => (a, b) => {
         const categories = ['General', 'Combat', 'Kuudra', 'Mining', 'Slayers', 'Dungeons', 'Fishing', 'Party Commands', 'Events', 'Discord Webhook'];
 
@@ -50,12 +51,13 @@ class settings {
         this.addDependency("Glacite Tunnels Threshold", "Cold Alert");
         this.addDependency("Scoreboard Widgets", "Custom Scoreboard");
         this.addDependency("Custom Scoreboard Opacity", "Custom Scoreboard");
-        this.addDependency("Pet XP Display (Fishing)", "Pet XP Display");
+        this.addDependency("Hide Hypixel IP", "Custom Scoreboard");
+        this.addDependency("Custom Scoreboard Update Rate", "Custom Scoreboard");
         this.addDependency("Party Blood Alerts", "Blood Room Alerts");
         this.addDependency("Bloodcamper", "Blood Room Alerts");
         this.addDependency("Reset Minion Time Data", "Last Checked Time");
 
-        this.setCategoryDescription("General", `Edit gui locations with ${AQUA}/ta gui\nRun ${AQUA}/ta help${RESET} for more info`);
+        this.setCategoryDescription("General", `Edit gui locations with ${AQUA}/ta gui\nRun ${AQUA}/ta help${RESET} for more info\nRun ${AQUA}/ct load${RESET} if something breaks`);
         this.setCategoryDescription("Dungeons", `Most features ${AQUA + BOLD}REQUIRE${RESET} enabling boss dialogue`);
         this.setCategoryDescription("Party Commands", `Prefix: ${AQUA};\n${DARK_GRAY}(Semicolon)`);
     }
@@ -103,27 +105,11 @@ class settings {
 
     @SwitchProperty({
         name: 'Kicked To Lobby Timer',
-        description: `Timer next to crosshair when you get kicked to lobby.\nUse /movelobby [x/y/scale] [num] to change pos.`,
+        description: `Timer next to crosshair when you get kicked to lobby.`,
         category: 'General',
         subcategory: 'Miscellaneous'
     })
     kickedTimer = false;
-
-    @SwitchProperty({
-        name: 'Pet XP Display',
-        description: `Shows XP from tab list, requires xp to be visible.\nUse /movepetxp [x/y/scale] [num] to change pos.\n\nRun ${AQUA}/ct load${RESET} if it infinitely loads.`,
-        category: 'General',
-        subcategory: 'Miscellaneous'
-    })
-    petXP = false;
-
-    @TextProperty({
-        name: 'Pet XP Display (Fishing)',
-        description: `Input name of pet to level.\nSaves pet xp when you swap to your fishing pet.`,
-        category: 'General',
-        subcategory: 'Miscellaneous'
-    })
-    petXPFishing = '';
 
     @SwitchProperty({
         name: 'Party Finder Blacklist',
@@ -160,6 +146,24 @@ class settings {
     customScoreboardOpacity = 33;
 
     @SwitchProperty({
+        name: 'Hide Hypixel IP',
+        description: `Hides the ip at the bottom.`,
+        category: 'General',
+        subcategory: 'Custom Scoreboard'
+    })
+    hideHypixelIP = false;
+
+    @SliderProperty({
+        name: 'Custom Scoreboard Update Rate',
+        description: 'Number of times to check per second.\nLower updates less but causes less lag.',
+        category: 'General',
+        subcategory: 'Custom Scoreboard',
+        min: 1,
+        max: 20
+    })
+    customScoreboardUpdateRate = 5;
+
+    @SwitchProperty({
         name: 'Last Checked Time',
         description: `Puts a timer above a minion that tells you the last time it was checked.\n(Will not update if toggled off).\n${DARK_GRAY}(Might fuck up if you swap profiles so you might wanna disable/reset on other profiles)`,
         category: 'General',
@@ -191,7 +195,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Souls Rebound Timer',
-        description: `Shows a timer for when souls rebound expires.\nUse /movesrb [x/y/scale] [num] to change pos.`,
+        description: `Shows a timer for when souls rebound expires.`,
         category: 'Combat',
         subcategory: 'Combat',
     })
@@ -427,7 +431,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Smoldering Polarization Warning',
-        description: `Alerts you x minutes before you run out.\nAlso enables a timer display.\nUse /movegummy [x/y/scale] [num] to change pos.\n\nThe timer is an ${AQUA + BOLD}APPROXIMATION${RESET} and will most likely be a few minutes ${RESET}lower.`, // why the fuck is lower bold without the reset
+        description: `Alerts you x minutes before you run out.\nAlso enables a timer display.\n\nThe timer is an ${AQUA + BOLD}APPROXIMATION${RESET} and will most likely be a few minutes ${RESET}lower.`, // why the fuck is lower bold without the reset
         category: 'Slayers',
         subcategory: 'Inferno Demonlord',
     })
@@ -461,7 +465,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Fire Pillar Alert',
-        description: 'Makes a display thats similar to other mods (soopy laggy??)\nUse /movepillar [x/y/scale] [num] to change pos.',
+        description: 'Makes a display thats similar to other mods (soopy laggy??)',
         category: 'Slayers',
         subcategory: 'Inferno Demonlord',
     })
@@ -479,7 +483,7 @@ class settings {
     // Dungeons
     @SwitchProperty({
         name: 'P5 Ragnarock Axe Timer',
-        description: 'Tells you when to rag axe during the dragons phase.\nActivates rag axe 5s before dragons spawn.\nUse /moverag [x/y/scale] [num] to change pos',
+        description: 'Tells you when to rag axe during the dragons phase.\nActivates rag axe 5s before dragons spawn.',
         category: 'Dungeons',
         subcategory: 'Wither King',
     })
@@ -593,7 +597,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Mask/Phoenix Invinicibility Timers',
-        description: 'Timer next to crosshair for invincibility.\nUse /movemask [x/y/scale] [num] to change pos',
+        description: 'Timer next to crosshair for invincibility.',
         category: 'Dungeons',
         subcategory: 'Invinicibility Timers',
     })
@@ -720,6 +724,14 @@ class settings {
         subcategory: 'Bingo',
     })
     bingoOverlay = false;
+
+    @SwitchProperty({
+        name: 'Hide Chocolate Factory Upgrade Messages',
+        description: 'frick u x5tick',
+        category: 'Events',
+        subcategory: 'Chocolate Factory',
+    })
+    hideChocoUpgrades = false;
 
 
     // Discord
