@@ -18,7 +18,7 @@ register('command', () => {
 let inP5 = false;
 let killed = [];
 let numKilled = 0;
-let uuids = new Set();
+let dragons = new Map();
 
 const spawnPoints = [
     { name: 'Red', coordinates: [27, 20, 59], format: RED },
@@ -32,6 +32,7 @@ register('worldLoad', () => {
     killed.length = 0;
     numKilled = 0;
     inP5 = false;
+    dragons.clear();
 
     if (settings.dragSkipTitle) Client.showTitle(' ', ' ', 0, 0, 1); // Might fix first title not appearing
 })
@@ -41,7 +42,6 @@ register('tick', () => {
         World.getAllEntitiesOfType(EntityEnderDragon).forEach(dragon => {
             let nearestDistance = Infinity;
             let spawnType = undefined;
-            let containsUUID = false;
     
             spawnPoints.forEach(spawn => {
                 const distance = dragon.distanceTo(spawn.coordinates[0], spawn.coordinates[1], spawn.coordinates[2]);
@@ -51,45 +51,39 @@ register('tick', () => {
                 }
             })
     
-            const entityInfo = dragon.getUUID().toString() + ' ' + spawnType.name +  ' ' + new Date().getTime();
-            uuids.forEach(uuid => {
-                if (uuid.toString().includes(dragon.getUUID().toString())) {
-                    containsUUID = true;
-                    return;
-                }
-            })
-    
-            if (!containsUUID) uuids.add(entityInfo);
+            const dragonUUID = dragon.getUUID().toString();
+            if (!dragons.has(dragonUUID)) {
+                dragons.set(dragonUUID, { spawnType, spawnTime: new Date().getTime() });
+            }
         })
     }
 })
 
 register('entityDeath', (entity) => {
     if (settings.dragDeathTimer && inP5) {
-        uuids.forEach(uuid => {
-            if (uuid.toString().includes(entity.getUUID().toString())) {
-                uuids.delete(uuid);
-                const list = uuid.split(" ");
-                const killTime = Math.round(((new Date().getTime() - list[2]) / 1000) * 20) / 20;
-                let pbMessage = '';
+        const entityUUID = entity.getUUID().toString();
+        if (dragons.has(entityUUID)) {
+            const { spawnType, spawnTime } = dragons.get(entityUUID);
+            dragons.delete(entityUUID);
 
-                const colorInfo = spawnPoints.find(spawn => spawn.name == list[1]);
+            const killTime = Math.round(((new Date().getTime() - spawnTime) / 1000) * 20) / 20;
+            let pbMessage = '';
+
+            const colorInfo = spawnPoints.find(spawn => spawn.name == spawnType.name);
+            if (colorInfo) {
+                killed.push(colorInfo.format + colorInfo.name);
+                pbMessage = `${DARK_GRAY}(PB: ${pogData.m7DragonPBs[spawnPoints.indexOf(colorInfo)].toFixed(2)}s)`;
                 
-                if (colorInfo) {
-                    killed.push(colorInfo.format + colorInfo.name);
-                    pbMessage = `${DARK_GRAY}(PB: ${pogData.m7DragonPBs[spawnPoints.indexOf(colorInfo)].toFixed(2)}s)`;
-                    
-                    if (killTime < pogData.m7DragonPBs[spawnPoints.indexOf(colorInfo)]) {
-                        pogData.m7DragonPBs[spawnPoints.indexOf(colorInfo)] = killTime;
-                        pbMessage = `(${AQUA}New PB${RESET})`;
-                        pogData.save();
-                    }
-                    
-                    numKilled += 1;
-                    ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${killed[numKilled - 1] + RESET} took ${killTime.toFixed(2)}s to kill. ${pbMessage}`);
+                if (killTime < pogData.m7DragonPBs[spawnPoints.indexOf(colorInfo)]) {
+                    pogData.m7DragonPBs[spawnPoints.indexOf(colorInfo)] = killTime;
+                    pbMessage = `(${AQUA}New PB${RESET})`;
+                    pogData.save();
                 }
+                
+                numKilled += 1;
+                ChatLib.chat(`${GRAY}[${AQUA}TurtleAddons${GRAY}] ${killed[numKilled - 1] + RESET} took ${killTime.toFixed(2)}s to kill. ${pbMessage}`);
             }
-        })
+        }
     }
 })
 
