@@ -15,7 +15,6 @@ register('step', () => {
     if (!gui.isOpen()) {
         overlays.length = 0;
 
-        if (settings.petXP) overlays.push(['petXP', pogData.petXPX, pogData.petXPY, pogData.petXPScale, `${AQUA}Pet XP: ${RESET}0/123,456 (0%)`]);
         if (settings.maskTimer) overlays.push(['maskTimer', pogData.maskTimerX, pogData.maskTimerY, pogData.maskTimerScale, `${AQUA + BOLD}Invincibility: ${RESET}5.000s`]);
         if (settings.p5RagTimer) overlays.push(['p5RagTimer', pogData.p5RagTimerX, pogData.p5RagTimerY, pogData.p5RagTimerScale, `${AQUA + BOLD}Use Rag in: ${RESET}5.000s`]);
         if (settings.kickedTimer) overlays.push(['kickedTimer', pogData.kickedTimerX, pogData.kickedTimerY, pogData.kickedTimerScale, `${AQUA + BOLD}Cooldown over in: ${RESET}60.0s`]);
