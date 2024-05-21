@@ -2,6 +2,9 @@ import settings from "../../settings";
 import { BOLD, BLUE, GOLD, AQUA, GRAY } from "../../utils/formatting";
 import { EntityArmorStand } from "../../utils/entities";
 import renderBeaconBeam from "../../../BeaconBeam";
+import { getArea } from "../../utils/functions";
+
+let inMineshaft = false;
 
 let lapis = new Set();
 let umber = new Set();
@@ -20,8 +23,12 @@ register('worldUnload', () => {
     vanguard.clear();
 })
 
+register('worldLoad', () => {
+    setTimeout(() => {inMineshaft = getArea() == 'Glacite Mineshafts'}, 1000);
+})
+
 register('step', () => {
-    if (settings.corpseWaypoint) {
+    if (settings.corpseWaypoint && inMineshaft) {
         World.getAllEntitiesOfType(EntityArmorStand).forEach(stand => {
             const helmetNBT = new EntityLivingBase(stand.getEntity())?.getItemInSlot(4)?.getRawNBT();
             if (helmetNBT?.includes(lapisHelmet)) lapis.add(JSON.stringify([stand.getX(), stand.getY(), stand.getZ()]));
@@ -33,7 +40,7 @@ register('step', () => {
 }).setDelay(1)
 
 register('renderWorld', () => {
-    if (settings.corpseWaypoint) {
+    if (settings.corpseWaypoint && inMineshaft) {
         lapis.forEach(arrayJSON => {
             const array = JSON.parse(arrayJSON);
             Tessellator.drawString(`${BLUE + BOLD}Lapis`, array[0], array[1] + 2.5, array[2], Renderer.WHITE, true, 1.5, true);
