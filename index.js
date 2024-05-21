@@ -19,13 +19,13 @@ import "./features/dungeons/ultAlert.js";
 import "./features/dungeons/watcherDialogueSkip.js";
 import "./features/dungeons/wishAlerts.js";
 import "./features/events/bingoOverlay.js";
+import "./features/events/hideChocoUpgrades.js";
 import "./features/fishing/underground.js";
 import "./features/general/blacklist.js";
 import "./features/general/customScoreboard.js";
 import "./features/general/kickedTimer.js";
 import "./features/general/lastCheckedMinion.js";
 import "./features/general/levelUp.js";
-import "./features/general/petXP.js"
 import "./features/kuudra/avgPre.js";
 import "./features/kuudra/chunkAlert.js";
 import "./features/kuudra/partyDps.js";
@@ -46,6 +46,7 @@ import settings from './settings';
 import axios from '../axios';
 import { AQUA, WHITE, STRIKETHROUGH, BOLD, GRAY } from './utils/formatting.js';
 import { moveOverlay } from './utils/overlay.js';
+import { EntityArmorStand } from "./utils/entities.js";
 
 register('command', (arg) => {
     switch (arg) {
@@ -82,11 +83,10 @@ register('command', (arg) => {
             ChatLib.chat(`${AQUA}/checkunderground [distance] ${WHITE}- Checks if you get fishing speed nerf in blocks around you and makes an overlay.`);
             ChatLib.chat(`${AQUA}/clearunderground ${WHITE}- Clears the block overlays.`);
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
-            ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Moving Guis (Precisely):`));
+            ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Moving Guis (Precisely/Legacy):`));
             ChatLib.chat('');
             ChatLib.chat(`${AQUA}/movebingooverlay [x/y/scale] [num] ${WHITE}- Edit Bingo Overlay.`);
             ChatLib.chat(`${AQUA}/movelobby [x/y/scale] [num] ${WHITE}- Edit Kicked To Lobby Timer.`);
-            ChatLib.chat(`${AQUA}/movepetxp [x/y/scale] [num] ${WHITE}- Edit Pet XP Display.`);
             ChatLib.chat(`${AQUA}/movegummy [x/y/scale] [num] ${WHITE}- Edit Smoldering Polarization Display.`);
             ChatLib.chat(`${AQUA}/movesrb [x/y/scale] [num] ${WHITE}- Edit Souls Rebound Timer.`);
             ChatLib.chat(`${AQUA}/moverag [x/y/scale] [num] ${WHITE}- Edit P5 Ragnarok Axe Timer.`);
