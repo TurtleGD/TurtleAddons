@@ -16,15 +16,17 @@ register('worldLoad', () => {
 
 // Gets the position of the last entity you right click on
 register('packetSent', (packet) => {
-    if (packet.class.getSimpleName().toString() == 'C02PacketUseEntity') {
+    if (packet.class.getSimpleName().toString() == 'C02PacketUseEntity' && settings.lastCheckedMinion) {
+        // func_149564_a => public Entity getEntityFromWorld(World worldIn)
         const entity = new Entity(packet.func_149564_a(World.getWorld()))
+        
         lastMinionInteract.length = 0
         lastMinionInteract.push(entity.getX(), entity.getY(), entity.getZ())
     }
 })
 
-register('step', () => {
-    if (Player?.getContainer()?.getName()?.includes('Minion') && settings.lastCheckedMinion) {
+register('tick', () => {
+    if (Player?.getContainer()?.getName()?.includes('Minion') && settings.lastCheckedMinion && !Player?.getContainer()?.getName()?.includes('Crafted Minions')) {
         // If minion location is new add it
         if (!pogData.minionData.some(loc => compareFirstThree(loc, [lastMinionInteract[0], lastMinionInteract[1], lastMinionInteract[2]]))) pogData.minionData.push([lastMinionInteract[0], lastMinionInteract[1], lastMinionInteract[2], new Date().getTime()]);
 
