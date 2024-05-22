@@ -57,7 +57,7 @@ class settings {
         this.addDependency("Bloodcamper", "Blood Room Alerts");
         this.addDependency("Reset Minion Time Data", "Last Checked Time");
 
-        this.setCategoryDescription("General", `Edit gui locations with ${AQUA}/ta gui\nRun ${AQUA}/ta help${RESET} for more info\nRun ${AQUA}/ct load${RESET} if something breaks`);
+        this.setCategoryDescription("General", `Edit gui locations with ${AQUA}/ta gui\nRun ${AQUA}/ta help${RESET} for more info\nRun ${AQUA}/ct load${RESET} if something breaks\n\nMade by ${AQUA}8joh`);
         this.setCategoryDescription("Dungeons", `Most features ${AQUA + BOLD}REQUIRE${RESET} enabling boss dialogue`);
         this.setCategoryDescription("Party Commands", `Prefix: ${AQUA};\n${DARK_GRAY}(Semicolon)`);
     }
@@ -498,16 +498,16 @@ class settings {
     relicHelper = false;
 
     @SwitchProperty({
-        name: 'Dragon Count Notification',
-        description: 'Creates a subtitle on dragon death.',
+        name: `Dragon Count Notification ${AQUA}[WIP]`,
+        description: `Creates a subtitle on dragon death.`,
         category: 'Dungeons',
         subcategory: 'Wither King',
     })
     dragSkipTitle = false;
 
     @SwitchProperty({
-        name: 'Dragon Death Time',
-        description: 'Tells you how long it took to kill a dragon.',
+        name: `Dragon Death Time ${AQUA}[WIP]`,
+        description: `Tells you how long it took to kill a dragon.`,
         category: 'Dungeons',
         subcategory: 'Wither King',
     })
