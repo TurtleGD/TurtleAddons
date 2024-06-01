@@ -51,4 +51,8 @@ export const pogData = new PogObject("TurtleAddons", {
     bingoOverlayY: 0,
     bingoOverlayScale: 1,
     bingoData: '',
+
+    blazetekkRadioRangeX: 490,
+    blazetekkRadioRangeY: 249,
+    blazetekkRadioRangeScale: 1,
 });
