@@ -6,6 +6,7 @@ let gui = new Gui();
 
 let overlays = [];
 let draggingIndex = undefined;
+let strings = [];
 
 export function moveOverlay() {
     gui.open();
@@ -22,24 +23,36 @@ register('step', () => {
         if (settings.blazePillar) overlays.push(['blazePillar', pogData.blazePillarX, pogData.blazePillarY, pogData.blazePillarScale, `${GOLD + BOLD}7s ${RED + BOLD}8 hits`]);
         if (settings.srbTimer) overlays.push(['srbTimer', pogData.srbTimerX, pogData.srbTimerY, pogData.srbTimerScale, `${AQUA + BOLD}Souls Rebound: ${RESET}5.000s`]);
         if (settings.bingoOverlay) overlays.push(['bingoOverlay', pogData.bingoOverlayX, pogData.bingoOverlayY, pogData.bingoOverlayScale, `${GRAY}Break ${YELLOW}150M Crop ${GRAY}Blocks.`]);
+        if (settings.blazetekkRadioRange) overlays.push(['blazetekkRadioRange', pogData.blazetekkRadioRangeX, pogData.blazetekkRadioRangeY, pogData.blazetekkRadioRangeScale, `${AQUA + BOLD}Blazetekk: ${GREEN}10.0 blocks away`]);
     }
 }).setDelay(1)
 
 register('renderOverlay', () => {
     if (!gui.isOpen()) return;
+    strings.length = 0;
 
     Renderer.drawRect((128 << 24) | (0 << 16) | (0 <<  8) | 0, 0, 0, Renderer.screen.getWidth(), Renderer.screen.getHeight());
     Renderer.drawString('Use scroll to change scale.', (Renderer.screen.getWidth() / 2) - (Renderer.getStringWidth('Use scroll to change scale.') / 2), 20)
     
     overlays.forEach(overlay => {
-        settings[overlay[0]] = false;
+        if (typeof settings[overlay[0]] == Boolean) settings[overlay[0]] = false
+        else if (typeof settings[overlay[0]] == String) {
+            strings.push(settings[overlay[0]]);
+            settings[overlay[0]] = '';
+        }
         Renderer.scale(overlay[3]);
         Renderer.drawString(overlay[4], overlay[1] / overlay[3], overlay[2] / overlay[3], true);
     })
 })
 
 register('guiClosed', () => {
-    if (gui.isOpen()) overlays.forEach(overlay => settings[overlay[0]] = true);
+    if (gui.isOpen()) overlays.forEach(overlay => {
+        if (typeof settings[overlay[0]] == Boolean) settings[overlay[0]] = true
+        else if (typeof settings[overlay[0]] == String) {
+            settings[overlay[0]] = strings[0];
+            strings.splice(0, 1);
+        }
+    })
 })
 
 register('guiMouseClick', (x, y) => {
