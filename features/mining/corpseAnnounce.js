@@ -6,7 +6,7 @@ register('worldLoad', () => {
     if (settings.corpseAnnounce) {
         corpses.length = 0;
         setTimeout(() => {
-            for (let i = 0; i < TabList?.getNames().length; i++) {
+            for (let i = 0; i < TabList?.getNames()?.length; i++) {
                 if (TabList?.getNames()[i]?.removeFormatting()?.includes('Frozen Corpses:')) {
                     let counter = 1;
                     while (counter > 0) {
