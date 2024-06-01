@@ -1,6 +1,9 @@
+import "./features/combat/blazetekkRadioRange.js";
 import "./features/combat/crimsonTimer.js";
+import "./features/combat/finalDestinationTimer.js";
 import "./features/combat/hideCrits.js";
 import "./features/combat/srbTimer.js";
+import "./features/combat/toxoCounter.js";
 import "./features/discord/discord.js";
 import "./features/dungeons/announceEarlyP3.js";
 import "./features/dungeons/announceLeaps.js";
@@ -39,6 +42,8 @@ import "./features/mining/corpseWaypoint.js";
 import "./features/mining/mineshaftExitWaypoint.js";
 import "./features/partyCommands/instanceCommands.js";
 import "./features/partyCommands/leaderCommands.js"
+import "./features/rift/punchcardArtifact.js";
+import "./features/rift/vampireHits.js";
 import "./features/slayers/rareDrops.js";
 import "./features/slayers/infernoDemonlord.js";
 import "./features/slayers/bossTime.js";
@@ -46,7 +51,6 @@ import settings from './settings';
 import axios from '../axios';
 import { AQUA, WHITE, STRIKETHROUGH, BOLD, GRAY } from './utils/formatting.js';
 import { moveOverlay } from './utils/overlay.js';
-import { EntityArmorStand } from "./utils/entities.js";
 
 register('command', (arg) => {
     switch (arg) {
@@ -65,6 +69,7 @@ register('command', (arg) => {
             ChatLib.chat(`${AQUA}/ta changelog ${WHITE}- View changelog.`);
             ChatLib.chat(`${AQUA}/getnbt ${WHITE}- Send NBT data of held item into chat. Open '/ct console' to get color codes.`);
             ChatLib.chat(`${AQUA}/blacklist [view/add/remove/clear] ${WHITE}- Access the party finder blacklist.`);
+            ChatLib.chat(`${AQUA}/ta legacyoverlay ${WHITE}- View legacy commands to move overlay guis. Might be helpful if you want to be precise.`);
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
             ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Kuudra:`));
             ChatLib.chat('');
@@ -82,15 +87,6 @@ register('command', (arg) => {
             ChatLib.chat('');
             ChatLib.chat(`${AQUA}/checkunderground [distance] ${WHITE}- Checks if you get fishing speed nerf in blocks around you and makes an overlay.`);
             ChatLib.chat(`${AQUA}/clearunderground ${WHITE}- Clears the block overlays.`);
-            ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
-            ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Moving Guis (Precisely/Legacy):`));
-            ChatLib.chat('');
-            ChatLib.chat(`${AQUA}/movebingooverlay [x/y/scale] [num] ${WHITE}- Edit Bingo Overlay.`);
-            ChatLib.chat(`${AQUA}/movelobby [x/y/scale] [num] ${WHITE}- Edit Kicked To Lobby Timer.`);
-            ChatLib.chat(`${AQUA}/movegummy [x/y/scale] [num] ${WHITE}- Edit Smoldering Polarization Display.`);
-            ChatLib.chat(`${AQUA}/movesrb [x/y/scale] [num] ${WHITE}- Edit Souls Rebound Timer.`);
-            ChatLib.chat(`${AQUA}/moverag [x/y/scale] [num] ${WHITE}- Edit P5 Ragnarok Axe Timer.`);
-            ChatLib.chat(`${AQUA}/movemask [x/y/scale] [num] ${WHITE}- Edit Invincibility Timers.`);
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
             break;
         case 'changelog':
@@ -110,14 +106,27 @@ register('command', (arg) => {
             break;
         case 'gui':
             moveOverlay();
-    }
+            break;
+        case 'legacyoverlay':
+            ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
+            ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Moving Guis (Legacy):`));
+            ChatLib.chat('');
+            ChatLib.chat(`${AQUA}/movebingooverlay [x/y/scale] [num] ${WHITE}- Edit Bingo Overlay.`);
+            ChatLib.chat(`${AQUA}/movelobby [x/y/scale] [num] ${WHITE}- Edit Kicked To Lobby Timer.`);
+            ChatLib.chat(`${AQUA}/movegummy [x/y/scale] [num] ${WHITE}- Edit Smoldering Polarization Display.`);
+            ChatLib.chat(`${AQUA}/movesrb [x/y/scale] [num] ${WHITE}- Edit Souls Rebound Timer.`);
+            ChatLib.chat(`${AQUA}/moverag [x/y/scale] [num] ${WHITE}- Edit P5 Ragnarok Axe Timer.`);
+            ChatLib.chat(`${AQUA}/movemask [x/y/scale] [num] ${WHITE}- Edit Invincibility Timers.`);
+            ChatLib.chat(`${AQUA}/moveblazetekk [x/y/scale] [num] ${WHITE}- Edit Blazetekk Display.`);
+            ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
+            break;
+        }
 }).setName('turtleaddons').setAliases('ta', 'turtle', '8joh', 'joh');
 
 // NBT command
 register('command', () => {
     ChatLib.simulateChat(Player.getHeldItem()?.getNBT());
 }).setName('getnbt');
-
 
 // For testing sound
 register('chat', (message, event) => {
