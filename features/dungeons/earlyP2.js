@@ -18,7 +18,7 @@ register('tick', () => {
     if (!earlyP2MessageSent && settings.p2EntryMessage.length != 0 && Player.getY() < 205 && inMaxor) {
         let regex = new RegExp(`${Player.getName()} \\((\\w+)`);
         let match = TabList.getNames().map(a => a.removeFormatting()).join(", ").match(regex);
-        if (match[1] == ('Mage')) {
+        if (match[1] == ('Mage') || match[1] == ('Berserker')) {
             ChatLib.chat(`pc ${settings.p2EntryMessage}`);
             earlyP2MessageSent = true
         }
