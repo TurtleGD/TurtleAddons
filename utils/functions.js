@@ -37,6 +37,10 @@ export function removeEmojis(str) {
     return str.replace(/[^\x00-\x7F§]/g, "")
 }
 
+export function addCommas(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
+
 // From VolcAddons
 export function formatNumber(num) {
     if (isNaN(num) || num === 0) return "0";
