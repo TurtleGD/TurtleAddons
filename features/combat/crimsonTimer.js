@@ -1,4 +1,5 @@
 import settings from "../../settings";
+import { GOLD } from "../../utils/formatting";
 
 /*
 4/4 Crimson stacks - 11s
@@ -67,6 +68,6 @@ register('renderOverlay', () => {
                 break;
         }
         let timeLeft = cooldown + (lastKill - new Date().getTime()) / 1000;
-        if (timeLeft > 0 && crimsonStacks == 10) Renderer.drawString(`${timeLeft.toFixed(3)}`, Renderer.screen.getWidth() / 2 - 12, Renderer.screen.getHeight() / 2 + 10, true);
+        if (timeLeft > 0 && crimsonStacks == 10) Renderer.drawString(`${GOLD + timeLeft.toFixed(3)}`, Renderer.screen.getWidth() / 2 - 12, Renderer.screen.getHeight() / 2 + 7, true);
     }
 })
