@@ -14,7 +14,7 @@ import { BOLD, AQUA, RESET, AQUA, DARK_GRAY } from "./utils/formatting";
 // haha
 @Vigilant('TurtleAddons', `${AQUA + BOLD}${Player.getName() == "x5tick" ? "Toe" : Player.getName() == "Threpar" ? "Femboy" : "Turtle"}Addons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
     getCategoryComparator: () => (a, b) => {
-        const categories = ['General', 'Combat', 'Kuudra', 'Mining', 'Slayers', 'Dungeons', 'Fishing', 'Party Commands', 'Events', 'Discord Webhook'];
+        const categories = ['General', 'Combat', 'Kuudra', 'Mining', 'Slayers', 'Dungeons', 'Rift', 'Fishing', 'Party Commands', 'Events', 'Discord Webhook'];
 
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
@@ -145,7 +145,7 @@ class settings {
     })
     customScoreboardOpacity = 33;
 
-    @SwitchProperty({
+    @CheckboxProperty({
         name: 'Hide Hypixel IP',
         description: `Hides the ip at the bottom.`,
         category: 'General',
@@ -189,26 +189,50 @@ class settings {
         name: 'Hide Non Critical Hits',
         description: `Stops non crits from rendering under a certain damage value.\nOnly use numbers.`,
         category: 'Combat',
-        subcategory: 'Combat'
+        subcategory: 'Miscellaneous'
     })
     hideNonCrits = '0'
+
+    @SwitchProperty({
+        name: 'Toxophilite XP Counter',
+        description: `Shows xp in lore.\nKill something if you disable and xp stays.`,
+        category: 'Combat',
+        subcategory: 'Miscellaneous',
+    })
+    toxoCounter = false;
 
     @SwitchProperty({
         name: 'Souls Rebound Timer',
         description: `Shows a timer for when souls rebound expires.`,
         category: 'Combat',
-        subcategory: 'Combat',
+        subcategory: 'Timers',
     })
     srbTimer = false;
-
 
     @SwitchProperty({
         name: 'Crimson Stack Timer',
         description: `Shows a timer under your crosshair for when you lose a crimson stack.`,
         category: 'Combat',
-        subcategory: 'Combat',
+        subcategory: 'Timers',
     })
     crimsonTimer = false;
+
+    @SwitchProperty({
+        name: 'Final Destination Timer',
+        description: `Shows a timer under your crosshair for when you lose vivacious darkness.\n${DARK_GRAY}(very scuffed)`,
+        category: 'Combat',
+        subcategory: 'Timers',
+    })
+    finalDestinationTimer = false;
+
+    @TextProperty({
+        name: 'Blazetekk Radio Display',
+        description: `Input a username to check if you are within range.\nDoes not display if person is not found.`,
+        category: 'Combat',
+        subcategory: 'Displays',
+    })
+    blazetekkRadioRange = '';
+
 
     // Kuudra
     @SwitchProperty({
@@ -235,7 +259,7 @@ class settings {
     })
     etherwarpBlock = false;
 
-    @CheckboxProperty({
+    @SwitchProperty({
         name: 'Highlight Animation Skip Block (T5 Only)',
         description: `Highlights the block to etherwarp to.`,
         category: 'Kuudra',
@@ -243,7 +267,7 @@ class settings {
     })
     skipBlock = false;
 
-    @CheckboxProperty({
+    @SwitchProperty({
         name: 'Highlight Insta-Stun Etherwarp Block',
         description: `Highlights the block to etherwarp to.`,
         category: 'Kuudra',
@@ -557,7 +581,7 @@ class settings {
 
     @TextProperty({
         name: 'Early P2 Entry Message',
-        description: 'Message to send when entering p2 early. (Only sends if mage).',
+        description: 'Message to send when entering P2 early. (Only sends if mage or bers).',
         category: 'Dungeons',
         subcategory: 'Dungeons',
     })
@@ -716,6 +740,52 @@ class settings {
     gyroOpacity = 100;
 
 
+    // Rift
+    @SwitchProperty({
+        name: 'Highlight Punched Players',
+        description: 'Highlights players who have been punched for the Punchcard Artifact.',
+        category: 'Rift',
+        subcategory: 'Rift',
+    })
+    punchcardArtifact = false;
+
+    @SwitchProperty({
+        name: 'Vampire Hits',
+        description: `Puts hits you need to lower vampire into mania/stake.\n${DARK_GRAY}(Only T4/T5)`,
+        category: 'Rift',
+        subcategory: 'Rift',
+    })
+    vampireHits = false;
+
+
+    // Fishing
+    @TextProperty({
+        name: 'Underground Block Overlay [WIP]',
+        description: 'Draws an overlay over lava/water that nerfs fishing speed.\nUse /checkunderground [distance] to check blocks in a square around you, more = laggier.\nUse /clearunderground to clear the overlay\n(Constantly checking laggy rn)',
+        category: 'Fishing',
+        subcategory: 'Fishing',
+    })
+    ammonite = '(This box does nothing)';
+
+
+    // Party Commands
+    @SwitchProperty({
+        name: 'Join Instance Commands',
+        description: 'Kuudra and Dungeons, "f7", "t5", etc.',
+        category: 'Party Commands',
+        subcategory: 'Party Commands',
+    })
+    instanceCommands = false;
+
+    @SwitchProperty({
+        name: 'Leader Commands',
+        description: 'transfer, warp, allinv, kick [name].',
+        category: 'Party Commands',
+        subcategory: 'Party Commands',
+    })
+    leaderCommands = false;
+
+
     // Events
     @SwitchProperty({
         name: 'Bingo Overlay',
@@ -807,34 +877,6 @@ class settings {
         subcategory: 'Discord Webhook',
     })
     webhookTimestamp = false;
-
-
-    // Fishing
-    @TextProperty({
-        name: 'Underground Block Overlay [WIP]',
-        description: 'Draws an overlay over lava/water that nerfs fishing speed.\nUse /checkunderground [distance] to check blocks in a square around you, more = laggier.\nUse /clearunderground to clear the overlay\n(Constantly checking laggy rn)',
-        category: 'Fishing',
-        subcategory: 'Fishing',
-    })
-    ammonite = '(This box does nothing)';
-
-
-    // Party Commands
-    @SwitchProperty({
-        name: 'Join Instance Commands',
-        description: 'Kuudra and Dungeons, "f7", "t5", etc.',
-        category: 'Party Commands',
-        subcategory: 'Party Commands',
-    })
-    instanceCommands = false;
-
-    @SwitchProperty({
-        name: 'Leader Commands',
-        description: 'transfer, warp, allinv, kick [name].',
-        category: 'Party Commands',
-        subcategory: 'Party Commands',
-    })
-    leaderCommands = false;
 }
 
 export default new settings();
