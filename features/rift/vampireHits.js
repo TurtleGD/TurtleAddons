@@ -1,7 +1,11 @@
 import settings from "../../settings";
+import { EntityArmorStand } from "../../utils/entities";
 
 let bosses = [];
 let riftDamage = undefined;
+let playerEntity = undefined;
+
+register('worldLoad', () => {setTimeout(() => playerEntity = new EntityLivingBase(Player?.asPlayerMP()?.getEntity()), 500)});
 
 register('step', () => {
     if (!settings.vampireHits) return;
@@ -20,7 +24,8 @@ register('step', () => {
         }
     })
 
-    World.getAllEntitiesOfType(Java.type('net.minecraft.entity.item.EntityArmorStand').class).forEach(stand => {
+    World.getAllEntitiesOfType(EntityArmorStand).forEach(stand => {
+        if (playerEntity?.canSeeEntity(stand) === false) return;
         const bossHP = stand.getName().removeFormatting().slice(2).replace('❤', '').replace(',', '');
         if (bossHP.includes('Bloodfiend')) bosses.push([bossHP, stand.getX(), stand.getY(), stand.getZ()]);
     })
