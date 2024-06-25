@@ -194,14 +194,6 @@ class settings {
     hideNonCrits = '0'
 
     @SwitchProperty({
-        name: 'Toxophilite XP Counter',
-        description: `Shows xp in lore.\nKill something if you disable and xp stays.`,
-        category: 'Combat',
-        subcategory: 'Miscellaneous',
-    })
-    toxoCounter = false;
-
-    @SwitchProperty({
         name: 'Souls Rebound Timer',
         description: `Shows a timer for when souls rebound expires.`,
         category: 'Combat',
@@ -427,6 +419,22 @@ class settings {
     })
     mineshaftColdThreshold = 0;
 
+    @SwitchProperty({
+        name: 'Route Waypoint Lines',
+        description: 'Adds lines between blocks in route waypoints.\nRun /routewaypoints help for more info.',
+        category: 'Mining',
+        subcategory: 'Crystal Hollows',
+    })
+    routeWaypointLines = false;
+
+    @SwitchProperty({
+        name: 'Route Waypoint Crosshair Lines',
+        description: 'Adds lines to the next block in route waypoints from your crosshair.\nRun /routewaypoints help for more info.\n\nbit scuffed lol',
+        category: 'Mining',
+        subcategory: 'Crystal Hollows',
+    })
+    routeWaypointCrosshairLines = false;
+
 
     // Slayers
     @SwitchProperty({
@@ -502,6 +510,14 @@ class settings {
         subcategory: 'Inferno Demonlord',
     })
     hideFireballs = false;
+
+    @SwitchProperty({
+        name: 'Quiet Isle',
+        description: 'Makes most sounds shut up when in crimson isle. Meant for blaze use.',
+        category: 'Slayers',
+        subcategory: 'Inferno Demonlord',
+    })
+    quietBlaze = false;
     
 
     // Dungeons
@@ -556,6 +572,14 @@ class settings {
     sendTermInChat = 0;
 
     @SwitchProperty({
+        name: 'Highlight Terminals',
+        description: `Boxes them in green/red if done or not.`,
+        category: 'Dungeons',
+        subcategory: 'Terminals',
+    })
+    highlightTerminals = false;
+
+    @SwitchProperty({
         name: 'Announce Pre2 - Pre4 Completion',
         description: `Sends a message when you finish.`,
         category: 'Dungeons',
@@ -594,6 +618,14 @@ class settings {
         subcategory: 'Dungeons',
     })
     deathMessage = '';
+
+    @SwitchProperty({
+        name: "Puzzle Fail Draft",
+        description: 'Option to take a draft from sacks on puzzle fail.',
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
+    })
+    architectsFirstDraft = false;
 
     @SwitchProperty({
         name: 'Send Message on Specific Room Entry',
@@ -738,6 +770,7 @@ class settings {
         max: 100
     })
     gyroOpacity = 100;
+    
 
 
     // Rift
