@@ -32,8 +32,8 @@ register('tick', () => {
     }
 })
 
+// looking back what the fuck did i make
 register('renderWorld', () => {
-
     if (settings.blazePillar) {
         if (pillar) {
             if (!pillarX) {
@@ -42,10 +42,10 @@ register('renderWorld', () => {
                 pillarZ = Math.floor(pillar.getZ());
             }
 
-            if (World.getBlockAt(pillarX, pillarY - 1, pillarZ).type.name != 'Stained Clay') RenderLib.drawEspBox(pillarX + 0.5, pillarY - 2, pillarZ + 0.5, 1, 1, 1, 0, 0, 1, true);
-            else if (World.getBlockAt(pillarX, pillarY, pillarZ).type.name != 'Stained Clay') RenderLib.drawEspBox(pillarX + 0.5, pillarY - 2, pillarZ + 0.5, 1, 2, 1, 0, 0, 1, true);
-            else if (World.getBlockAt(pillarX, pillarY + 1, pillarZ).type.name != 'Stained Clay') RenderLib.drawEspBox(pillarX + 0.5, pillarY - 2, pillarZ + 0.5, 1, 3, 1, 0, 0, 1, true);
-            else RenderLib.drawEspBox(pillarX + 0.5, pillarY - 2, pillarZ + 0.5, 1, 4, 1, 0, 0, 1, true);
+            if (World.getBlockAt(pillarX, pillarY - 1, pillarZ).type.name != 'Stained Clay') RenderLib.drawEspBox(pillarX + 0.5, pillarY - 2, pillarZ + 0.5, 1, 1, 1, 0, 0, 1, false);
+            else if (World.getBlockAt(pillarX, pillarY, pillarZ).type.name != 'Stained Clay') RenderLib.drawEspBox(pillarX + 0.5, pillarY - 2, pillarZ + 0.5, 1, 2, 1, 0, 0, 1, false);
+            else if (World.getBlockAt(pillarX, pillarY + 1, pillarZ).type.name != 'Stained Clay') RenderLib.drawEspBox(pillarX + 0.5, pillarY - 2, pillarZ + 0.5, 1, 3, 1, 0, 0, 1, false);
+            else RenderLib.drawEspBox(pillarX + 0.5, pillarY - 2, pillarZ + 0.5, 1, 4, 1, 0, 0, 1, false);
         }
     }
 })
