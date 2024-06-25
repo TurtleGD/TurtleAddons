@@ -2,11 +2,12 @@
     "name": "TurtleAddons",
     "creator": "8joh",
     "description": "Miscellaneous Stuff",
-    "version": "1.3.3",
+    "version": "1.3.5",
     "entry": "index.js",
     "requires": [
         "Vigilance",
         "RenderLib",
+        "RenderLibV2",
         "BeaconBeam",
         "axios",
         "PogData"
