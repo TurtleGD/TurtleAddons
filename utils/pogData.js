@@ -55,4 +55,7 @@ export const pogData = new PogObject("TurtleAddons", {
     blazetekkRadioRangeX: 490,
     blazetekkRadioRangeY: 249,
     blazetekkRadioRangeScale: 1,
+
+    routeWaypoints: [],
+    selectedRoute: ''
 });
