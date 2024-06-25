@@ -3,11 +3,11 @@ import "./features/combat/crimsonTimer.js";
 import "./features/combat/finalDestinationTimer.js";
 import "./features/combat/hideCrits.js";
 import "./features/combat/srbTimer.js";
-import "./features/combat/toxoCounter.js";
 import "./features/discord/discord.js";
 import "./features/dungeons/announceEarlyP3.js";
 import "./features/dungeons/announceLeaps.js";
 import "./features/dungeons/announcePre2to4.js";
+import "./features/dungeons/architechsFirstDraft.js";
 import "./features/dungeons/bloodAlerts.js";
 import "./features/dungeons/deathMessage.js";
 import "./features/dungeons/dragonDeath.js";
@@ -40,13 +40,19 @@ import "./features/mining/coldAlert.js";
 import "./features/mining/corpseAnnounce.js";
 import "./features/mining/corpseWaypoint.js";
 import "./features/mining/mineshaftExitWaypoint.js";
+import "./features/mining/routeWaypoints.js"
 import "./features/partyCommands/instanceCommands.js";
 import "./features/partyCommands/leaderCommands.js"
 import "./features/rift/punchcardArtifact.js";
 import "./features/rift/vampireHits.js";
 import "./features/slayers/rareDrops.js";
-import "./features/slayers/infernoDemonlord.js";
 import "./features/slayers/bossTime.js";
+import "./features/slayers/blaze/blazePillar.js";
+import "./features/slayers/blaze/hideAttunements.js";
+import "./features/slayers/blaze/hideDemonMessages.js";
+import "./features/slayers/blaze/hideFireballs.js";
+import "./features/slayers/blaze/quietBlaze.js";
+import "./features/slayers/blaze/smolderingPolarization.js";
 import settings from './settings';
 import axios from '../axios';
 import { AQUA, WHITE, STRIKETHROUGH, BOLD, GRAY } from './utils/formatting.js';
@@ -87,6 +93,9 @@ register('command', (arg) => {
             ChatLib.chat('');
             ChatLib.chat(`${AQUA}/checkunderground [distance] ${WHITE}- Checks if you get fishing speed nerf in blocks around you and makes an overlay.`);
             ChatLib.chat(`${AQUA}/clearunderground ${WHITE}- Clears the block overlays.`);
+            ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Mining:`));
+            ChatLib.chat('');
+            ChatLib.chat(`${AQUA}/routewaypoints help ${WHITE}- More info on Crystal Hollows route waypoints.`);
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
             break;
         case 'changelog':
