@@ -1,58 +1,51 @@
-import "./features/combat/blazetekkRadioRange.js";
-import "./features/combat/crimsonTimer.js";
-import "./features/combat/finalDestinationTimer.js";
-import "./features/combat/hideCrits.js";
-import "./features/combat/srbTimer.js";
-import "./features/discord/discord.js";
-import "./features/dungeons/announceEarlyP3.js";
-import "./features/dungeons/announceLeaps.js";
-import "./features/dungeons/announcePre2to4.js";
-import "./features/dungeons/architechsFirstDraft.js";
-import "./features/dungeons/bloodAlerts.js";
-import "./features/dungeons/deathMessage.js";
-import "./features/dungeons/dragonDeath.js";
-import "./features/dungeons/earlyP2.js";
-import "./features/dungeons/gyroDisplay.js"
-import "./features/dungeons/maskTimers.js";
-import "./features/dungeons/ragTimer.js";
-import "./features/dungeons/relicWaypoints.js";
-import "./features/dungeons/roomMessage.js";
-import "./features/dungeons/terminals.js";
-import "./features/dungeons/ultAlert.js";
-import "./features/dungeons/watcherDialogueSkip.js";
-import "./features/dungeons/wishAlerts.js";
-import "./features/events/bingoOverlay.js";
-import "./features/events/hideChocoUpgrades.js";
-import "./features/fishing/underground.js";
-import "./features/general/blacklist.js";
-import "./features/general/customScoreboard.js";
-import "./features/general/kickedTimer.js";
-import "./features/general/lastCheckedMinion.js";
-import "./features/general/levelUp.js";
-import "./features/kuudra/avgPre.js";
-import "./features/kuudra/chunkAlert.js";
-import "./features/kuudra/partyDps.js";
-import "./features/kuudra/stunDps.js";
-import "./features/kuudra/stunTimer.js";
-import "./features/kuudra/trueHpDisplay.js";
-import "./features/kuudra/waypoints.js";
-import "./features/mining/coldAlert.js";
-import "./features/mining/corpseAnnounce.js";
-import "./features/mining/corpseWaypoint.js";
-import "./features/mining/mineshaftExitWaypoint.js";
-import "./features/mining/routeWaypoints.js"
-import "./features/partyCommands/instanceCommands.js";
-import "./features/partyCommands/leaderCommands.js"
-import "./features/rift/punchcardArtifact.js";
-import "./features/rift/vampireHits.js";
-import "./features/slayers/rareDrops.js";
-import "./features/slayers/bossTime.js";
-import "./features/slayers/blaze/blazePillar.js";
-import "./features/slayers/blaze/hideAttunements.js";
-import "./features/slayers/blaze/hideDemonMessages.js";
-import "./features/slayers/blaze/hideFireballs.js";
-import "./features/slayers/blaze/quietBlaze.js";
-import "./features/slayers/blaze/smolderingPolarization.js";
+import './features/combat/CrimsonTimer.js';
+import './features/combat/FinalDestinationTimer.js';
+import './features/combat/HideNonCrits.js';
+import './features/combat/SoulsReboundTimer.js';
+import './features/commands/InstanceCommands.js';
+import './features/commands/PartyCommands.js';
+import './features/discord/Discord.js';
+import './features/dungeons/AnnounceEarlyP2.js';
+import './features/dungeons/AnnounceEarlyP3.js';
+import './features/dungeons/AnnounceLeaps.js';
+import './features/dungeons/AnnouncePreDevice.js';
+import './features/dungeons/ArchitechsFirstDraft.js';
+import './features/dungeons/BloodAlerts.js';
+import './features/dungeons/ClassUltimateAlert.js';
+import './features/dungeons/DeathMessage.js';
+import './features/dungeons/GoldorTickTimer.js';
+import './features/dungeons/GyrokineticWandDisplay.js';
+import './features/dungeons/MaskTimers.js';
+import './features/dungeons/P5RagTimer.js';
+import './features/dungeons/RelicWaypoints.js';
+import './features/dungeons/RoomEntryMessage.js';
+import './features/dungeons/Terminals.js';
+import './features/dungeons/WishAlerts.js';
+import './features/dungeons/WitheredDragons.js';
+import './features/fishing/ReindrakeHpDisplay.js';
+import './features/general/CustomScoreboard.js';
+import './features/general/LastCheckedMinions.js';
+import './features/general/LevelUpSound.js';
+import './features/kuudra/AveragePreTimes.js';
+import './features/kuudra/ChunkAlert.js';
+import './features/kuudra/HideNametags.js';
+import './features/kuudra/P3Dps.js';
+import './features/kuudra/P4Dps.js';
+import './features/kuudra/P4HpDisplay.js';
+import './features/kuudra/RendPull.js';
+import './features/kuudra/StunTimer.js';
+import './features/kuudra/SupplyTime.js';
+import './features/kuudra/Waypoints.js';
+import './features/mining/ColdAlert.js';
+import './features/mining/CorpseAnnounce.js';
+import './features/mining/CorpseWaypoints.js';
+import './features/mining/MineshaftExitWaypoint.js';
+import './features/slayers/blaze/BlazePillar.js';
+import './features/slayers/blaze/HideAttunements.js';
+import './features/slayers/blaze/HideDemonMessages.js';
+import './features/slayers/blaze/HideFireballs.js';
+import './features/slayers/RareDropTitle.js';
+import './features/slayers/TrueBossTime.js';
 import settings from './settings';
 import axios from '../axios';
 import { AQUA, WHITE, STRIKETHROUGH, BOLD, GRAY } from './utils/formatting.js';
@@ -74,8 +67,6 @@ register('command', (arg) => {
             ChatLib.chat(`${AQUA}/ta gui ${WHITE}- Move overlays. Use scroll to change scale.`);
             ChatLib.chat(`${AQUA}/ta changelog ${WHITE}- View changelog.`);
             ChatLib.chat(`${AQUA}/getnbt ${WHITE}- Send NBT data of held item into chat. Open '/ct console' to get color codes.`);
-            ChatLib.chat(`${AQUA}/blacklist [view/add/remove/clear] ${WHITE}- Access the party finder blacklist.`);
-            ChatLib.chat(`${AQUA}/ta legacyoverlay ${WHITE}- View legacy commands to move overlay guis. Might be helpful if you want to be precise.`);
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
             ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Kuudra:`));
             ChatLib.chat('');
@@ -88,14 +79,6 @@ register('command', (arg) => {
             ChatLib.chat(`${AQUA}/m[1-7] ${WHITE}- Enter Master Catacomb floors 1-7.`);
             ChatLib.chat(`${AQUA}/getroom ${WHITE}- Gets the current dungeon room you are in.`);
             ChatLib.chat(`${AQUA}/dragpb ${WHITE}- Gets your PB M7 dragon kill times.`);
-            ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
-            ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Fishing:`));
-            ChatLib.chat('');
-            ChatLib.chat(`${AQUA}/checkunderground [distance] ${WHITE}- Checks if you get fishing speed nerf in blocks around you and makes an overlay.`);
-            ChatLib.chat(`${AQUA}/clearunderground ${WHITE}- Clears the block overlays.`);
-            ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Mining:`));
-            ChatLib.chat('');
-            ChatLib.chat(`${AQUA}/routewaypoints help ${WHITE}- More info on Crystal Hollows route waypoints.`);
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
             break;
         case 'changelog':
@@ -116,21 +99,9 @@ register('command', (arg) => {
         case 'gui':
             moveOverlay();
             break;
-        case 'legacyoverlay':
-            ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
-            ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Moving Guis (Legacy):`));
-            ChatLib.chat('');
-            ChatLib.chat(`${AQUA}/movebingooverlay [x/y/scale] [num] ${WHITE}- Edit Bingo Overlay.`);
-            ChatLib.chat(`${AQUA}/movelobby [x/y/scale] [num] ${WHITE}- Edit Kicked To Lobby Timer.`);
-            ChatLib.chat(`${AQUA}/movegummy [x/y/scale] [num] ${WHITE}- Edit Smoldering Polarization Display.`);
-            ChatLib.chat(`${AQUA}/movesrb [x/y/scale] [num] ${WHITE}- Edit Souls Rebound Timer.`);
-            ChatLib.chat(`${AQUA}/moverag [x/y/scale] [num] ${WHITE}- Edit P5 Ragnarok Axe Timer.`);
-            ChatLib.chat(`${AQUA}/movemask [x/y/scale] [num] ${WHITE}- Edit Invincibility Timers.`);
-            ChatLib.chat(`${AQUA}/moveblazetekk [x/y/scale] [num] ${WHITE}- Edit Blazetekk Display.`);
-            ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
-            break;
         }
 }).setName('turtleaddons').setAliases('ta', 'turtle', '8joh', 'joh');
+
 
 // NBT command
 register('command', () => {
@@ -140,4 +111,13 @@ register('command', () => {
 // For testing sound
 register('chat', (message, event) => {
     if (message == 'LEVEL UP') cancel(event);
+}).setCriteria("${message}")
+
+
+// goofy idea surely this works
+register('chat', (message, event) => {
+    if (message == 'turtleaddons gui test') {
+        cancel(event);
+        moveOverlay();
+    }
 }).setCriteria("${message}")
