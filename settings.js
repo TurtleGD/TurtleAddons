@@ -14,7 +14,7 @@ import { BOLD, AQUA, RESET, AQUA, DARK_GRAY } from "./utils/formatting";
 // haha
 @Vigilant('TurtleAddons', `${AQUA + BOLD}${Player.getName() == "x5tick" ? "Toe" : Player.getName() == "Threpar" ? "Femboy" : "Turtle"}Addons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
     getCategoryComparator: () => (a, b) => {
-        const categories = ['General', 'Combat', 'Kuudra', 'Mining', 'Slayers', 'Dungeons', 'Rift', 'Fishing', 'Party Commands', 'Events', 'Discord Webhook'];
+        const categories = ['General', 'Combat', 'Kuudra', 'Mining', 'Slayers', 'Dungeons', 'Fishing', 'Party Commands', 'Discord Webhook'];
 
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
@@ -23,7 +23,6 @@ class settings {
     constructor() {
         this.initialize(this);
 
-        this.addDependency("Outlier Threshold", "Record First Two Pre Times")
         this.addDependency("Highlight Stun Block", "Nether Brick Stun Helper");
         this.addDependency("Highlight Etherwarp Block", "Nether Brick Stun Helper");
         this.addDependency("Entry Timer", "Stun Timer");
@@ -42,7 +41,6 @@ class settings {
         this.addDependency("Phoenix Level", "Mask/Phoenix Invinicibility Timers");
         this.addDependency("Room Name", "Send Message on Specific Room Entry");
         this.addDependency("Room Entry Message", "Send Message on Specific Room Entry");
-        this.addDependency("Time Before Warning", "Smoldering Polarization Warning");
         this.addDependency("Gyro Color", "Gyrokinetic Wand Range Overlay");
         this.addDependency("Gyro RGB", "Gyrokinetic Wand Range Overlay");
         this.addDependency("Gyro Ring Width", "Gyrokinetic Wand Range Overlay");
@@ -53,8 +51,7 @@ class settings {
         this.addDependency("Custom Scoreboard Opacity", "Custom Scoreboard");
         this.addDependency("Hide Hypixel IP", "Custom Scoreboard");
         this.addDependency("Custom Scoreboard Update Rate", "Custom Scoreboard");
-        this.addDependency("Party Blood Alerts", "Blood Room Alerts");
-        this.addDependency("Bloodcamper", "Blood Room Alerts");
+        this.addDependency("Announce Blood Cleared", "Blood Room Cleared Alert");
         this.addDependency("Reset Minion Time Data", "Last Checked Time");
 
         this.setCategoryDescription("General", `Edit gui locations with ${AQUA}/ta gui\nRun ${AQUA}/ta help${RESET} for more info\nRun ${AQUA}/ct load${RESET} if something breaks\n\nMade by ${AQUA}8joh`);
@@ -64,18 +61,18 @@ class settings {
 
     // General
     @ButtonProperty({
-        name: "GitHub",
-        description: `Link to GitHub`,
+        name: "Move Gui Locations",
+        description: `move ur things or something`,
         category: "General",
-        placeholder: "Visit GitHub"
+        placeholder: "Move Overlays"
     })
-    gitHubLink() {
-        java.awt.Desktop.getDesktop().browse(new java.net.URI("https://github.com/TurtleGD/TurtleAddons"));
+    moveOverlay() {
+        ChatLib.simulateChat('turtleaddons gui test');
     }
 
     @SelectorProperty({
         name: 'Level Up Sound Effect',
-        description: `Plays a sound on any level up (also on milestones)`,
+        description: `Plays a sound on any level up except pets (also on milestones)`,
         category: 'General',
         subcategory: 'Sound Effects',
         options: ['None', 'Disfigure - Blank', 'DEAF KEV - Invincible', 'Elektronomia - Sky High', 'Different Heaven & EH!DE - My Heart', 'Different Heaven - Nekozilla', 'TheFatRat - Xenogenesis', 'Random'],
@@ -102,22 +99,6 @@ class settings {
     playLevelUp() {
         ChatLib.simulateChat('LEVEL UP')
     }
-
-    @SwitchProperty({
-        name: 'Kicked To Lobby Timer',
-        description: `Timer next to crosshair when you get kicked to lobby.`,
-        category: 'General',
-        subcategory: 'Miscellaneous'
-    })
-    kickedTimer = false;
-
-    @SwitchProperty({
-        name: 'Party Finder Blacklist',
-        description: `Automatically kick blacklist players from party finder.\nUse /blacklist [view/add/remove/clear].`,
-        category: 'General',
-        subcategory: 'Miscellaneous'
-    })
-    blacklist = false;
 
     @SwitchProperty({
         name: 'Custom Scoreboard',
@@ -216,14 +197,6 @@ class settings {
         subcategory: 'Timers',
     })
     finalDestinationTimer = false;
-
-    @TextProperty({
-        name: 'Blazetekk Radio Display',
-        description: `Input a username to check if you are within range.\nDoes not display if person is not found.`,
-        category: 'Combat',
-        subcategory: 'Displays',
-    })
-    blazetekkRadioRange = '';
 
 
     // Kuudra
@@ -332,6 +305,30 @@ class settings {
     chunkAlert = false;
 
     @SwitchProperty({
+        name: 'Rend Pull',
+        description: `Tells you how much people pull on Kuudra (might count two pulls as one if pulling on same tick, 25m+ pulls).`,
+        category: 'Kuudra',
+        subcategory: 'Infernal Kuudra'
+    })
+    rendPull = false;
+
+    @SwitchProperty({
+        name: 'Supply Drop Times',
+        description: `Replaces the supply message with one with accurate times.`,
+        category: 'Kuudra',
+        subcategory: 'Kuudra'
+    })
+    supplyTimes = false;
+    
+    @SwitchProperty({
+        name: 'Hide Mob Nametags',
+        description: `Removes the health nametag of mobs.`,
+        category: 'Kuudra',
+        subcategory: 'Kuudra'
+    })
+    hideKuudraNametags = false;
+
+    @SwitchProperty({
         name: 'Second Pre Waypoints',
         description: `Pearl waypoints for 2nd pre.`,
         category: 'Kuudra',
@@ -347,17 +344,9 @@ class settings {
     })
     labelSecondWaypoints = false;
 
-    @SwitchProperty({
-        name: 'Record First Two Pre Times',
-        description: `Records supply placements.\nView first and second averages with /avgpre [pre].\nLeave pre as blank to view overall averages.\nClear data with /clearpres.`,
-        category: 'Kuudra',
-        subcategory: 'Kuudra'
-    })
-    recordPreTimes = false;
-
     @SliderProperty({
-        name: 'Outlier Threshold',
-        description: 'Will not record times past this.',
+        name: 'Average Pre Outlier Threshold',
+        description: 'Will not record times past this for /avgpre.',
         category: 'Kuudra',
         subcategory: 'Kuudra',
         min: 1,
@@ -419,22 +408,6 @@ class settings {
     })
     mineshaftColdThreshold = 0;
 
-    @SwitchProperty({
-        name: 'Route Waypoint Lines',
-        description: 'Adds lines between blocks in route waypoints.\nRun /routewaypoints help for more info.',
-        category: 'Mining',
-        subcategory: 'Crystal Hollows',
-    })
-    routeWaypointLines = false;
-
-    @SwitchProperty({
-        name: 'Route Waypoint Crosshair Lines',
-        description: 'Adds lines to the next block in route waypoints from your crosshair.\nRun /routewaypoints help for more info.\n\nbit scuffed lol',
-        category: 'Mining',
-        subcategory: 'Crystal Hollows',
-    })
-    routeWaypointCrosshairLines = false;
-
 
     // Slayers
     @SwitchProperty({
@@ -460,24 +433,6 @@ class settings {
         subcategory: 'Slayers',
     })
     slayerKillTime = false;
-
-    @SwitchProperty({
-        name: 'Smoldering Polarization Warning',
-        description: `Alerts you x minutes before you run out.\nAlso enables a timer display.\n\nThe timer is an ${AQUA + BOLD}APPROXIMATION${RESET} and will most likely be a few minutes ${RESET}lower.`, // why the fuck is lower bold without the reset
-        category: 'Slayers',
-        subcategory: 'Inferno Demonlord',
-    })
-    gummyWarning = false;
-
-    @SliderProperty({
-        name: 'Time Before Warning',
-        description: 'Time in minutes.',
-        category: 'Slayers',
-        subcategory: 'Inferno Demonlord',
-        min: 1,
-        max: 10
-    })
-    gummyTimer = 5;
 
     @SwitchProperty({
         name: 'Disable Hellion Shield Messages',
@@ -510,14 +465,6 @@ class settings {
         subcategory: 'Inferno Demonlord',
     })
     hideFireballs = false;
-
-    @SwitchProperty({
-        name: 'Quiet Isle',
-        description: 'Makes most sounds shut up when in crimson isle. Meant for blaze use.',
-        category: 'Slayers',
-        subcategory: 'Inferno Demonlord',
-    })
-    quietBlaze = false;
     
 
     // Dungeons
@@ -580,7 +527,7 @@ class settings {
     highlightTerminals = false;
 
     @SwitchProperty({
-        name: 'Announce Pre2 - Pre4 Completion',
+        name: 'Announce Pre Device Completion',
         description: `Sends a message when you finish.`,
         category: 'Dungeons',
         subcategory: 'Terminals',
@@ -594,6 +541,14 @@ class settings {
         subcategory: 'Terminals',
     })
     announceEarlyP3 = false;
+
+    @SwitchProperty({
+        name: 'Goldor Tick Timer',
+        description: `Makes a subtitle for Goldor explosions.`,
+        category: 'Dungeons',
+        subcategory: 'Terminals',
+    })
+    goldorTickTimer = false;
 
     @SwitchProperty({
         name: 'Announce Leaps',
@@ -686,14 +641,6 @@ class settings {
     ultAlert = false;
 
     @SwitchProperty({
-        name: 'Watcher Dialogue Skip Alert',
-        description: 'Notifies you when to start killing mobs.',
-        category: 'Dungeons',
-        subcategory: 'Alerts',
-    })
-    watcherDialogueSkip = false;
-
-    @SwitchProperty({
         name: 'Healer Wish Alerts',
         description: 'Notifies you when to use wishes in M7.',
         category: 'Dungeons',
@@ -702,28 +649,20 @@ class settings {
     wishAlerts = false;
 
     @SwitchProperty({
-        name: 'Blood Room Alerts',
-        description: 'Notifies you when blood is fully spawned/cleared.',
+        name: 'Blood Room Cleared Alert',
+        description: 'Notifies you when blood is fully cleared.',
         category: 'Dungeons',
         subcategory: 'Alerts',
     })
     bloodAlerts = false;
 
     @CheckboxProperty({
-        name: 'Party Blood Alerts',
-        description: 'Also notifies your party when blood is fully spawned/cleared.',
+        name: 'Announce Blood Cleared',
+        description: 'Also notifies your party when blood is fully cleared.',
         category: 'Dungeons',
         subcategory: 'Alerts',
     })
     bloodAlertsParty = false;
-
-    @CheckboxProperty({
-        name: 'Bloodcamper',
-        description: 'Only notifies when blood is cleared.',
-        category: 'Dungeons',
-        subcategory: 'Alerts',
-    })
-    bloodcamper = false;
 
     @SwitchProperty({
         name: 'Gyrokinetic Wand Range Overlay',
@@ -771,35 +710,16 @@ class settings {
     })
     gyroOpacity = 100;
     
-
-
-    // Rift
-    @SwitchProperty({
-        name: 'Highlight Punched Players',
-        description: 'Highlights players who have been punched for the Punchcard Artifact.',
-        category: 'Rift',
-        subcategory: 'Rift',
-    })
-    punchcardArtifact = false;
-
-    @SwitchProperty({
-        name: 'Vampire Hits',
-        description: `Puts hits you need to lower vampire into mania/stake.\n${DARK_GRAY}(Only T4/T5)`,
-        category: 'Rift',
-        subcategory: 'Rift',
-    })
-    vampireHits = false;
-
-
+    
     // Fishing
-    @TextProperty({
-        name: 'Underground Block Overlay [WIP]',
-        description: 'Draws an overlay over lava/water that nerfs fishing speed.\nUse /checkunderground [distance] to check blocks in a square around you, more = laggier.\nUse /clearunderground to clear the overlay\n(Constantly checking laggy rn)',
+    @SwitchProperty({
+        name: 'Reindrake HP Display',
+        description: 'Puts a hits display on reindrakes.',
         category: 'Fishing',
-        subcategory: 'Fishing',
+        subcategory: 'Jerry Island',
     })
-    ammonite = '(This box does nothing)';
-
+    reindrakeHP = false;
+    
 
     // Party Commands
     @SwitchProperty({
@@ -817,24 +737,6 @@ class settings {
         subcategory: 'Party Commands',
     })
     leaderCommands = false;
-
-
-    // Events
-    @SwitchProperty({
-        name: 'Bingo Overlay',
-        description: 'Puts your uncompleted goals on screen. (Open goal page to update).',
-        category: 'Events',
-        subcategory: 'Bingo',
-    })
-    bingoOverlay = false;
-
-    @SwitchProperty({
-        name: 'Hide Chocolate Factory Upgrade Messages',
-        description: 'frick u x5tick',
-        category: 'Events',
-        subcategory: 'Chocolate Factory',
-    })
-    hideChocoUpgrades = false;
 
 
     // Discord
