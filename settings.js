@@ -97,7 +97,7 @@ class settings {
         placeholder: "Play Sound"
     })
     playLevelUp() {
-        ChatLib.simulateChat('LEVEL UP')
+        ChatLib.simulateChat('LEVEL UP');
     }
 
     @SwitchProperty({
@@ -172,7 +172,7 @@ class settings {
         category: 'Combat',
         subcategory: 'Miscellaneous'
     })
-    hideNonCrits = '0'
+    hideNonCrits = '0';
 
     @SwitchProperty({
         name: 'Souls Rebound Timer',
@@ -478,23 +478,31 @@ class settings {
 
     @SwitchProperty({
         name: 'Relic Waypoint',
-        description: 'Creates a waypoint to place the correct corrupted relic.\n(Why would you need this)',
+        description: 'Creates a waypoint to place the correct corrupted relic.',
         category: 'Dungeons',
         subcategory: 'Wither King',
     })
-    relicHelper = false;
+    relicWaypoint = false;
 
     @SwitchProperty({
-        name: `Dragon Count Notification ${AQUA}[WIP]`,
-        description: `Creates a subtitle on dragon death.`,
+        name: 'Relic Timer',
+        description: 'Creates a timer above relics until spawn',
+        category: 'Dungeons',
+        subcategory: 'Wither King',
+    })
+    relicTimer = false;
+
+    @SwitchProperty({
+        name: `Dragon Count Notification [WIP]`,
+        description: `Creates a subtitle on dragon death.\nMay break if dragons are out of render distance.`,
         category: 'Dungeons',
         subcategory: 'Wither King',
     })
     dragSkipTitle = false;
 
     @SwitchProperty({
-        name: `Dragon Death Time ${AQUA}[WIP]`,
-        description: `Tells you how long it took to kill a dragon.`,
+        name: `Dragon Death Time [WIP]`,
+        description: `Tells you how long it took to kill a dragon.\nMay break if dragons are out of render distance.`,
         category: 'Dungeons',
         subcategory: 'Wither King',
     })
@@ -535,7 +543,7 @@ class settings {
     announcePre2to4 = false;
 
     @SwitchProperty({
-        name: 'Announce Early 3.2 - 3.5 Entry',
+        name: 'Announce EE2 - EE5',
         description: `Sends a message when you enter early.`,
         category: 'Dungeons',
         subcategory: 'Terminals',
@@ -678,7 +686,7 @@ class settings {
         category: 'Dungeons',
         subcategory: 'Gyrokinetic Wand'
     })
-    gyroColor = Color.CYAN
+    gyroColor = Color.CYAN;
 
     @SliderProperty({
         name: 'Gyro RGB',
