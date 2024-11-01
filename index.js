@@ -90,12 +90,12 @@ register('command', (arg) => {
             break;
         case 'changelog':
         case 'changelogs':
-            axios.get('https://chattriggers.com/api/modules/1882')
+            axios.get('https://api.github.com/repos/TurtleGD/TurtleAddons/releases/latest')
                 .then(response => {
                     ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
-                    ChatLib.chat(ChatLib.getCenteredText(`${GRAY}[${AQUA}TurtleAddons v${response.data.releases[0].releaseVersion} Changelog${GRAY}]`));
+                    ChatLib.chat(ChatLib.getCenteredText(`${GRAY}[${AQUA}TurtleAddons ${response.data.name} Changelog${GRAY}]`));
                     ChatLib.chat('');
-                    ChatLib.chat(response.data.releases[0].changelog);
+                    ChatLib.chat(response.data.body);
                     ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
                 })
                 .catch(error => {
