@@ -9,10 +9,9 @@ import {
     @ColorProperty, 
     @TextProperty,
     Color } from '../Vigilance/index';
-import { BOLD, AQUA, RESET, AQUA, DARK_GRAY } from "./utils/formatting";
+import { BOLD, AQUA, RESET, DARK_GRAY } from "./utils/formatting";
 
-// haha
-@Vigilant('TurtleAddons', `${AQUA + BOLD}${Player.getName() == "x5tick" ? "Toe" : Player.getName() == "Threpar" ? "Femboy" : "Turtle"}Addons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
+@Vigilant('TurtleAddons', `${AQUA + BOLD}"Turtle"Addons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
     getCategoryComparator: () => (a, b) => {
         const categories = ['General', 'Combat', 'Kuudra', 'Mining', 'Slayers', 'Dungeons', 'Fishing', 'Party Commands', 'Discord Webhook'];
 
@@ -60,6 +59,17 @@ class settings {
     }
 
     // General
+    @ButtonProperty({
+        name: "GitHub",
+        description: `Link to GitHub`,
+        category: "General",
+        subcategory: "GitHub",
+        placeholder: "Visit GitHub"
+    })
+    gitHubLink() {
+        java.awt.Desktop.getDesktop().browse(new java.net.URI("https://github.com/TurtleGD/TurtleAddons"));
+    }
+    
     @ButtonProperty({
         name: "Move Gui Locations",
         description: `move ur things or something`,
@@ -234,7 +244,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Highlight Insta-Stun Etherwarp Block',
-        description: `Highlights the block to etherwarp to.`,
+        description: `Highlights the block to etherwarp to.\n(Now includes back pod for pickobulus)`,
         category: 'Kuudra',
         subcategory: 'Stunning'
     })
@@ -493,7 +503,7 @@ class settings {
     relicTimer = false;
 
     @SwitchProperty({
-        name: `Dragon Count Notification [WIP]`,
+        name: `Dragon Count Notification ${AQUA}[WIP]`,
         description: `Creates a subtitle on dragon death.\nMay break if dragons are out of render distance.`,
         category: 'Dungeons',
         subcategory: 'Wither King',
@@ -501,7 +511,7 @@ class settings {
     dragSkipTitle = false;
 
     @SwitchProperty({
-        name: `Dragon Death Time [WIP]`,
+        name: `Dragon Death Time ${AQUA}[WIP]`,
         description: `Tells you how long it took to kill a dragon.\nMay break if dragons are out of render distance.`,
         category: 'Dungeons',
         subcategory: 'Wither King',
@@ -557,6 +567,16 @@ class settings {
         subcategory: 'Terminals',
     })
     goldorTickTimer = false;
+
+    @SliderProperty({
+        name: 'Custom Terminal GUI Scale',
+        description: 'Changes GUI scale when in terminals.\n(Uses vanilla gui scale values, 0 to disable, 2 is Normal scale)',
+        category: 'Dungeons',
+        subcategory: 'Terminals',
+        min: 0,
+        max: 10
+    })
+    terminalGuiScale = 0;
 
     @SwitchProperty({
         name: 'Announce Leaps',
