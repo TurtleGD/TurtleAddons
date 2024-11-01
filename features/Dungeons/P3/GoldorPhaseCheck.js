@@ -32,4 +32,4 @@ register("step", () => {
         else pogData.inGoldorPhase = 0;
         pogData.save();
     }
-})setFps(5);
+}).setFps(5);
