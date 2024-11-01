@@ -15,6 +15,9 @@ export const pogData = new PogObject("TurtleAddons", {
 
     minionData: [],
 
+    goldorPhase: 0,
+    inGoldorPhase: 0,
+
     maskTimerX: 490,
     maskTimerY: 249,
     maskTimerScale: 1,
