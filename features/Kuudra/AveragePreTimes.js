@@ -14,18 +14,18 @@ register('worldLoad', () => {
 
 register("chat", () => {
     instanceStartTime = new Date().getTime();
-        setTimeout(() => {
-            if (Player.getX() < -65 && Player.getX() > -75 && Player.getY() < 82 && Player.getY() > 75 && Player.getZ() < -115 && Player.getZ() > -130) pre = 'triangle';
-            if (Player.getX() < -60 && Player.getX() > -75 && Player.getY() < 82 && Player.getY() > 75 && Player.getZ() < -80 && Player.getZ() > -95) pre = 'equals';
-            if (Player.getX() < -105 && Player.getX() > -120 && Player.getY() < 82 && Player.getY() > 75 && Player.getZ() < -65 && Player.getZ() > -75) pre = 'slash';
-            if (Player.getX() < -125 && Player.getX() > -155 && Player.getY() < 82 && Player.getY() > 70 && Player.getZ() < -130 && Player.getZ() > -170) pre = 'x';
-        }, 14000)
+    setTimeout(() => {
+        if (Player.getX() < -65 && Player.getX() > -75 && Player.getY() < 82 && Player.getY() > 75 && Player.getZ() < -115 && Player.getZ() > -130) pre = 'triangle';
+        if (Player.getX() < -60 && Player.getX() > -75 && Player.getY() < 82 && Player.getY() > 75 && Player.getZ() < -80 && Player.getZ() > -95) pre = 'equals';
+        if (Player.getX() < -105 && Player.getX() > -120 && Player.getY() < 82 && Player.getY() > 75 && Player.getZ() < -65 && Player.getZ() > -75) pre = 'slash';
+        if (Player.getX() < -125 && Player.getX() > -155 && Player.getY() < 82 && Player.getY() > 70 && Player.getZ() < -130 && Player.getZ() > -170) pre = 'x';
+    }, 3000)
 }).setCriteria("[NPC] Elle: Okay adventurers, I will go and fish up Kuudra!")
 
 register("chat", (player, supply) => {
     player = player.removeFormatting();
 
-    if (player.split(" ").pop()) {
+    if (player.includes(Player.getName())) {
         let placeTime = new Date().getTime();
         let supplyTime = (placeTime - instanceStartTime) / 1000;
 
