@@ -63,7 +63,6 @@ class settings {
         name: "GitHub",
         description: `Link to GitHub`,
         category: "General",
-        subcategory: "GitHub",
         placeholder: "Visit GitHub"
     })
     gitHubLink() {
@@ -478,6 +477,14 @@ class settings {
     
 
     // Dungeons
+    @SwitchProperty({
+        name: 'One Flow Waterboard Solver',
+        description: `Thanks Desco (@Knacr ur stinky).`,
+        category: 'Dungeons',
+        subcategory: 'Puzzles',
+    })
+    oneFlow = false;
+
     @SwitchProperty({
         name: 'P5 Ragnarock Axe Timer',
         description: 'Tells you when to rag axe during the dragons phase.\nActivates rag axe 5s before dragons spawn.',
