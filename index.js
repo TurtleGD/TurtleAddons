@@ -25,6 +25,7 @@ import './features/Dungeons/ClassUltimateAlert.js';
 import './features/Dungeons/DeathMessage.js';
 import './features/Dungeons/GyrokineticWandDisplay.js';
 import './features/Dungeons/MaskTimers.js';
+import './features/Dungeons/OneFlow.js';
 import './features/Dungeons/RoomEntryMessage.js';
 import './features/Dungeons/WishAlerts.js';
 import './features/Fishing/ReindrakeHpDisplay.js';
@@ -95,7 +96,7 @@ register('command', (arg) => {
                     ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
                     ChatLib.chat(ChatLib.getCenteredText(`${GRAY}[${AQUA}TurtleAddons ${response.data.name} Changelog${GRAY}]`));
                     ChatLib.chat('');
-                    ChatLib.chat(response.data.body);
+                    ChatLib.chat(response.data.body.replace(/\r/g, ""));
                     ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
                 })
                 .catch(error => {
