@@ -11,7 +11,7 @@ import {
     Color } from '../Vigilance/index';
 import { BOLD, AQUA, RESET, DARK_GRAY } from "./utils/formatting";
 
-@Vigilant('TurtleAddons', `${AQUA + BOLD}"Turtle"Addons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
+@Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
     getCategoryComparator: () => (a, b) => {
         const categories = ['General', 'Combat', 'Kuudra', 'Mining', 'Slayers', 'Dungeons', 'Fishing', 'Party Commands', 'Discord Webhook'];
 
@@ -592,6 +592,14 @@ class settings {
         subcategory: 'Dungeons',
     })
     announceLeaps = false;
+
+    @SwitchProperty({
+        name: 'Teammate Nametags',
+        description: 'Puts larger custom nametags above players.',
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
+    })
+    teammateNametags = false;
 
     @TextProperty({
         name: 'Early P2 Entry Message',
