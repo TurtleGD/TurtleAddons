@@ -128,12 +128,3 @@ register("chat", (message, event) => {
 register("worldLoad", () => {
     Client.showTitle(" ", " ", 0, 0, 1); // Might fix first title not appearing
 })
-
-register("command", () => {
-    /*
-    From field_150360_v in the ct server
-    func_96124_cp() - getTeam()
-    func_178772_a() - setNameTagVisibility()
-    */
-    World.getAllPlayers().forEach(player => player.player.func_96124_cp().func_178772_a(net.minecraft.scoreboard.Team$EnumVisible.NEVER));
-}).setName("test")
