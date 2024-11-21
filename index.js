@@ -22,6 +22,7 @@ import "./features/Dungeons/AnnounceLeaps.js";
 import "./features/Dungeons/ArchitechsFirstDraft.js";
 import "./features/Dungeons/BloodAlerts.js";
 import "./features/Dungeons/ClassUltimateAlert.js";
+import "./features/Dungeons/ColorMimicChests.js";
 import "./features/Dungeons/DeathMessage.js";
 import "./features/Dungeons/GyrokineticWandDisplay.js";
 import "./features/Dungeons/MaskTimers.js";
