@@ -13,7 +13,7 @@ import { BOLD, AQUA, RESET, DARK_GRAY } from "./utils/formatting";
 
 @Vigilant('TurtleAddons', `${AQUA + BOLD}TurtleAddons ${JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version}`, {
     getCategoryComparator: () => (a, b) => {
-        const categories = ['General', 'Combat', 'Kuudra', 'Mining', 'Slayers', 'Dungeons', 'Fishing', 'Party Commands', 'Discord Webhook'];
+        const categories = ['General', 'Combat', 'Kuudra', 'Mining', 'Slayers', 'Dungeons', 'Fishing', 'Party Commands', 'Discord Webhook', 'Credits'];
 
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
@@ -52,6 +52,8 @@ class settings {
         this.addDependency("Custom Scoreboard Update Rate", "Custom Scoreboard");
         this.addDependency("Announce Blood Cleared", "Blood Room Cleared Alert");
         this.addDependency("Reset Minion Time Data", "Last Checked Time");
+        this.addDependency("Hide Vanilla Nametags", "Teammate Nametags");
+        this.addDependency("Add Text Box Shadow", "Teammate Nametags");
 
         this.setCategoryDescription("General", `Edit gui locations with ${AQUA}/ta gui\nRun ${AQUA}/ta help${RESET} for more info\nRun ${AQUA}/ct load${RESET} if something breaks\n\nMade by ${AQUA}8joh`);
         this.setCategoryDescription("Dungeons", `Most features ${AQUA + BOLD}REQUIRE${RESET} enabling boss dialogue`);
@@ -597,9 +599,25 @@ class settings {
         name: 'Teammate Nametags',
         description: 'Puts larger custom nametags above players.',
         category: 'Dungeons',
-        subcategory: 'Dungeons',
+        subcategory: 'Teammate Nametags',
     })
     teammateNametags = false;
+
+    @CheckboxProperty({
+        name: 'Hide Vanilla Nametags',
+        description: 'Hides the normal nametags. May break player outlines and similar features from other mods.',
+        category: 'Dungeons',
+        subcategory: 'Teammate Nametags',
+    })
+    teammateNametagsHideVanilla = false;
+
+    @CheckboxProperty({
+        name: 'Add Text Box Shadow',
+        description: 'Adds a black box behind the text.',
+        category: 'Dungeons',
+        subcategory: 'Teammate Nametags',
+    })
+    teammateNametagsAddTextBoxShadow = false;
 
     @TextProperty({
         name: 'Early P2 Entry Message',
@@ -625,9 +643,18 @@ class settings {
     })
     architectsFirstDraft = false;
 
+
+    @SwitchProperty({
+        name: "Color Mimic Chests",
+        description: 'Turns trapped chests red.',
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
+    })
+    colorMimicChests = false;
+
     @SwitchProperty({
         name: 'Send Message on Specific Room Entry',
-        description: `Sends a message when you enter a specified room.`,
+        description: `Sends a message when you enter a specified room. CURRENTLY BROKEN UNTIL ROOM IDS ARE BACK.`,
         category: 'Dungeons',
         subcategory: 'Message On Room',
     })
@@ -855,6 +882,46 @@ class settings {
         subcategory: 'Discord Webhook',
     })
     webhookTimestamp = false;
+
+    @ButtonProperty({
+        name: "Volcaronitee",
+        description: `For formatNumber and getTime functions`,
+        category: "Credits",
+        placeholder: " "
+    })
+    a() {}
+
+    @ButtonProperty({
+        name: "Nwjn",
+        description: `For drawStringV2 function`,
+        category: "Credits",
+        placeholder: " "
+    })
+    b() {}
+
+    @ButtonProperty({
+        name: "UnclaimedBloom6",
+        description: `For getArea function`,
+        category: "Credits",
+        placeholder: " "
+    })
+    c() {}
+
+    @ButtonProperty({
+        name: "Desco1",
+        description: `For one flow solutions`,
+        category: "Credits",
+        placeholder: " "
+    })
+    d() {}
+
+    @ButtonProperty({
+        name: "sirhypernova",
+        description: `For hiding vanilla nametags`,
+        category: "Credits",
+        placeholder: " "
+    })
+    e() {}
 }
 
 export default new settings();
