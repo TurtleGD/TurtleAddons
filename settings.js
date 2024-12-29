@@ -627,6 +627,14 @@ class settings {
     })
     p2EntryMessage = '';
 
+    @SwitchProperty({
+        name: 'Storm Stunned Alert',
+        description: 'Makes a title and plays a sound when storm is crushed.',
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
+    })
+    stormStunnedAlert = false;
+
     @TextProperty({
         name: 'Death Message',
         description: `Sends a message whenever someone dies. Use ${AQUA}[name]${RESET} to use player name.`,
