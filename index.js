@@ -6,6 +6,7 @@ import "./features/Commands/InstanceCommands.js";
 import "./features/Commands/PartyCommands.js";
 import "./features/Discord/Discord.js";
 import "./features/Dungeons/P2/AnnounceEarlyP2.js";
+import "./features/Dungeons/P2/StormStunnedAlert.js";
 import "./features/Dungeons/P3/AnnounceEarlyP3.js";
 import "./features/Dungeons/P3/AnnouncePreDevice.js";
 import "./features/Dungeons/P3/GoldorPhaseCheck.js";
@@ -129,3 +130,4 @@ register("chat", (message, event) => {
 register("worldLoad", () => {
     Client.showTitle(" ", " ", 0, 0, 1); // Might fix first title not appearing
 })
+
