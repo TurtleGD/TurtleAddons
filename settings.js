@@ -22,42 +22,54 @@ class settings {
     constructor() {
         this.initialize(this);
 
-        this.addDependency("Highlight Stun Block", "Nether Brick Stun Helper");
-        this.addDependency("Highlight Etherwarp Block", "Nether Brick Stun Helper");
+        this.addDependency("Nether Brick Stun Block", "Stun Waypoints");
+        this.addDependency("Nether Brick Etherwarp Block", "Stun Waypoints");
+        this.addDependency("Animation Skip Block (T5 Only)", "Stun Waypoints");
+        this.addDependency("Pickobulus Etherwarp Block", "Stun Waypoints");
+        
         this.addDependency("Entry Timer", "Stun Timer");
-        this.addDependency("Don't Send To Party", "Party True DPS Message");
+
+        this.addDependency("Send To Party", "Party True DPS Message");
+
         this.addDependency("Only Show If Dead", "True HP Display");
-        this.addDependency("Label Second Pre Waypoints", "Second Pre Waypoints");
+
         this.addDependency("Webhook Link", "Discord Webhook");
-        this.addDependency("Message to Match", "Discord Webhook");
-        this.addDependency("Message to Send", "Discord Webhook");
+        this.addDependency("Chat Regex", "Discord Webhook");
+        this.addDependency("Webhook Message", "Discord Webhook");
         this.addDependency("Send Coordinates", "Discord Webhook");
-        this.addDependency("Name", "Discord Webhook");
-        this.addDependency("Profile Picture", "Discord Webhook");
-        this.addDependency("Only Non-Player Messages", "Discord Webhook");
-        this.addDependency("Timestamp", "Discord Webhook");
+        this.addDependency("Webhook Name", "Discord Webhook");
+        this.addDependency("Webhook Profile Picture", "Discord Webhook");
+        this.addDependency("Server Messages", "Discord Webhook");
+        this.addDependency("Webhook Timestamp", "Discord Webhook");
+
         this.addDependency("Announce Usage", "Mask/Phoenix Invinicibility Timers");
         this.addDependency("Phoenix Level", "Mask/Phoenix Invinicibility Timers");
+
         this.addDependency("Room Name", "Send Message on Specific Room Entry");
         this.addDependency("Room Entry Message", "Send Message on Specific Room Entry");
+
         this.addDependency("Gyro Color", "Gyrokinetic Wand Range Overlay");
         this.addDependency("Gyro RGB", "Gyrokinetic Wand Range Overlay");
         this.addDependency("Gyro Ring Width", "Gyrokinetic Wand Range Overlay");
         this.addDependency("Gyro Ring Opacity", "Gyrokinetic Wand Range Overlay");
+
         this.addDependency("Glacite Mineshafts Threshold", "Cold Alert");
         this.addDependency("Glacite Tunnels Threshold", "Cold Alert");
+
         this.addDependency("Scoreboard Widgets", "Custom Scoreboard");
         this.addDependency("Custom Scoreboard Opacity", "Custom Scoreboard");
         this.addDependency("Hide Hypixel IP", "Custom Scoreboard");
-        this.addDependency("Custom Scoreboard Update Rate", "Custom Scoreboard");
+
         this.addDependency("Announce Blood Cleared", "Blood Room Cleared Alert");
-        this.addDependency("Reset Minion Time Data", "Last Checked Time");
+
+        this.addDependency("Reset Minion Data", "Last Checked Minion Time");
+
         this.addDependency("Hide Vanilla Nametags", "Teammate Nametags");
         this.addDependency("Add Text Box Shadow", "Teammate Nametags");
 
         this.setCategoryDescription("General", `Edit gui locations with ${AQUA}/ta gui\nRun ${AQUA}/ta help${RESET} for more info\nRun ${AQUA}/ct load${RESET} if something breaks\n\nMade by ${AQUA}8joh`);
         this.setCategoryDescription("Dungeons", `Most features ${AQUA + BOLD}REQUIRE${RESET} enabling boss dialogue`);
-        this.setCategoryDescription("Party Commands", `Prefix: ${AQUA};\n${DARK_GRAY}(Semicolon)`);
+        this.setCategoryDescription("Party Commands", `Prefix: ${AQUA}.;!?\n${DARK_GRAY}`);
     }
 
     // General
@@ -78,7 +90,7 @@ class settings {
         placeholder: "Move Overlays"
     })
     moveOverlay() {
-        ChatLib.simulateChat('turtleaddons gui test');
+        ChatLib.simulateChat('ta gui');
     }
 
     @SelectorProperty({
@@ -145,27 +157,17 @@ class settings {
     })
     hideHypixelIP = false;
 
-    @SliderProperty({
-        name: 'Custom Scoreboard Update Rate',
-        description: 'Number of times to check per second.\nLower updates less but causes less lag.',
-        category: 'General',
-        subcategory: 'Custom Scoreboard',
-        min: 1,
-        max: 20
-    })
-    customScoreboardUpdateRate = 5;
-
     @SwitchProperty({
-        name: 'Last Checked Time',
-        description: `Puts a timer above a minion that tells you the last time it was checked.\n(Will not update if toggled off).\n${DARK_GRAY}(Might fuck up if you swap profiles so you might wanna disable/reset on other profiles)`,
+        name: 'Last Checked Minion Time',
+        description: `Puts a timer above a minion that tells you the last time it was checked.\n(Currently does not save across profiles)`,
         category: 'General',
         subcategory: 'Minions'
     })
     lastCheckedMinion = false;
 
     @ButtonProperty({
-        name: "Reset Minion Time Data",
-        description: `Removes time (and position) data.`,
+        name: "Reset Minion Data",
+        description: `Removes all minion data.`,
         category: "General",
         subcategory: 'Minions',
         placeholder: "Reset Minion Data"
@@ -201,59 +203,51 @@ class settings {
     })
     crimsonTimer = false;
 
-    @SwitchProperty({
-        name: 'Final Destination Timer',
-        description: `Shows a timer under your crosshair for when you lose vivacious darkness.\n${DARK_GRAY}(very scuffed)`,
-        category: 'Combat',
-        subcategory: 'Timers',
-    })
-    finalDestinationTimer = false;
-
 
     // Kuudra
     @SwitchProperty({
-        name: 'Nether Brick Stun Helper',
+        name: 'Stun Waypoints',
         description: `Highlights the blocks used for nether brick stunning.\n(Requires at least 1500 mining speed).`,
         category: 'Kuudra',
         subcategory: 'Stunning'
     })
-    stunHelper = false;
+    stunWaypoints = false;
 
     @CheckboxProperty({
-        name: 'Highlight Stun Block',
-        description: `Highlights the nether brick block to break.`,
+        name: 'Nether Brick Stun Block',
+        description: `Highlights the block to break.`,
         category: 'Kuudra',
         subcategory: 'Stunning'
     })
-    stunBlock = false;
+    netherBrickStun = false;
 
     @CheckboxProperty({
-        name: 'Highlight Etherwarp Block',
+        name: 'Nether Brick Etherwarp Block',
         description: `Highlights the block to etherwarp to.`,
         category: 'Kuudra',
         subcategory: 'Stunning'
     })
-    etherwarpBlock = false;
+    netherBrickEtherwarp = false;
 
-    @SwitchProperty({
-        name: 'Highlight Animation Skip Block (T5 Only)',
+    @CheckboxProperty({
+        name: 'Animation Skip Block (T5 Only)',
         description: `Highlights the block to etherwarp to.`,
         category: 'Kuudra',
         subcategory: 'Stunning'
     })
     skipBlock = false;
 
-    @SwitchProperty({
-        name: 'Highlight Insta-Stun Etherwarp Block',
-        description: `Highlights the block to etherwarp to.\n(Now includes back pod for pickobulus)`,
+    @CheckboxProperty({
+        name: 'Pickobulus Etherwarp Block',
+        description: `Highlights the block to etherwarp to.`,
         category: 'Kuudra',
         subcategory: 'Stunning'
     })
-    instaStunEtherwarpBlock = false;
+    pickobulusStun = false;
 
     @SwitchProperty({
         name: 'Stun DPS',
-        description: `Tells you the dps for stun.\n(Might break if you stun cause render distance)`,
+        description: `Tells you the dps for stun.\n(Might break if you stun cause render distance and kuudra entity)`,
         category: 'Kuudra',
         subcategory: 'Stunning'
     })
@@ -284,12 +278,12 @@ class settings {
     partyDps = false;
 
     @CheckboxProperty({
-        name: "Don't Send To Party",
-        description: `Sends the message to yourself.`,
+        name: "Send To Party",
+        description: `Sends the message to the party.`,
         category: 'Kuudra',
         subcategory: 'Infernal Kuudra'
     })
-    partyDpsNoSend = false;
+    sendPartyDps = false;
     
     @SwitchProperty({
         name: 'True HP Display',
@@ -338,22 +332,6 @@ class settings {
         subcategory: 'Kuudra'
     })
     hideKuudraNametags = false;
-
-    @SwitchProperty({
-        name: 'Second Pre Waypoints',
-        description: `Pearl waypoints for 2nd pre.`,
-        category: 'Kuudra',
-        subcategory: 'Kuudra'
-    })
-    secondWaypoints = false;
-
-    @CheckboxProperty({
-        name: 'Label Second Pre Waypoints',
-        description: `Labels the waypoints.`,
-        category: 'Kuudra',
-        subcategory: 'Kuudra'
-    })
-    labelSecondWaypoints = false;
 
     @SliderProperty({
         name: 'Average Pre Outlier Threshold',
@@ -480,14 +458,6 @@ class settings {
 
     // Dungeons
     @SwitchProperty({
-        name: 'One Flow Waterboard Solver',
-        description: `Thanks Desco (@Knacr ur stinky).`,
-        category: 'Dungeons',
-        subcategory: 'Puzzles',
-    })
-    oneFlow = false;
-
-    @SwitchProperty({
         name: 'P5 Ragnarock Axe Timer',
         description: 'Tells you when to rag axe during the dragons phase.\nActivates rag axe 5s before dragons spawn.',
         category: 'Dungeons',
@@ -512,16 +482,16 @@ class settings {
     relicTimer = false;
 
     @SwitchProperty({
-        name: `Dragon Count Notification ${AQUA}[WIP]`,
-        description: `Creates a subtitle on dragon death.\nMay break if dragons are out of render distance.`,
+        name: `Dragon Count Notification`,
+        description: `Creates a subtitle on dragon death.[WIP]\nMay break if dragons exit render distance.`,
         category: 'Dungeons',
         subcategory: 'Wither King',
     })
     dragSkipTitle = false;
 
     @SwitchProperty({
-        name: `Dragon Death Time ${AQUA}[WIP]`,
-        description: `Tells you how long it took to kill a dragon.\nMay break if dragons are out of render distance.`,
+        name: `Dragon Death Time`,
+        description: `Tells you how long it took to kill a dragon.\nMay break if dragons exit render distance.`,
         category: 'Dungeons',
         subcategory: 'Wither King',
     })
@@ -635,6 +605,22 @@ class settings {
     })
     stormStunnedAlert = false;
 
+    @SwitchProperty({
+        name: 'Announce Mimic Dead',
+        description: 'Announces "Mimic Dead!" when mimic is killed. (hey skytils fix ur mimic announce)',
+        category: 'Dungeons',
+        subcategory: 'Mimic',
+    })
+    announceMimicDead = false;
+
+    @SwitchProperty({
+        name: "Color Mimic Chests",
+        description: 'Turns trapped chests red.',
+        category: 'Dungeons',
+        subcategory: 'Mimic',
+    })
+    colorMimicChests = false;
+
     @TextProperty({
         name: 'Death Message',
         description: `Sends a message whenever someone dies. Use ${AQUA}[name]${RESET} to use player name.`,
@@ -645,20 +631,19 @@ class settings {
 
     @SwitchProperty({
         name: "Puzzle Fail Draft",
-        description: 'Option to take a draft from sacks on puzzle fail.',
+        description: 'Sends a clickable message to take a draft from sacks.',
         category: 'Dungeons',
         subcategory: 'Dungeons',
     })
     architectsFirstDraft = false;
 
-
     @SwitchProperty({
-        name: "Color Mimic Chests",
-        description: 'Turns trapped chests red.',
+        name: "Server Lag Times",
+        description: 'Sends a message showing server lag times.\nAlso works for Kuudra.',
         category: 'Dungeons',
         subcategory: 'Dungeons',
     })
-    colorMimicChests = false;
+    serverLagTimes = false;
 
     @SwitchProperty({
         name: 'Send Message on Specific Room Entry',
@@ -801,26 +786,18 @@ class settings {
 
     // Party Commands
     @SwitchProperty({
-        name: 'Join Instance Commands',
-        description: 'Kuudra and Dungeons, "f7", "t5", etc.',
+        name: 'Party Commands',
+        description: 'ptme, warp, allinv, transfer/pt/inv/kick [name], f/m/[1-7], t[1-5].',
         category: 'Party Commands',
         subcategory: 'Party Commands',
     })
-    instanceCommands = false;
-
-    @SwitchProperty({
-        name: 'Leader Commands',
-        description: 'transfer, warp, allinv, kick [name].',
-        category: 'Party Commands',
-        subcategory: 'Party Commands',
-    })
-    leaderCommands = false;
+    partyCommands = false;
 
 
     // Discord
     @SwitchProperty({
         name: 'Discord Webhook',
-        description: 'Sends a discord message to a channel when a certain message is found in chat.',
+        description: 'Sends a discord message to a channel when a certain message is matched in chat.',
         category: 'Discord Webhook',
         subcategory: 'Discord Webhook',
     })
@@ -828,7 +805,7 @@ class settings {
 
     @TextProperty({
         name: 'Webhook Link',
-        description: 'Webhook to send message to\nGet link from Server Settings > Integrations > Webhooks > New Webhook > Copy Webhook URL',
+        description: 'Webhook to send the message to\nGet link from Server Settings > Integrations > Webhooks > New Webhook > Copy Webhook URL',
         category: 'Discord Webhook',
         subcategory: 'Discord Webhook',
         protected: true,
@@ -836,16 +813,16 @@ class settings {
     webhookLink = '';
 
     @TextProperty({
-        name: 'Message to Match',
-        description: 'Sends a custom message if it contains the message in the text box',
+        name: 'Chat Regex',
+        description: 'Regex to match the message to',
         category: 'Discord Webhook',
         subcategory: 'Discord Webhook',
     })
-    webhookMatch = '';
+    webhookRegex = '';
 
     @TextProperty({
-        name: 'Message to Send',
-        description: 'Custom message that will be sent\nEnter "chat" to send the actual chat message',
+        name: 'Webhook Message',
+        description: `Custom message that will be sent\nUse ${AQUA}[message]${RESET} to send the actual chat message`,
         category: 'Discord Webhook',
         subcategory: 'Discord Webhook',
     })
@@ -853,47 +830,50 @@ class settings {
 
     @CheckboxProperty({
         name: 'Send Coordinates',
-        description: 'Adds coords to the message',
+        description: 'Adds your coords to the message',
         category: 'Discord Webhook',
         subcategory: 'Discord Webhook',
     })
     webhookCoords = false;
 
     @TextProperty({
-        name: 'Name',
-        description: 'Paste name to use',
+        name: 'Webhook Name',
+        description: 'Webhook Name',
         category: 'Discord Webhook',
         subcategory: 'Discord Webhook',
     })
     webhookName = '';
 
     @TextProperty({
-        name: 'Profile Picture',
-        description: 'Paste link to use as the profile picture',
+        name: 'Webhook Profile Picture',
+        description: 'Webhook Profile Picture',
         category: 'Discord Webhook',
         subcategory: 'Discord Webhook',
     })
     webhookPfp = '';
 
     @CheckboxProperty({
-        name: 'Only Non-Player Messages',
-        description: 'Will not send if the message matches but is sent by a player',
+        name: 'Server Messages',
+        description: 'Will not send if the message is sent by a player',
         category: 'Discord Webhook',
         subcategory: 'Discord Webhook',
     })
     webhookNonPlayer = false;
 
     @CheckboxProperty({
-        name: 'Timestamp',
+        name: 'Webhook Timestamp',
         description: 'Adds a timestamp',
         category: 'Discord Webhook',
         subcategory: 'Discord Webhook',
     })
     webhookTimestamp = false;
 
+
+
+    // Credits
     @ButtonProperty({
         name: "Volcaronitee",
-        description: `For formatNumber and getTime functions`,
+        description: ``,
         category: "Credits",
         placeholder: " "
     })
@@ -901,7 +881,7 @@ class settings {
 
     @ButtonProperty({
         name: "Nwjn",
-        description: `For drawStringV2 function`,
+        description: ``,
         category: "Credits",
         placeholder: " "
     })
@@ -909,27 +889,19 @@ class settings {
 
     @ButtonProperty({
         name: "UnclaimedBloom6",
-        description: `For getArea function`,
+        description: ``,
         category: "Credits",
         placeholder: " "
     })
     c() {}
 
     @ButtonProperty({
-        name: "Desco1",
-        description: `For one flow solutions`,
+        name: "sirhypernova",
+        description: ``,
         category: "Credits",
         placeholder: " "
     })
     d() {}
-
-    @ButtonProperty({
-        name: "sirhypernova",
-        description: `For hiding vanilla nametags`,
-        category: "Credits",
-        placeholder: " "
-    })
-    e() {}
 }
 
 export default new settings();
