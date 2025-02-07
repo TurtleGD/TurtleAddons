@@ -1,8 +1,7 @@
 import "./features/Combat/CrimsonTimer.js";
-import "./features/Combat/FinalDestinationTimer.js";
 import "./features/Combat/HideNonCrits.js";
 import "./features/Combat/SoulsReboundTimer.js";
-import "./features/Commands/InstanceCommands.js";
+import "./features/Commands/Commands.js";
 import "./features/Commands/PartyCommands.js";
 import "./features/Discord/Discord.js";
 import "./features/Dungeons/P2/AnnounceEarlyP2.js";
@@ -20,6 +19,7 @@ import "./features/Dungeons/P5/P5RelicTimer.js";
 import "./features/Dungeons/P5/P5RelicWaypoints.js";
 import "./features/Dungeons/P5/WitheredDragons.js";
 import "./features/Dungeons/AnnounceLeaps.js";
+import "./features/Dungeons/AnnounceMimicDead.js";
 import "./features/Dungeons/ArchitechsFirstDraft.js";
 import "./features/Dungeons/BloodAlerts.js";
 import "./features/Dungeons/ClassUltimateAlert.js";
@@ -27,8 +27,8 @@ import "./features/Dungeons/ColorMimicChests.js";
 import "./features/Dungeons/DeathMessage.js";
 import "./features/Dungeons/GyrokineticWandDisplay.js";
 import "./features/Dungeons/MaskTimers.js";
-import "./features/Dungeons/OneFlow.js";
 import "./features/Dungeons/RoomEntryMessage.js";
+import "./features/Dungeons/ServerLagTimes.js";
 import "./features/Dungeons/TeammateNametags.js";
 import "./features/Dungeons/WishAlerts.js";
 import "./features/Fishing/ReindrakeHpDisplay.js";
@@ -77,6 +77,7 @@ register("command", (arg) => {
             ChatLib.chat(`${AQUA}/taresetgui ${WHITE}- Reset overlays.`);
             ChatLib.chat(`${AQUA}/ta changelog ${WHITE}- View changelog.`);
             ChatLib.chat(`${AQUA}/getnbt ${WHITE}- Send NBT data of held item into chat. Run "/ct dump" to get color codes.`);
+            ChatLib.chat(`${AQUA}/refillpearls ${WHITE}- Runs /gfs ender pearls to the nearest stack.`);
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
             ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Kuudra:`));
             ChatLib.chat("");
@@ -89,7 +90,8 @@ register("command", (arg) => {
             ChatLib.chat(`${AQUA}/f[1-7] ${WHITE}- Enter Catacomb floors 1-7.`);
             ChatLib.chat(`${AQUA}/m[1-7] ${WHITE}- Enter Master Catacomb floors 1-7.`);
             ChatLib.chat(`${AQUA}/getroom ${WHITE}- Gets the current dungeon room you are in.`);
-            ChatLib.chat(`${AQUA}/dragpb ${WHITE}- Gets your PB M7 dragon kill times.`);
+            ChatLib.chat(`${AQUA}/dragpbs ${WHITE}- Gets your PB M7 dragon kill times.`);
+            ChatLib.chat(`${AQUA}/cleardragpbs ${WHITE}- Clears your PB M7 dragon kill times.`);
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
             break;
         case "changelog":
@@ -113,21 +115,7 @@ register("command", (arg) => {
         }
 }).setName("turtleaddons").setAliases("ta", "turtle", "8joh", "joh");
 
-// NBT command
-register("command", () => {
-    ChatLib.chat(Player?.getHeldItem()?.getRawNBT());
-}).setName("getnbt");
-
-register("chat", (message, event) => {
-    if (message == "LEVEL UP") { // For testing sound
-        cancel(event);
-    } else if (message == "turtleaddons gui test") { // goofy idea but works i guess
-        cancel(event);
-        moveOverlay();
-    }
-}).setCriteria("${message}")
 
 register("worldLoad", () => {
-    Client.showTitle(" ", " ", 0, 0, 1); // Might fix first title not appearing
+    Client.showTitle(" ", " ", 0, 0, 1); // Might fix first titles not appearing
 })
-
