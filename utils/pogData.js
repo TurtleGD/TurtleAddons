@@ -1,15 +1,6 @@
 import PogObject from "../../PogData"
 
 export const pogData = new PogObject("TurtleAddons", {
-    triangle1: [],
-    triangle2: [],
-    equals1: [],
-    equals2: [],
-    slash1: [],
-    slash2: [],
-    x1: [],
-    x2: [],
-
     // ROBPG, json doesn't have infinity smh
     m7DragonPBs: [69420, 69420, 69420, 69420, 69420],
 
