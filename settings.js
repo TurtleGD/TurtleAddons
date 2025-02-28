@@ -454,6 +454,14 @@ class settings {
         subcategory: 'Inferno Demonlord',
     })
     hideFireballs = false;
+
+    @SwitchProperty({
+        name: 'Smoldering Polarization Timer',
+        description: 'Displays a GUI for smoldering polarization.\nOpen /effects to update timer.',
+        category: 'Slayers',
+        subcategory: 'Inferno Demonlord',
+    })
+    smolderingPolarizationTimer = false;
     
 
     // Dungeons
@@ -496,6 +504,14 @@ class settings {
         subcategory: 'Wither King',
     })
     dragDeathTimer = false;
+
+    @SwitchProperty({
+        name: `Dragon Spawn Time`,
+        description: `Tells you how long until a dragon spawns with server ticks.`,
+        category: 'Dungeons',
+        subcategory: 'Wither King',
+    })
+    dragSpawnTimer = false;
 
     @SelectorProperty({
         name: 'Show Terminal Number',
