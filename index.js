@@ -14,6 +14,7 @@ import "./features/Dungeons/P3/TerminalCallouts.js";
 import "./features/Dungeons/P3/TerminalGuiScale.js";
 import "./features/Dungeons/P3/TerminalHighlights.js";
 import "./features/Dungeons/P3/TerminalLabels.js";
+import "./features/Dungeons/P5/DragonSpawnTimer.js";
 import "./features/Dungeons/P5/P5RagTimer.js";
 import "./features/Dungeons/P5/P5RelicTimer.js";
 import "./features/Dungeons/P5/P5RelicWaypoints.js";
@@ -49,10 +50,11 @@ import "./features/Mining/ColdAlert.js";
 import "./features/Mining/CorpseAnnounce.js";
 import "./features/Mining/CorpseWaypoints.js";
 import "./features/Mining/MineshaftExitWaypoint.js";
-import "./features/Slayers/blaze/BlazePillar.js";
-import "./features/Slayers/blaze/HideAttunements.js";
-import "./features/Slayers/blaze/HideDemonMessages.js";
-import "./features/Slayers/blaze/HideFireballs.js";
+import "./features/Slayers/Blaze/BlazePillar.js";
+import "./features/Slayers/Blaze/HideAttunements.js";
+import "./features/Slayers/Blaze/HideDemonMessages.js";
+import "./features/Slayers/Blaze/HideFireballs.js";
+import "./features/Slayers/Blaze/SmolderingPolarization.js";
 import "./features/Slayers/RareDropTitle.js";
 import "./features/Slayers/TrueBossTime.js";
 import settings from "./settings";
@@ -119,3 +121,14 @@ register("command", (arg) => {
 register("worldLoad", () => {
     Client.showTitle(" ", " ", 0, 0, 1); // Might fix first titles not appearing
 })
+
+
+register(`actionBar`, (bounces, event) => {
+    bouncecount = parseInt(bounces)
+    if (bouncecount > 50) {
+        Client.showTitle(`WAKE THE FUCK UP`, `MONEY TIME`, 0, 20, 0)
+        World.playSound("note.pling", 2, 2)
+        World.playSound("note.pling", 2, 2)
+        World.playSound("note.pling", 2, 2)
+    }
+}).setCriteria("${*}Bounces: ${bounces} ${mana}/${totalmana}${*}")
