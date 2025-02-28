@@ -36,7 +36,6 @@ import "./features/Fishing/ReindrakeHpDisplay.js";
 import "./features/General/CustomScoreboard.js";
 import "./features/General/LastCheckedMinions.js";
 import "./features/General/LevelUpSound.js";
-import "./features/Kuudra/AveragePreTimes.js";
 import "./features/Kuudra/ChunkAlert.js";
 import "./features/Kuudra/HideNametags.js";
 import "./features/Kuudra/P3Dps.js";
@@ -84,7 +83,6 @@ register("command", (arg) => {
             ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Kuudra:`));
             ChatLib.chat("");
             ChatLib.chat(`${AQUA}/t[1-5] ${WHITE}- Enter Kuudra tiers 1-5.`);
-            ChatLib.chat(`${AQUA}/avgpre ${WHITE}- View average placement times of first and second pres.`);
             ChatLib.chat(`${AQUA}/clearpres ${WHITE}- Clears data for /avgpre.`);
             ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
             ChatLib.chat(ChatLib.getCenteredText(`${AQUA + BOLD}Dungeons:`));
@@ -121,14 +119,3 @@ register("command", (arg) => {
 register("worldLoad", () => {
     Client.showTitle(" ", " ", 0, 0, 1); // Might fix first titles not appearing
 })
-
-
-register(`actionBar`, (bounces, event) => {
-    bouncecount = parseInt(bounces)
-    if (bouncecount > 50) {
-        Client.showTitle(`WAKE THE FUCK UP`, `MONEY TIME`, 0, 20, 0)
-        World.playSound("note.pling", 2, 2)
-        World.playSound("note.pling", 2, 2)
-        World.playSound("note.pling", 2, 2)
-    }
-}).setCriteria("${*}Bounces: ${bounces} ${mana}/${totalmana}${*}")
