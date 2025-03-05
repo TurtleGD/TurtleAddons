@@ -3,6 +3,7 @@
 something something
 
 mainly dungeon and kuudra features
+as usual use at your own risk
 
 no longer updating to ct since:
 1. mod getting somewhat big?
