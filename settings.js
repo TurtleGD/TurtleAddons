@@ -177,6 +177,14 @@ class settings {
         pogData.save();
     }
 
+    @SwitchProperty({
+        name: 'Hide Self',
+        description: `Hides yourself when hiding player is enabled (keybind in controls).`,
+        category: 'General',
+        subcategory: 'General'
+    })
+    hideSelf = false;
+
 
     // Combat
     @TextProperty({
@@ -202,6 +210,14 @@ class settings {
         subcategory: 'Timers',
     })
     crimsonTimer = false;
+
+    @SwitchProperty({
+        name: 'Arrow Poison Tracker',
+        description: `Draws an overlay with how many twilight and toxic arrow poison you have.`,
+        category: 'Combat',
+        subcategory: 'Miscellaneous',
+    })
+    arrowPoisonTracker = false;
 
 
     // Kuudra
@@ -332,16 +348,6 @@ class settings {
         subcategory: 'Kuudra'
     })
     hideKuudraNametags = false;
-
-    @SliderProperty({
-        name: 'Average Pre Outlier Threshold',
-        description: 'Will not record times past this for /avgpre.',
-        category: 'Kuudra',
-        subcategory: 'Kuudra',
-        min: 1,
-        max: 120
-    })
-    outlierThreshold = 60;
     
 
     // Mining
@@ -424,6 +430,14 @@ class settings {
     slayerKillTime = false;
 
     @SwitchProperty({
+        name: 'Voidgloom Lasers Timer',
+        description: 'Displays a timer until the lasers end.',
+        category: 'Slayers',
+        subcategory: 'Voidgloom Seraph',
+    })
+    voidgloomLasersTimer = false;
+
+    @SwitchProperty({
         name: 'Disable Hellion Shield Messages',
         description: 'Hides "Strike using the x attunement on your dagger!" messages.',
         category: 'Slayers',
@@ -457,7 +471,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Smoldering Polarization Timer',
-        description: 'Displays a GUI for smoldering polarization.\nOpen /effects to update timer.',
+        description: 'Displays a timer for smoldering polarization.\nOpen /effects to update timer.',
         category: 'Slayers',
         subcategory: 'Inferno Demonlord',
     })
@@ -540,8 +554,8 @@ class settings {
     highlightTerminals = false;
 
     @SwitchProperty({
-        name: 'Announce Pre Device Completion',
-        description: `Sends a message when you finish.`,
+        name: 'Announce Pre2 - Pre4 Completion',
+        description: `Sends a message when you finish a device early.`,
         category: 'Dungeons',
         subcategory: 'Terminals',
     })
@@ -557,7 +571,7 @@ class settings {
 
     @SwitchProperty({
         name: 'Goldor Tick Timer',
-        description: `Makes a subtitle for Goldor explosions.`,
+        description: `Makes a timer overlay for Goldor kill ticks.`,
         category: 'Dungeons',
         subcategory: 'Terminals',
     })
@@ -798,6 +812,22 @@ class settings {
         subcategory: 'Jerry Island',
     })
     reindrakeHP = false;
+
+    @SwitchProperty({
+        name: 'Mute Flash Sound',
+        description: 'Stops the elder guardian sound from playing when flash procs.',
+        category: 'Fishing',
+        subcategory: 'Fishing',
+    })
+    muteFlashSound = false;
+
+    @SwitchProperty({
+        name: 'Ragnarok Health Overlay',
+        description: 'Shows an overlay when Ragnarok is detected nearby.',
+        category: 'Fishing',
+        subcategory: 'Crimson Isle',
+    })
+    ragnarokHealthOverlay = false;
     
 
     // Party Commands
