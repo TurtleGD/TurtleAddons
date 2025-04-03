@@ -1,3 +1,4 @@
+import "./features/Combat/ArrowPoisonTracker.js";
 import "./features/Combat/CrimsonTimer.js";
 import "./features/Combat/HideNonCrits.js";
 import "./features/Combat/SoulsReboundTimer.js";
@@ -32,8 +33,11 @@ import "./features/Dungeons/RoomEntryMessage.js";
 import "./features/Dungeons/ServerLagTimes.js";
 import "./features/Dungeons/TeammateNametags.js";
 import "./features/Dungeons/WishAlerts.js";
+import "./features/Fishing/MuteFlashSound.js";
+import "./features/Fishing/RagnarokHealthOverlay.js";
 import "./features/Fishing/ReindrakeHpDisplay.js";
 import "./features/General/CustomScoreboard.js";
+import "./features/General/HidePlayers.js";
 import "./features/General/LastCheckedMinions.js";
 import "./features/General/LevelUpSound.js";
 import "./features/Kuudra/ChunkAlert.js";
@@ -54,12 +58,14 @@ import "./features/Slayers/Blaze/HideAttunements.js";
 import "./features/Slayers/Blaze/HideDemonMessages.js";
 import "./features/Slayers/Blaze/HideFireballs.js";
 import "./features/Slayers/Blaze/SmolderingPolarization.js";
+import "./features/Slayers/Voidgloom/VoidgloomLasersTimer.js";
 import "./features/Slayers/RareDropTitle.js";
 import "./features/Slayers/TrueBossTime.js";
 import settings from "./settings";
 import axios from "../axios";
-import { AQUA, WHITE, STRIKETHROUGH, BOLD, GRAY } from "./utils/formatting.js";
+import { AQUA, WHITE, STRIKETHROUGH, BOLD, GRAY, RED, GREEN } from "./utils/formatting.js";
 import { moveOverlay } from "./utils/overlay.js";
+import { drawArrowPoisonTracker } from "./features/Combat/ArrowPoisonTracker.js";
 
 register("command", (arg) => {
     switch (arg) {
@@ -114,7 +120,6 @@ register("command", (arg) => {
             break;
         }
 }).setName("turtleaddons").setAliases("ta", "turtle", "8joh", "joh");
-
 
 register("worldLoad", () => {
     Client.showTitle(" ", " ", 0, 0, 1); // Might fix first titles not appearing
