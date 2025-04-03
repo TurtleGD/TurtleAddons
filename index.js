@@ -63,9 +63,8 @@ import "./features/Slayers/RareDropTitle.js";
 import "./features/Slayers/TrueBossTime.js";
 import settings from "./settings";
 import axios from "../axios";
-import { AQUA, WHITE, STRIKETHROUGH, BOLD, GRAY, RED, GREEN } from "./utils/formatting.js";
+import { AQUA, WHITE, STRIKETHROUGH, BOLD, GRAY } from "./utils/formatting.js";
 import { moveOverlay } from "./utils/overlay.js";
-import { drawArrowPoisonTracker } from "./features/Combat/ArrowPoisonTracker.js";
 
 register("command", (arg) => {
     switch (arg) {
@@ -123,4 +122,28 @@ register("command", (arg) => {
 
 register("worldLoad", () => {
     Client.showTitle(" ", " ", 0, 0, 1); // Might fix first titles not appearing
+})
+
+
+// Update checker
+axios.get("https://api.github.com/repos/TurtleGD/TurtleAddons/releases/latest").then(response => {
+    let latest = response.data.name.slice(1).split(".").map(Number);
+    let current = JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version.split(".").map(Number);
+    console.log(latest)
+    console.log(current)
+
+    for (let i = 0; i < 3; i++) {
+        if ((latest[i] || 0) > (current[i] || 0)) {
+            ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
+            ChatLib.chat(ChatLib.getCenteredText(`${GRAY}[${AQUA}TurtleAddons ${response.data.name} Avaliable!${GRAY}]`));
+            ChatLib.chat("");
+            ChatLib.chat(new TextComponent(ChatLib.getCenteredText("Click here to visit latest release!")).setClickAction("open_url").setClickValue(`https://github.com/TurtleGD/TurtleAddons/releases/latest`));
+            ChatLib.chat(ChatLib.getChatBreak(`${STRIKETHROUGH}-`));
+            return;
+        } else if ((latest[i] || 0) < (current[i] || 0)) {
+            return;
+        }
+    }
+}).catch(error => {
+    console.log(error);
 })
