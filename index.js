@@ -29,7 +29,7 @@ import "./features/Dungeons/ColorMimicChests.js";
 import "./features/Dungeons/DeathMessage.js";
 import "./features/Dungeons/GyrokineticWandDisplay.js";
 import "./features/Dungeons/MaskTimers.js";
-import "./features/Dungeons/RoomEntryMessage.js";
+import "./features/Dungeons/SecretTracker.js";
 import "./features/Dungeons/ServerLagTimes.js";
 import "./features/Dungeons/TeammateNametags.js";
 import "./features/Dungeons/WishAlerts.js";
@@ -129,8 +129,6 @@ register("worldLoad", () => {
 axios.get("https://api.github.com/repos/TurtleGD/TurtleAddons/releases/latest").then(response => {
     let latest = response.data.name.slice(1).split(".").map(Number);
     let current = JSON.parse(FileLib.read("TurtleAddons", "metadata.json")).version.split(".").map(Number);
-    console.log(latest)
-    console.log(current)
 
     for (let i = 0; i < 3; i++) {
         if ((latest[i] || 0) > (current[i] || 0)) {
