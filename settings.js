@@ -45,9 +45,6 @@ class settings {
         this.addDependency("Announce Usage", "Mask/Phoenix Invinicibility Timers");
         this.addDependency("Phoenix Level", "Mask/Phoenix Invinicibility Timers");
 
-        this.addDependency("Room Name", "Send Message on Specific Room Entry");
-        this.addDependency("Room Entry Message", "Send Message on Specific Room Entry");
-
         this.addDependency("Gyro Color", "Gyrokinetic Wand Range Overlay");
         this.addDependency("Gyro RGB", "Gyrokinetic Wand Range Overlay");
         this.addDependency("Gyro Ring Width", "Gyrokinetic Wand Range Overlay");
@@ -505,7 +502,7 @@ class settings {
 
     @SwitchProperty({
         name: `Dragon Count Notification`,
-        description: `Creates a subtitle on dragon death.[WIP]\nMay break if dragons exit render distance.`,
+        description: `Creates a subtitle on dragon death.\nMay break if dragons exit render distance.`,
         category: 'Dungeons',
         subcategory: 'Wither King',
     })
@@ -636,6 +633,14 @@ class settings {
     stormStunnedAlert = false;
 
     @SwitchProperty({
+        name: 'Secret/Death Tracker',
+        description: "Similar to BetterMap's, without the room tracker (for Catlas users).",
+        category: 'Dungeons',
+        subcategory: 'Dungeons',
+    })
+    secretTracker = false;
+
+    @SwitchProperty({
         name: 'Announce Mimic Dead',
         description: 'Announces "Mimic Dead!" when mimic is killed. (hey skytils fix ur mimic announce)',
         category: 'Dungeons',
@@ -674,30 +679,6 @@ class settings {
         subcategory: 'Dungeons',
     })
     serverLagTimes = false;
-
-    @SwitchProperty({
-        name: 'Send Message on Specific Room Entry',
-        description: `Sends a message when you enter a specified room. CURRENTLY BROKEN UNTIL ROOM IDS ARE BACK.`,
-        category: 'Dungeons',
-        subcategory: 'Message On Room',
-    })
-    sendRoomEntryMessage = false;
-
-    @TextProperty({
-        name: 'Room Name',
-        description: `Use /getroom in a dungeon room to get the name. Use commas to separate multiple rooms.`,
-        category: 'Dungeons',
-        subcategory: 'Message On Room',
-    })
-    roomName = '';
-
-    @TextProperty({
-        name: 'Room Entry Message',
-        description: `Message to send when entering the specified room. Use ${AQUA}[name]${RESET} to use room name.`,
-        category: 'Dungeons',
-        subcategory: 'Message On Room',
-    })
-    roomEntryMessage = '';
 
     @SwitchProperty({
         name: 'Mask/Phoenix Invinicibility Timers',
