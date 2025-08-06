@@ -223,3 +223,87 @@ export function drawLineFromCrosshair(x, y, z, red, green, blue, alpha) {
 
     GlStateManager.func_179121_F(); // popMatrix
 }
+
+
+
+// Modified from RenderLib to accept corners
+
+/**
+ * Draws a box in the world from two coordinates
+ * @param {number} x1 - X coordinate of first position
+ * @param {number} y1 - Y coordinate of first position
+ * @param {number} z1 - Z coordinate of first position 
+ * @param {number} x2 - X coordinate of second position
+ * @param {number} y2 - Y coordinate of second position
+ * @param {number} z2 - Z coordinate of second position
+ * @param {number} red - Box Color Red 0-1
+ * @param {number} green - Box Color Green 0-1
+ * @param {number} blue - Box Color Blue 0-1
+ * @param {number} alpha - Box Color Alpha 0-1
+ * @param {boolean} phase - Whether to disable depth test
+ */
+export function drawEspBoxV2(x1, y1, z1, x2, y2, z2, red, green, blue, alpha, phase) {
+    Tessellator.pushMatrix();
+    GL11.glLineWidth(2.0);
+    GlStateManager.func_179129_p(); // disableCullFace
+    GlStateManager.func_179147_l(); // enableBlend
+    GlStateManager.func_179112_b(770, 771); // blendFunc
+    GlStateManager.func_179132_a(false); // depthMask
+    GlStateManager.func_179090_x(); // disableTexture2D
+
+    if (phase) {
+        GlStateManager.func_179097_i(); // disableDepth
+    }
+
+    const locations = [
+        [[x1, y1, z1], [x2, y1, z1]],
+        [[x1, y1, z1], [x1, y1, z2]],
+        [[x2, y1, z2], [x2, y1, z1]],
+        [[x2, y1, z2], [x1, y1, z2]],
+
+        [[x1, y2, z1], [x2, y2, z1]],
+        [[x1, y2, z1], [x1, y2, z2]],
+        [[x2, y2, z2], [x2, y2, z1]],
+        [[x2, y2, z2], [x1, y2, z2]],
+
+        [[x1, y1, z1], [x1, y2, z1]],
+        [[x2, y1, z1], [x2, y2, z1]],
+        [[x1, y1, z2], [x1, y2, z2]],
+        [[x2, y1, z2], [x2, y2, z2]],
+    ];
+
+    locations.forEach((loc) => {
+        Tessellator.begin(3).colorize(red, green, blue, alpha);
+
+        Tessellator.pos(loc[0][0], loc[0][1], loc[0][2]).tex(0, 0);
+        Tessellator.pos(loc[1][0], loc[1][1], loc[1][2]).tex(0, 0);
+
+        Tessellator.draw();
+    });
+
+    GlStateManager.func_179089_o(); // enableCull
+    GlStateManager.func_179084_k(); // disableBlend
+    GlStateManager.func_179132_a(true); // depthMask
+    GlStateManager.func_179098_w(); // enableTexture2D
+
+    if (phase) {
+        GlStateManager.func_179126_j(); // enableDepth
+    }
+
+    Tessellator.popMatrix();
+};
+
+
+/** * Gets the Axis-Aligned Bounding Box (AABB) coordinates of an entity
+ * @param {Entity} entity - The entity to get the AABB from
+ * @returns {Array|null} - Returns an array with min and max coordinates [minCoords, maxCoords] or null if no AABB exists
+*/
+export function getBoundingBoxCoords(entity) {
+    let aabb = entity.entity.func_174813_aQ();
+    if (aabb) {
+        let maxCoords = [aabb.field_72336_d, aabb.field_72337_e, aabb.field_72334_f]; // maxX, maxY, maxZ
+        let minCoords = [aabb.field_72340_a, aabb.field_72338_b, aabb.field_72339_c]; // minX, minY, minZ
+        return [minCoords, maxCoords];
+    }
+    return null;
+}
