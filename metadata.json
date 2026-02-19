@@ -1,0 +1,12 @@
+{
+    "name": "TurtleAddons",
+    "creator": "8joh",
+    "description": "we might be back",
+    "version": "2.0.0",
+    "entry": "index.js",
+    "requires": [
+        "Vigilance",
+        "barrl",
+        "PogData"
+    ]
+}
